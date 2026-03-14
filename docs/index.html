@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Online Tools: PNG to SVG Converter, Favicon Generator &amp; More | LeapfrogIQ Apps</title>
+  <meta name="description" content="Free browser-based tools — convert PNG to SVG, generate favicons, measure blueprint areas, and more. No signup, no downloads, runs entirely in your browser." />
+  <link rel="canonical" href="https://leapfrogiq.apps/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Free Online Tools: PNG to SVG, Favicon Generator &amp; More | LeapfrogIQ Apps" />
+  <meta property="og:description" content="Convert PNG to SVG, generate favicons, and measure blueprint areas — all free, in your browser, no signup." />
+  <meta property="og:url" content="https://leapfrogiq.apps/" />
+  <meta property="og:site_name" content="LeapfrogIQ Apps" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Free Online Tools: PNG to SVG, Favicon Generator &amp; More | LeapfrogIQ Apps" />
+  <meta name="twitter:description" content="Convert PNG to SVG, generate favicons, and measure blueprint areas — free, in-browser, no signup." />
+
+  <!-- Icons -->
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/img/logo.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/shared.css" />
+
+  <!-- JSON-LD: WebSite + SiteLinks + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "LeapfrogIQ Apps",
+    "url": "https://leapfrogiq.apps/",
+    "description": "Free browser-based tools — PNG to SVG converter, favicon generator, blueprint area calculator, and more. No signup, no downloads.",
+    "author": { "@type": "Organization", "name": "LeapfrogIQ", "url": "https://leapfrogiq.ai" },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://leapfrogiq.apps/tools/logo-svg-converter/",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is an SVG file?",
+        "acceptedAnswer": { "@type": "Answer", "text": "SVG (Scalable Vector Graphics) is a vector image format that scales to any size without losing quality. Unlike PNG or JPG, SVG files are resolution-independent and ideal for logos, icons, and brand assets." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert PNG to SVG?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Upload your PNG file to the Logo SVG Converter, choose a conversion mode (Logo, Detailed, High Quality, or Embed for perfect quality), and click Convert. Your SVG is generated instantly in the browser — no upload to any server." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I convert JPG logos to SVG?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. The converter supports JPG, PNG, WEBP, and GIF images. For logos with gradients or complex color, use Embed mode for lossless quality." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I generate a favicon from my logo?",
+        "acceptedAnswer": { "@type": "Answer", "text": "After converting your logo, the Favicon Crop Tool appears below. Drag the crop box over the icon portion of your logo, then download favicon.svg, favicon-16.png, favicon-32.png, favicon-48.png, and apple-touch-icon.png (180px) individually or as a ZIP." }
+      },
+      {
+        "@type": "Question",
+        "name": "Are my files kept private?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. All processing happens entirely in your browser using JavaScript. Your images are never sent to any server and are automatically discarded when you close or refresh the page." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to create an account?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. All LeapfrogIQ Apps tools are completely free with no signup, no account, and no email required." }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #1E40AF 0%, #2563EB 50%, #3B82F6 100%);
+      color: #fff;
+      padding: 88px 24px 80px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 20px;
+      padding: 4px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5.5vw, 60px);
+      font-weight: 800;
+      line-height: 1.08;
+      margin-bottom: 18px;
+      letter-spacing: -.02em;
+    }
+    @media (max-width: 680px) {
+      .hero h1 { font-size: clamp(28px, 7vw, 36px); line-height: 1.12; }
+    }
+    .hero-sub {
+      font-size: clamp(15px, 2.5vw, 18px);
+      opacity: .9;
+      max-width: 560px;
+      margin: 0 auto 36px;
+      line-height: 1.65;
+    }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+    .hero-trust {
+      font-size: 12px;
+      opacity: .75;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .hero-trust span { display: flex; align-items: center; gap: 5px; }
+
+    /* Tool grid */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    @media (max-width: 480px) {
+      .tool-grid { grid-template-columns: 1fr; }
+    }
+    .tool-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all .2s;
+      display: flex;
+      flex-direction: column;
+      /* Ensure tap targets are finger-friendly on mobile */
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tool-card:hover { border-color: var(--brand-primary); box-shadow: var(--shadow-md); transform: translateY(-2px); text-decoration: none; }
+    .tool-card.coming-soon { opacity: .65; pointer-events: none; }
+    .tool-card .tool-icon { font-size: 36px; margin-bottom: 14px; }
+    .tool-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .tool-card p { font-size: 13px; color: var(--text-muted); line-height: 1.55; flex: 1; }
+    .tool-card .tool-status { margin-top: 16px; }
+
+    /* Benefits strip */
+    .benefits-strip { background: var(--neutral-800); color: #fff; padding: 56px 24px; }
+    .benefits-grid {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 36px;
+      text-align: center;
+    }
+    @media (max-width: 480px) {
+      .benefits-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+    }
+    .benefit-item .benefit-icon { font-size: 34px; margin-bottom: 12px; }
+    .benefit-item h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .benefit-item p { font-size: 13px; color: var(--neutral-400); line-height: 1.55; }
+
+    /* CTA section */
+    .cta-section {
+      background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-dark) 100%);
+      color: #fff; padding: 72px 24px; text-align: center;
+    }
+    .cta-section h2 { font-size: clamp(22px, 4vw, 30px); font-weight: 800; margin-bottom: 14px; }
+    .cta-section p { font-size: 16px; opacity: .9; margin-bottom: 32px; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+    /* FAQ */
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 0; text-align: left; font-family: var(--font-sans);
+      font-size: 15px; font-weight: 600; color: var(--text);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .faq-question:hover { color: var(--brand-primary); }
+    .faq-question .faq-arrow {
+      font-size: 18px; color: var(--text-muted); flex-shrink: 0;
+      transition: transform .2s; margin-left: 16px;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-answer {
+      display: none; font-size: 14px; color: var(--text-muted);
+      line-height: 1.75; padding-bottom: 18px;
+    }
+    .faq-item.open .faq-answer { display: block; }
+    @media (max-width: 600px) {
+      .hero { padding: 56px 20px 56px; }
+      .hero-trust { gap: 14px; }
+      .cta-section { padding: 48px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav injected by nav.js -->
+
+<main>
+
+<!-- Hero -->
+<section class="hero" aria-labelledby="heroHeading">
+  <div class="page-wrap" style="max-width:900px;">
+    <div class="hero-eyebrow">Free Online Tools — No Signup Required</div>
+    <h1 id="heroHeading">Free Online Tools for Real Work</h1>
+    <p class="hero-sub">Convert PNG to SVG, generate favicons, and measure blueprint areas — all in your browser. No signup. No downloads. Instant results.</p>
+    <div class="hero-actions">
+      <a href="tools/logo-svg-converter/" class="btn btn-white btn-lg">&#x2B06; Upload Image &amp; Convert</a>
+      <a href="#tools" class="btn-outline-white btn-lg">Browse All Tools &darr;</a>
+    </div>
+    <div class="hero-trust">
+      <span>&#x1F512; Files stay on your device</span>
+      <span>&#x1F7E2; No signup required</span>
+      <span>&#x1F4F1; Works on mobile</span>
+      <span>&#x26A1; Instant results</span>
+    </div>
+  </div>
+</section>
+
+<!-- SEO intro -->
+<section style="background:#fff;padding:40px 24px 0;" aria-label="About LeapfrogIQ Apps">
+  <div class="page-wrap" style="max-width:800px;text-align:center;">
+    <p style="font-size:16px;color:var(--neutral-700);line-height:1.8;margin-bottom:12px;">LeapfrogIQ Apps provides free browser-based utilities including a <a href="tools/logo-svg-converter/">PNG to SVG converter</a>, logo vector tools, <a href="tools/logo-svg-converter/">favicon generator</a>, and <a href="https://area.leapfrogiq.ai/">blueprint area calculator</a>. These tools run entirely in your browser, require no installation, and help designers, developers, and contractors complete everyday tasks quickly.</p>
+    <p style="font-size:15px;color:var(--neutral-600);line-height:1.75;">Convert PNG, JPG, or WEBP images to clean SVG vector graphics, crop and export complete favicon sets, generate black &amp; white logo variants, and download everything as a brand asset ZIP — all free, all private, all instant.</p>
+  </div>
+</section>
+
+<!-- Tool Grid -->
+<section class="page-section" id="tools" aria-labelledby="toolsHeading">
+  <div class="page-wrap">
+    <h2 class="section-title" id="toolsHeading">All Free Online Tools</h2>
+    <p class="section-subtitle" style="margin-bottom:32px;">Browser-based utilities — no signup, no downloads, no stored files. Upload, convert, download.</p>
+
+    <div class="tool-grid">
+
+      <a href="tools/logo-svg-converter/" class="tool-card">
+        <div class="tool-icon">&#x1F5BC;&#xFE0F;</div>
+        <h3>Logo &amp; Image SVG Converter</h3>
+        <p>Convert PNG, JPG, or WEBP logos to clean SVG vector graphics instantly. Download black &amp; white variants, a cropped favicon set, and a full brand asset ZIP.</p>
+        <div class="tool-status"><span class="badge badge-primary">Available Now</span></div>
+      </a>
+
+      <a href="https://area.leapfrogiq.ai/" class="tool-card" target="_blank" rel="noopener">
+        <div class="tool-icon">&#x1F4D0;</div>
+        <h3>Blueprint Area Calculator</h3>
+        <p>Measure square footage directly from construction blueprints, PDFs, and site plans. Calculate deck, patio, tile, and fence areas — with material waste estimates.</p>
+        <div class="tool-status"><span class="badge badge-primary">Available Now</span></div>
+      </a>
+
+      <a href="tools/logo-svg-converter/" class="tool-card">
+        <div class="tool-icon">&#x1F5F3;&#xFE0F;</div>
+        <h3>Favicon Generator</h3>
+        <p>Upload your logo, drag to crop the icon area, and download a complete favicon set — 16px, 32px, 48px PNGs, apple-touch-icon (180px), and a scalable SVG favicon.</p>
+        <div class="tool-status"><span class="badge badge-primary">Available Now</span></div>
+      </a>
+
+      <a href="tools/logo-svg-converter/" class="tool-card">
+        <div class="tool-icon">&#x1F7E6;</div>
+        <h3>PNG to SVG Converter</h3>
+        <p>Convert PNG images to clean, scalable SVG vector graphics instantly in your browser. Choose Logo, Detailed, High Quality, or lossless Embed mode.</p>
+        <div class="tool-status"><span class="badge badge-primary">Available Now</span></div>
+      </a>
+
+      <a href="tools/logo-svg-converter/" class="tool-card">
+        <div class="tool-icon">&#x1F4F7;</div>
+        <h3>JPG to SVG Converter</h3>
+        <p>Vectorize JPG images and convert them to scalable SVG vector files. Ideal for logo cleanup, SVG conversion, and brand asset creation from photography.</p>
+        <div class="tool-status"><span class="badge badge-primary">Available Now</span></div>
+      </a>
+
+      <div class="tool-card coming-soon">
+        <div class="tool-icon">&#x1F4E6;</div>
+        <h3>Brand Kit Generator</h3>
+        <p>Upload your logo and generate a complete brand asset pack — SVG, PNG at multiple sizes, full favicon set, and light/dark variants in one ZIP download.</p>
+        <div class="tool-status"><span class="badge badge-coming-soon">Coming Soon</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Benefits Strip -->
+<div class="benefits-strip" role="complementary" aria-label="Why LeapfrogIQ Apps">
+  <div class="benefits-grid">
+    <div class="benefit-item">
+      <div class="benefit-icon">&#x1F512;</div>
+      <h4>Files Stay Private</h4>
+      <p>All processing happens in your browser. Files are never uploaded to any server and are gone when you close the tab.</p>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon">&#x1F7E2;</div>
+      <h4>No Signup Ever</h4>
+      <p>No account, no email, no password. Just open the tool and use it. No friction, no upsells.</p>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon">&#x26A1;</div>
+      <h4>Fast Results</h4>
+      <p>Most tools produce results in seconds. Upload, convert, download and get back to work.</p>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon">&#x1F4F1;</div>
+      <h4>Works on Any Device</h4>
+      <p>Mobile, tablet, or desktop. All tools are optimized for touch and responsive layouts.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="page-section" id="faq" aria-labelledby="faqHeading" style="background:#fff;">
+  <div class="page-wrap">
+    <h2 class="section-title" id="faqHeading">Frequently Asked Questions</h2>
+    <p class="section-subtitle" style="margin-bottom:36px;">Common questions about SVG conversion, favicon generation, and how these tools work.</p>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What is an SVG file?
+          <span class="faq-arrow">&#x2304;</span>
+        </button>
+        <div class="faq-answer">SVG (Scalable Vector Graphics) is a vector image format that scales to any size without losing quality. Unlike PNG or JPG raster images, SVG files are resolution-independent — perfect for logos, icons, and brand assets that need to look sharp on any screen or in print.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          How do I convert PNG to SVG?
+          <span class="faq-arrow">&#x2304;</span>
+        </button>
+        <div class="faq-answer">Upload your PNG file to the Logo SVG Converter and choose a conversion mode: <strong>Logo</strong> (flat colors), <strong>Detailed</strong> (gradients, 64 colors), <strong>High Quality</strong> (maximum colors), or <strong>Embed</strong> for pixel-perfect lossless quality. Click Convert and your SVG is generated instantly — entirely in your browser with no server upload.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Can I convert JPG logos to SVG?
+          <span class="faq-arrow">&#x2304;</span>
+        </button>
+        <div class="faq-answer">Yes. The converter supports JPG, PNG, WEBP, and GIF images. For logos with gradients or photographic detail, use <strong>Embed mode</strong> which wraps your original image inside an SVG container for perfect quality at full scalability.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          How do I generate a favicon from my logo?
+          <span class="faq-arrow">&#x2304;</span>
+        </button>
+        <div class="faq-answer">After converting your logo, the <strong>Favicon Crop Tool</strong> appears below the result. Drag the crop box over the icon portion of your logo (just the symbol, not the text — like how most brands use just their icon for favicons). Then download <code>favicon.svg</code>, <code>favicon-16.png</code>, <code>favicon-32.png</code>, <code>favicon-48.png</code>, and <code>apple-touch-icon.png</code> (180px) individually or all at once as a ZIP.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What are black and white logo variants used for?
+          <span class="faq-arrow">&#x2304;</span>
+        </button>
+        <div class="faq-answer">Black and white logo variants are essential for printing, embroidery, engraving, and single-color applications. A black version works on light backgrounds; a white version works on dark backgrounds. Both are generated automatically after conversion and preserve the original transparency.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Are my files kept private?
+          <span class="faq-arrow">&#x2304;</span>
+        </button>
+        <div class="faq-answer">Yes — completely. All processing happens entirely in your browser using JavaScript. Your images are never sent to any server, never stored, and are automatically discarded when you close or refresh the tab. There is no backend.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Do I need to create an account?
+          <span class="faq-arrow">&#x2304;</span>
+        </button>
+        <div class="faq-answer">No account, no email, no password — ever. All LeapfrogIQ Apps tools are completely free with zero friction. Open the tool, use it, close it. That's it.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" aria-labelledby="ctaHeading">
+  <div class="page-wrap">
+    <h2 id="ctaHeading">Convert PNG to SVG — Free, Instant, Private</h2>
+    <p>Upload any PNG, JPG, or WEBP image and get a clean SVG vector file in seconds. No signup. No server. Just results.</p>
+    <a href="tools/logo-svg-converter/" class="btn btn-white btn-lg">&#x2B06; Upload Image &amp; Convert</a>
+  </div>
+</section>
+
+</main>
+
+<script src="assets/js/nav.js"></script>
+<script>
+SiteNav.init({ depth: 0 });
+
+/* FAQ accordion */
+document.querySelectorAll('.faq-question').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var item = this.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+    /* Close all */
+    document.querySelectorAll('.faq-item.open').forEach(function(el) {
+      el.classList.remove('open');
+      el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+    });
+    /* Toggle clicked */
+    if (!isOpen) {
+      item.classList.add('open');
+      this.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
