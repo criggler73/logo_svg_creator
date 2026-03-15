@@ -55,6 +55,7 @@
         navLink('tools/png-to-svg/', 'PNG to SVG') +
         navLink('tools/jpg-to-svg/', 'JPG to SVG') +
         navLink('tools/favicon-generator/', 'Favicons') +
+        navLink('tools/pdf-page-extractor/', 'PDF Extractor') +
         navLink(AREA_CALC + '/', 'Blueprint Calc', true) +
         navLink('legal/privacy-policy.html', 'Privacy') +
         navLink('legal/terms-of-service.html', 'Terms') +
@@ -83,6 +84,7 @@
           '<a href="' + _root + 'tools/png-to-svg/">PNG to SVG Converter</a>' +
           '<a href="' + _root + 'tools/jpg-to-svg/">JPG to SVG Converter</a>' +
           '<a href="' + _root + 'tools/favicon-generator/">Favicon Generator</a>' +
+          '<a href="' + _root + 'tools/pdf-page-extractor/">PDF Page Extractor</a>' +
           '<a href="' + AREA_CALC + '/" target="_blank" rel="noopener">Blueprint Calc</a>' +
         '</div>' +
         '<div class="footer-col">' +
