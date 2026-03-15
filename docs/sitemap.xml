@@ -1,48 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+  <!-- Hub -->
   <url>
     <loc>https://leapfrogiq.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
+  <!-- Image Tools category -->
   <url>
-    <loc>https://leapfrogiq.app/tools/logo-svg-converter/</loc>
+    <loc>https://leapfrogiq.app/image-tools/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://leapfrogiq.app/image-tools/logo-svg-converter/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://leapfrogiq.app/image-tools/png-to-svg/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://leapfrogiq.app/image-tools/jpg-to-svg/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://leapfrogiq.app/image-tools/favicon-generator/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
+  <!-- PDF Tools category -->
   <url>
-    <loc>https://leapfrogiq.app/tools/png-to-svg/</loc>
+    <loc>https://leapfrogiq.app/pdf-tools/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://leapfrogiq.app/pdf-tools/extract-pages/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://leapfrogiq.app/pdf-tools/merge-pdfs/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://leapfrogiq.app/pdf-tools/remove-pages/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://leapfrogiq.app/pdf-tools/batch-extractor/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <url>
-    <loc>https://leapfrogiq.app/tools/jpg-to-svg/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://leapfrogiq.app/tools/favicon-generator/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://leapfrogiq.app/tools/pdf-page-extractor/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
+  <!-- Legal -->
   <url>
     <loc>https://leapfrogiq.app/legal/privacy-policy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
   <url>
     <loc>https://leapfrogiq.app/legal/terms-of-service.html</loc>
     <changefreq>yearly</changefreq>

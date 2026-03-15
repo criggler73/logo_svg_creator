@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Page Extractor — Free Batch PDF Tool | LeapfrogIQ</title>
+  <meta name="description" content="Extract specific pages from multiple PDFs at once and merge them into one clean PDF. Free, browser-based, no signup, no uploads. Works on any device." />
+  <link rel="canonical" href="https://leapfrogiq.app/pdf-tools/batch-extractor/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="PDF Page Extractor — Free Batch PDF Tool" />
+  <meta property="og:description" content="Extract and merge specific pages from hundreds of PDFs in one batch. Free, private, no server upload." />
+  <meta property="og:url" content="https://leapfrogiq.app/pdf-tools/batch-extractor/" />
+  <meta property="og:site_name" content="LeapfrogIQ Apps" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="PDF Page Extractor — Free Batch PDF Tool" />
+  <meta name="twitter:description" content="Extract and merge specific pages from hundreds of PDFs in one batch. Free, private, no server upload." />
+
+  <link rel="icon" href="../../assets/img/logo.svg" type="image/svg+xml" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2YME82DE9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J2YME82DE9');
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "PDF Page Extractor",
+    "url": "https://leapfrogiq.app/pdf-tools/batch-extractor/",
+    "description": "Extract specific pages from multiple PDFs at once and download a single merged PDF. Free, browser-based, no server upload.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <style>
+    /* ── Tool-specific styles (shared.css loaded via nav.js) ── */
+
+    .tool-hero {
+      background: linear-gradient(135deg, #1a237e 0%, #1565c0 50%, #0288d1 100%);
+      padding: 56px 24px 48px;
+      text-align: center;
+      color: #fff;
+    }
+    .tool-hero .badge-pill {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 99px;
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .tool-hero h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      margin: 0 0 14px;
+      line-height: 1.2;
+    }
+    .tool-hero p {
+      font-size: 1.05rem;
+      opacity: .88;
+      max-width: 560px;
+      margin: 0 auto 28px;
+    }
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px 24px;
+      font-size: .82rem;
+      opacity: .85;
+    }
+
+    /* ── Step panels ── */
+    .tool-body {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+
+    .step-panel {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .step-panel.hidden { display: none; }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 22px;
+      border-bottom: 1px solid #f0f0f0;
+      background: #fafafa;
+    }
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1565c0, #0288d1);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-header h2 { margin: 0; font-size: 1.05rem; font-weight: 700; }
+    .step-header p  { margin: 2px 0 0; font-size: .82rem; color: #666; }
+
+    .step-body { padding: 22px; }
+
+    /* ── Upload zone ── */
+    .upload-zone {
+      border: 2px dashed #90caf9;
+      border-radius: 10px;
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+      background: #f0f7ff;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      background: #e3f2fd;
+      border-color: #1565c0;
+    }
+    .upload-zone svg { display: block; margin: 0 auto 10px; }
+    .upload-zone p { margin: 6px 0 0; font-size: .9rem; color: #555; }
+    .upload-zone .upload-hint { font-size: .78rem; color: #999; margin-top: 6px; }
+    #fileInput { display: none; }
+
+    .file-list { margin-top: 18px; }
+    .file-list-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px;
+    }
+    .file-list-header span { font-size: .85rem; font-weight: 600; color: #333; }
+    .file-items { display: flex; flex-direction: column; gap: 6px; max-height: 220px; overflow-y: auto; }
+    .file-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px;
+      background: #f5f5f5;
+      border-radius: 7px;
+      font-size: .83rem;
+    }
+    .file-item .fi-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .file-item .fi-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-item .fi-pages { color: #666; flex-shrink: 0; font-size: .78rem; }
+    .file-item .fi-status { font-size: .75rem; padding: 2px 8px; border-radius: 99px; flex-shrink: 0; }
+    .fi-status.loading { background: #fff8e1; color: #f57f17; }
+    .fi-status.ready   { background: #e8f5e9; color: #2e7d32; }
+    .fi-status.error   { background: #ffebee; color: #c62828; }
+
+    .session-row {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px;
+      padding-top: 16px; border-top: 1px solid #f0f0f0;
+    }
+    .session-row label { font-size: .83rem; color: #555; align-self: center; }
+
+    /* ── Thumbnail grid ── */
+    .sample-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .sample-tab {
+      padding: 6px 14px; border-radius: 7px; border: 1px solid #ddd;
+      background: #fafafa; font-size: .82rem; cursor: pointer;
+      transition: background .15s, border-color .15s;
+    }
+    .sample-tab.active { background: #1565c0; color: #fff; border-color: #1565c0; }
+
+    .thumb-grid {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      max-height: 420px; overflow-y: auto;
+      padding: 4px 0;
+    }
+    .thumb-card {
+      width: 120px; border-radius: 8px; overflow: hidden;
+      border: 2px solid #ddd; cursor: pointer;
+      transition: transform .15s, border-color .15s, box-shadow .15s;
+      position: relative;
+    }
+    .thumb-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+    .thumb-card canvas { display: block; width: 100%; height: auto; }
+    .thumb-label { font-size: .72rem; text-align: center; padding: 3px 4px; background: #f5f5f5; color: #555; }
+    .thumb-badge {
+      position: absolute; top: 5px; right: 5px;
+      font-size: .65rem; font-weight: 700; padding: 2px 7px; border-radius: 99px;
+    }
+    .thumb-kept   { border-color: #43a047; }
+    .thumb-kept   .thumb-badge { background: #43a047; color: #fff; }
+    .thumb-discarded { border-color: #e0e0e0; opacity: .55; }
+    .thumb-discarded .thumb-badge { background: #bdbdbd; color: #fff; }
+
+    .pattern-bar {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 14px 16px; background: #f0f7ff; border-radius: 8px; margin-top: 16px;
+    }
+    .pattern-bar label { font-size: .83rem; font-weight: 600; color: #1565c0; }
+    .pattern-bar input {
+      flex: 1; min-width: 160px; max-width: 320px;
+      border: 1px solid #90caf9; border-radius: 6px; padding: 6px 10px; font-size: .85rem;
+    }
+    .pattern-bar .pattern-hint { font-size: .75rem; color: #777; }
+
+    .select-all-row { display: flex; gap: 8px; margin-bottom: 10px; }
+
+    /* ── Rules panel ── */
+    .rules-panel {
+      background: #f3f0ff; border: 1px solid #d1c4e9; border-radius: 10px;
+      padding: 16px 18px; margin-bottom: 18px;
+    }
+    .rules-panel h4 { margin: 0 0 10px; font-size: .88rem; font-weight: 700; color: #4527a0; }
+    .rules-panel textarea {
+      width: 100%; box-sizing: border-box; height: 90px; resize: vertical;
+      border: 1px solid #ce93d8; border-radius: 6px; padding: 8px 10px;
+      font-size: .83rem; font-family: monospace; background: #fff;
+    }
+    .rules-panel .rules-hint { font-size: .75rem; color: #7b1fa2; margin-top: 6px; }
+    .rules-examples { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .rules-example-chip {
+      background: #ede7f6; color: #4527a0; border: 1px solid #ce93d8;
+      border-radius: 99px; padding: 3px 10px; font-size: .72rem;
+      cursor: pointer; transition: background .15s;
+    }
+    .rules-example-chip:hover { background: #d1c4e9; }
+
+    /* ── Output mode toggle ── */
+    .output-mode-row {
+      display: flex; gap: 0; margin-bottom: 18px; border: 1px solid #ddd;
+      border-radius: 8px; overflow: hidden;
+    }
+    .output-mode-btn {
+      flex: 1; padding: 10px 8px; font-size: .83rem; font-weight: 600;
+      border: none; background: #f5f5f5; color: #555; cursor: pointer;
+      transition: background .15s, color .15s; text-align: center;
+    }
+    .output-mode-btn.active { background: #1565c0; color: #fff; }
+    .output-mode-btn:first-child { border-right: 1px solid #ddd; }
+
+    /* ── Batch preview table ── */
+    .preview-table-wrap { overflow-x: auto; }
+    .preview-table {
+      width: 100%; border-collapse: collapse; font-size: .83rem;
+    }
+    .preview-table th {
+      background: #f5f5f5; padding: 8px 12px; text-align: left;
+      font-weight: 600; font-size: .78rem; color: #444;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    .preview-table td { padding: 7px 12px; border-bottom: 1px solid #f0f0f0; }
+    .preview-table tbody tr:hover { background: #fafafa; }
+    .preview-filename { font-family: monospace; font-size: .78rem; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+    .status-ok   { color: #2e7d32; font-weight: 600; }
+    .status-warn { color: #f57f17; font-weight: 600; }
+    .status-error { color: #c62828; font-weight: 600; }
+
+    .preview-summary {
+      display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 16px; font-size: .85rem;
+    }
+    .preview-summary .ps-item { display: flex; flex-direction: column; }
+    .preview-summary .ps-val { font-size: 1.3rem; font-weight: 700; color: #1565c0; }
+    .preview-summary .ps-lbl { font-size: .73rem; color: #666; }
+
+    /* ── Progress + output ── */
+    .progress-bar-wrap {
+      background: #e3f2fd; border-radius: 99px; height: 14px; overflow: hidden; margin: 16px 0;
+    }
+    .progress-bar-fill {
+      height: 100%; background: linear-gradient(90deg, #1565c0, #0288d1);
+      border-radius: 99px; transition: width .3s;
+      width: 0%;
+    }
+    .progress-label { font-size: .82rem; color: #555; margin-bottom: 8px; }
+
+    .output-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+
+    .result-stats {
+      display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 18px;
+    }
+    .result-stat { display: flex; flex-direction: column; }
+    .result-stat .rs-val { font-size: 1.4rem; font-weight: 700; color: #1565c0; }
+    .result-stat .rs-lbl { font-size: .73rem; color: #666; }
+
+    /* ── Buttons ── */
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 8px; font-size: .88rem; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: opacity .15s, transform .1s; }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary  { background: linear-gradient(135deg, #1565c0, #0288d1); color: #fff; }
+    .btn-success  { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+    .btn-secondary { background: #f5f5f5; color: #333; border: 1px solid #ddd; }
+    .btn-outline   { background: transparent; color: #1565c0; border: 2px solid #1565c0; }
+    .btn-sm { padding: 6px 14px; font-size: .78rem; }
+    .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+    .alert { padding: 12px 16px; border-radius: 8px; font-size: .85rem; margin: 12px 0; }
+    .alert-info    { background: #e3f2fd; color: #0d47a1; border: 1px solid #90caf9; }
+    .alert-warn    { background: #fff8e1; color: #e65100; border: 1px solid #ffcc02; }
+    .alert-success { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+    .alert-error   { background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a; }
+
+    .seo-section { max-width: 1000px; margin: 0 auto; padding: 0 20px 48px; }
+    .seo-section h2 { font-size: 1.3rem; font-weight: 700; color: #1a1a1a; margin: 0 0 12px; }
+    .seo-section p, .seo-section li { font-size: .92rem; color: #444; line-height: 1.7; }
+    .seo-section ul { padding-left: 20px; }
+    .how-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
+    .how-step { background: #f9f9fb; border-radius: 10px; padding: 18px; border: 1px solid #e8e8e8; }
+    .how-step .hs-num { font-size: .72rem; font-weight: 700; color: #1565c0; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+    .how-step h3 { font-size: .92rem; font-weight: 700; margin: 0 0 6px; }
+    .how-step p  { font-size: .82rem; margin: 0; color: #555; }
+
+    @media (max-width: 600px) {
+      .thumb-grid { gap: 7px; }
+      .thumb-card { width: 90px; }
+      .output-actions { flex-direction: column; }
+      .result-stats { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+<script src="../../assets/js/nav.js"></script>
+<script>SiteNav.init({ depth: 3 });</script>
+
+<!-- Hero -->
+<section class="tool-hero">
+  <div class="badge-pill">Free PDF Tool</div>
+  <h1>Extract &amp; Merge PDF Pages in Bulk</h1>
+  <p>Upload dozens of PDFs, pick which pages to keep, and download one clean merged PDF. No signup. No server. Files stay on your device.</p>
+  <div class="trust-row">
+    <span>🔒 Files never leave your browser</span>
+    <span>🟢 No signup required</span>
+    <span>📦 Batch process 25+ files at once</span>
+    <span>💾 Save your pattern for next batch</span>
+  </div>
+</section>
+
+<!-- Tool Body -->
+<div class="tool-body">
+
+  <!-- ── Step 1: Upload ── -->
+  <div class="step-panel" id="panelUpload">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div>
+        <h2>Upload Your PDF Files</h2>
+        <p>Drop your batch here — up to 25 files or 200 MB total</p>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="upload-zone" id="uploadZone" tabindex="0" role="button" aria-label="Click or drop PDF files to upload">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p><strong>Click to choose PDFs</strong> or drag &amp; drop here</p>
+        <p class="upload-hint">PDF files only · Max 200 files · Max 500 MB total</p>
+      </div>
+      <input type="file" id="fileInput" accept=".pdf,application/pdf" multiple />
+      <input type="file" id="folderInput" accept=".pdf,application/pdf" multiple webkitdirectory style="display:none" />
+
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <button class="btn btn-secondary btn-sm" id="pickFilesBtn">📄 Choose PDF Files</button>
+        <button class="btn btn-secondary btn-sm" id="pickFolderBtn">📁 Choose Folder of PDFs</button>
+      </div>
+
+      <div class="file-list" id="fileList" style="display:none">
+        <div class="file-list-header">
+          <span id="fileCountLabel">0 files loaded</span>
+          <button class="btn btn-secondary btn-sm" id="clearFilesBtn">Clear All</button>
+        </div>
+        <div class="file-items" id="fileItems"></div>
+        <div id="batchSizeWarn" class="alert alert-warn" style="display:none">
+          ⚠️ Large batch detected. Processing will happen in chunks to keep your browser responsive.
+        </div>
+      </div>
+
+      <div class="session-row">
+        <label>Restore previous pattern:</label>
+        <input type="file" id="sessionInput" accept=".json" style="display:none" />
+        <button class="btn btn-secondary btn-sm" id="loadSessionBtn">📂 Load Session</button>
+        <span id="sessionLoadedMsg" style="font-size:.78rem;color:#2e7d32;display:none">✓ Pattern restored</span>
+      </div>
+
+      <div style="margin-top:18px;">
+        <button class="btn btn-primary" id="proceedToSampleBtn" disabled>
+          Next: Pick Pages to Keep →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Step 2: Sample & Pattern ── -->
+  <div class="step-panel hidden" id="panelSample">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div>
+        <h2>Select Pages to Keep</h2>
+        <p>Click thumbnails to toggle Keep / Skip. Your pattern applies to all files in the batch.</p>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="alert alert-info" id="sampleInfo">
+        Showing the first <strong id="sampleCount">3</strong> files as samples. The pattern you set here will be applied to all <strong id="totalFilesCount">0</strong> files.
+      </div>
+
+      <!-- Output mode -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:.83rem;font-weight:600;color:#333;margin-bottom:8px;">Output mode:</div>
+        <div class="output-mode-row">
+          <button class="output-mode-btn active" id="modeMergeBtn" title="All pages from all files combined into one PDF">📄 Merged PDF (one file)</button>
+          <button class="output-mode-btn" id="modeZipBtn" title="Each input file gets its own extracted PDF, packaged as a ZIP">📦 ZIP (one PDF per file)</button>
+        </div>
+      </div>
+
+      <!-- Rule-based extraction -->
+      <div class="rules-panel">
+        <h4>⚙️ Rule-Based Extraction (optional)</h4>
+        <textarea id="rulesInput" placeholder="Examples:&#10;Skip first 1&#10;Keep 2-5&#10;Skip last 2"></textarea>
+        <div class="rules-examples">
+          <span class="rules-example-chip" data-rule="Skip first 1">Skip first 1</span>
+          <span class="rules-example-chip" data-rule="Keep 2-5">Keep 2–5</span>
+          <span class="rules-example-chip" data-rule="Keep first 3">Keep first 3</span>
+          <span class="rules-example-chip" data-rule="Skip last 2">Skip last 2</span>
+          <span class="rules-example-chip" data-rule="Keep pages 1, 3, 5">Keep pages 1,3,5</span>
+          <span class="rules-example-chip" data-rule="Keep last 1">Keep last 1</span>
+        </div>
+        <p class="rules-hint">Rules override the thumbnail selection. One rule per line. Leave blank to use thumbnail/range selection below.</p>
+      </div>
+
+      <div class="sample-tabs" id="sampleTabs"></div>
+
+      <div class="select-all-row">
+        <button class="btn btn-secondary btn-sm" id="selectAllBtn">Select All Pages</button>
+        <button class="btn btn-secondary btn-sm" id="selectNoneBtn">Deselect All</button>
+      </div>
+
+      <div class="thumb-grid" id="thumbGrid">
+        <div class="alert alert-info">Loading thumbnails…</div>
+      </div>
+
+      <div class="pattern-bar">
+        <label>Page pattern:</label>
+        <input type="text" id="patternInput" placeholder="e.g. 1, 2, 5-7" aria-label="Page range to keep" />
+        <button class="btn btn-secondary btn-sm" id="applyPatternBtn">Apply</button>
+        <span class="pattern-hint">Enter page numbers or ranges separated by commas</span>
+      </div>
+
+      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-secondary" id="backToUploadBtn">← Back</button>
+        <button class="btn btn-primary" id="proceedToPreviewBtn" disabled>
+          Next: Preview Batch →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Step 3: Batch Preview ── -->
+  <div class="step-panel hidden" id="panelPreview">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div>
+        <h2>Batch Preview</h2>
+        <p>Review how the pattern applies to every file before processing</p>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="preview-summary" id="previewSummary"></div>
+      <div class="alert alert-warn" id="previewWarnMsg" style="display:none"></div>
+
+      <div class="preview-table-wrap">
+        <table class="preview-table">
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>Total Pages</th>
+              <th>Pages Kept</th>
+              <th>Missing Pages</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="previewTableBody"></tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-secondary" id="backToSampleBtn">← Back</button>
+        <button class="btn btn-success" id="runBatchBtn">
+          ▶ Run Batch &amp; Merge PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Step 4: Processing ── -->
+  <div class="step-panel hidden" id="panelProcessing">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div>
+        <h2>Processing Batch…</h2>
+        <p>Extracting and merging pages entirely in your browser</p>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="progress-label" id="progressLabel">Starting…</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressBar"></div>
+      </div>
+      <p style="font-size:.82rem;color:#888;margin:0">Do not close this tab while processing is in progress.</p>
+    </div>
+  </div>
+
+  <!-- ── Step 5: Output ── -->
+  <div class="step-panel hidden" id="panelOutput">
+    <div class="step-header">
+      <div class="step-num" style="background:linear-gradient(135deg,#2e7d32,#43a047);">✓</div>
+      <div>
+        <h2>Done! Your Merged PDF is Ready</h2>
+        <p>Download below — files were processed entirely in your browser</p>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="result-stats" id="resultStats"></div>
+      <div id="outputWarnMsg" class="alert alert-warn" style="display:none"></div>
+
+      <div class="output-actions">
+        <button class="btn btn-success" id="downloadPdfBtn">⬇ Download Merged PDF</button>
+        <button class="btn btn-success hidden" id="downloadZipBtn">⬇ Download ZIP Archive</button>
+        <button class="btn btn-outline" id="downloadCsvBtn">📄 Download Report (CSV)</button>
+        <button class="btn btn-secondary" id="saveSessionBtn">💾 Save Pattern for Next Batch</button>
+      </div>
+
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #f0f0f0;">
+        <button class="btn btn-secondary btn-sm" id="startOverBtn">← Process Another Batch</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SEO Content -->
+<div class="seo-section">
+  <h2>How to Extract Pages from Multiple PDFs at Once</h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="hs-num">Step 1</div>
+      <h3>Upload Your PDFs</h3>
+      <p>Drop your entire batch of PDF files at once. Each file is loaded locally — nothing is sent to a server.</p>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">Step 2</div>
+      <h3>Pick Pages to Keep</h3>
+      <p>Click page thumbnails to mark them Keep or Skip. Or type a range like <code>1, 3, 5-7</code>. Your pattern is saved across the whole batch.</p>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">Step 3</div>
+      <h3>Preview &amp; Confirm</h3>
+      <p>See exactly how many pages will be extracted from each file before committing. Files missing certain pages are flagged automatically.</p>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">Step 4</div>
+      <h3>Download Merged PDF</h3>
+      <p>All kept pages from all files are merged into one clean PDF in document order. Plus a CSV report of exactly what was extracted.</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top:32px;">Why Use a Batch PDF Page Extractor?</h2>
+  <p>If you regularly work with reports, invoices, contracts, or construction documents where you only need a few pages from dozens of files, extracting them one-by-one in Adobe Acrobat is painfully slow. This tool lets you define your page pattern once and apply it to an entire folder of PDFs in seconds — all without installing software or uploading files to a third-party server.</p>
+  <ul>
+    <li>Perfect for batches of reports where different files have different page counts</li>
+    <li>Files missing the requested pages are skipped gracefully — not dropped entirely</li>
+    <li>Save your page pattern as a JSON session file to reuse on next week's batch</li>
+    <li>100% client-side: your PDFs never leave your device</li>
+  </ul>
+</div>
+
+<!-- Libraries -->
+<script src="../../assets/libs/pdf.min.js"></script>
+<script src="../../assets/libs/pdf-lib.min.js"></script>
+<script src="../../assets/libs/FileSaver.min.js"></script>
+<script src="../../assets/libs/jszip.min.js"></script>
+<script src="../../assets/js/pdfRenderer.js"></script>
+<script src="../../assets/js/pdfExtractor.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Init PDF.js worker ── */
+  PdfRenderer.init('../../assets/libs/pdf.worker.min.js');
+
+  /* ── State ── */
+  var state = {
+    files: [],
+    patternPages: [],
+    selectedPages: new Set(),
+    activeRules: [],
+    outputMode: 'merge',   // 'merge' | 'zip'
+    sampleIndex: 0,
+    resultPdfBytes: null,
+    resultZipBlob: null,
+    resultReport: null
+  };
+
+  /* ── DOM refs ── */
+  var uploadZone      = document.getElementById('uploadZone');
+  var fileInput       = document.getElementById('fileInput');
+  var folderInput     = document.getElementById('folderInput');
+  var pickFilesBtn    = document.getElementById('pickFilesBtn');
+  var pickFolderBtn   = document.getElementById('pickFolderBtn');
+  var fileList        = document.getElementById('fileList');
+  var fileItems       = document.getElementById('fileItems');
+  var fileCountLabel  = document.getElementById('fileCountLabel');
+  var clearFilesBtn   = document.getElementById('clearFilesBtn');
+  var batchSizeWarn   = document.getElementById('batchSizeWarn');
+  var loadSessionBtn  = document.getElementById('loadSessionBtn');
+  var sessionInput    = document.getElementById('sessionInput');
+  var sessionLoadedMsg = document.getElementById('sessionLoadedMsg');
+  var proceedToSampleBtn = document.getElementById('proceedToSampleBtn');
+
+  var panelUpload    = document.getElementById('panelUpload');
+  var panelSample    = document.getElementById('panelSample');
+  var panelPreview   = document.getElementById('panelPreview');
+  var panelProcessing= document.getElementById('panelProcessing');
+  var panelOutput    = document.getElementById('panelOutput');
+
+  var sampleCount    = document.getElementById('sampleCount');
+  var totalFilesCount= document.getElementById('totalFilesCount');
+  var sampleTabs     = document.getElementById('sampleTabs');
+  var thumbGrid      = document.getElementById('thumbGrid');
+  var patternInput   = document.getElementById('patternInput');
+  var applyPatternBtn= document.getElementById('applyPatternBtn');
+  var selectAllBtn   = document.getElementById('selectAllBtn');
+  var selectNoneBtn  = document.getElementById('selectNoneBtn');
+  var proceedToPreviewBtn = document.getElementById('proceedToPreviewBtn');
+  var backToUploadBtn= document.getElementById('backToUploadBtn');
+
+  var modeMergeBtn   = document.getElementById('modeMergeBtn');
+  var modeZipBtn     = document.getElementById('modeZipBtn');
+  var rulesInput     = document.getElementById('rulesInput');
+
+  var previewSummary = document.getElementById('previewSummary');
+  var previewWarnMsg = document.getElementById('previewWarnMsg');
+  var previewTableBody = document.getElementById('previewTableBody');
+  var backToSampleBtn= document.getElementById('backToSampleBtn');
+  var runBatchBtn    = document.getElementById('runBatchBtn');
+
+  var progressLabel  = document.getElementById('progressLabel');
+  var progressBar    = document.getElementById('progressBar');
+
+  var resultStats    = document.getElementById('resultStats');
+  var outputWarnMsg  = document.getElementById('outputWarnMsg');
+  var downloadPdfBtn = document.getElementById('downloadPdfBtn');
+  var downloadZipBtn = document.getElementById('downloadZipBtn');
+  var downloadCsvBtn = document.getElementById('downloadCsvBtn');
+  var saveSessionBtn = document.getElementById('saveSessionBtn');
+  var startOverBtn   = document.getElementById('startOverBtn');
+
+  /* ─────────────────────────────────────────────
+   * STEP 1 — Upload
+   * ───────────────────────────────────────────── */
+  pickFilesBtn.addEventListener('click', function () { fileInput.click(); });
+  pickFolderBtn.addEventListener('click', function () { folderInput.click(); });
+  uploadZone.addEventListener('click', function () { fileInput.click(); });
+  uploadZone.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') fileInput.click();
+  });
+  uploadZone.addEventListener('dragover', function (e) {
+    e.preventDefault(); uploadZone.classList.add('dragover');
+  });
+  uploadZone.addEventListener('dragleave', function () {
+    uploadZone.classList.remove('dragover');
+  });
+  uploadZone.addEventListener('drop', function (e) {
+    e.preventDefault(); uploadZone.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+  fileInput.addEventListener('change', function () {
+    handleFiles(fileInput.files);
+    fileInput.value = '';
+  });
+  folderInput.addEventListener('change', function () {
+    handleFiles(folderInput.files);
+    folderInput.value = '';
+  });
+
+  clearFilesBtn.addEventListener('click', function () {
+    state.files = [];
+    fileItems.innerHTML = '';
+    fileList.style.display = 'none';
+    proceedToSampleBtn.disabled = true;
+  });
+
+  async function handleFiles(rawFiles) {
+    var MAX_FILES = 200;
+    var MAX_BYTES = 500 * 1024 * 1024;
+    var arr = Array.from(rawFiles).filter(function (f) {
+      return f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
+    });
+    if (arr.length === 0) return;
+
+    fileList.style.display = 'block';
+
+    var totalBytes = state.files.reduce(function (s, f) { return s + (f.size || 0); }, 0);
+    for (var i = 0; i < arr.length; i++) {
+      if (state.files.length >= MAX_FILES) { batchSizeWarn.style.display = 'block'; break; }
+      totalBytes += arr[i].size;
+      if (totalBytes > MAX_BYTES) { batchSizeWarn.style.display = 'block'; break; }
+      addFileItem(arr[i]);
+    }
+    if (state.files.length >= 50) batchSizeWarn.style.display = 'block';
+    updateFileCount();
+  }
+
+  function addFileItem(file) {
+    var idx = state.files.length;
+    state.files.push({ name: file.name, size: file.size, arrayBuffer: null, totalPages: 0, pdfJsDoc: null });
+
+    var item = document.createElement('div');
+    item.className = 'file-item';
+    item.id = 'fi-' + idx;
+    item.innerHTML =
+      '<span class="fi-icon">📄</span>' +
+      '<span class="fi-name" title="' + file.name + '">' + file.name + '</span>' +
+      '<span class="fi-pages" id="fi-pages-' + idx + '">Loading…</span>' +
+      '<span class="fi-status loading" id="fi-status-' + idx + '">Loading</span>';
+    fileItems.appendChild(item);
+
+    var reader = new FileReader();
+    reader.onload = async function (e) {
+      try {
+        var ab = e.target.result;
+        state.files[idx].arrayBuffer = ab.slice(0);
+        var pdfDoc = await PdfRenderer.loadPdf(ab.slice(0));
+        state.files[idx].pdfJsDoc = pdfDoc;
+        state.files[idx].totalPages = pdfDoc.numPages;
+        document.getElementById('fi-pages-' + idx).textContent = pdfDoc.numPages + ' pages';
+        document.getElementById('fi-status-' + idx).textContent = 'Ready';
+        document.getElementById('fi-status-' + idx).className = 'fi-status ready';
+        checkAllLoaded();
+      } catch (err) {
+        document.getElementById('fi-pages-' + idx).textContent = '?';
+        document.getElementById('fi-status-' + idx).textContent = 'Error';
+        document.getElementById('fi-status-' + idx).className = 'fi-status error';
+        state.files[idx].error = err.message;
+        checkAllLoaded();
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  function checkAllLoaded() {
+    updateFileCount();
+    var allDone = state.files.every(function (f) { return f.arrayBuffer !== null; });
+    proceedToSampleBtn.disabled = !allDone || state.files.length === 0;
+  }
+
+  function updateFileCount() {
+    fileCountLabel.textContent = state.files.length + ' file' + (state.files.length !== 1 ? 's' : '') + ' loaded';
+  }
+
+  /* Session load */
+  loadSessionBtn.addEventListener('click', function () { sessionInput.click(); });
+  sessionInput.addEventListener('change', function () {
+    if (!sessionInput.files[0]) return;
+    PdfExtractor.loadSession(sessionInput.files[0], function (session, err) {
+      if (err) { alert('Could not load session: ' + err); return; }
+      state.patternPages = session.patternPages;
+      state.selectedPages = new Set(session.patternPages);
+      state.activeRules = session.rules || [];
+      patternInput.value = PdfRenderer.pagesToRangeString(state.patternPages);
+      if (rulesInput && state.activeRules.length) {
+        rulesInput.value = PdfExtractor.rulesToString(state.activeRules);
+      }
+      sessionLoadedMsg.style.display = 'inline';
+      sessionInput.value = '';
+    });
+  });
+
+  proceedToSampleBtn.addEventListener('click', function () {
+    showSamplePanel();
+  });
+
+  /* ─────────────────────────────────────────────
+   * OUTPUT MODE TOGGLE
+   * ───────────────────────────────────────────── */
+  modeMergeBtn.addEventListener('click', function () {
+    state.outputMode = 'merge';
+    modeMergeBtn.classList.add('active');
+    modeZipBtn.classList.remove('active');
+  });
+  modeZipBtn.addEventListener('click', function () {
+    state.outputMode = 'zip';
+    modeZipBtn.classList.add('active');
+    modeMergeBtn.classList.remove('active');
+  });
+
+  /* Rules example chips */
+  document.querySelectorAll('.rules-example-chip').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var existing = rulesInput.value.trim();
+      rulesInput.value = existing ? existing + '\n' + chip.dataset.rule : chip.dataset.rule;
+    });
+  });
+
+  /* ─────────────────────────────────────────────
+   * STEP 2 — Sample & Pattern
+   * ───────────────────────────────────────────── */
+  async function showSamplePanel() {
+    panelUpload.classList.add('hidden');
+    panelSample.classList.remove('hidden');
+
+    var sampleFiles = state.files.slice(0, Math.min(3, state.files.length));
+    sampleCount.textContent = sampleFiles.length;
+    totalFilesCount.textContent = state.files.length;
+
+    sampleTabs.innerHTML = '';
+    sampleFiles.forEach(function (f, i) {
+      var tab = document.createElement('button');
+      tab.className = 'sample-tab' + (i === 0 ? ' active' : '');
+      tab.textContent = truncate(f.name, 22) + ' (' + f.totalPages + ' pg)';
+      tab.dataset.idx = i;
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.sample-tab').forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        showSampleThumbs(parseInt(tab.dataset.idx, 10));
+      });
+      sampleTabs.appendChild(tab);
+    });
+
+    if (state.selectedPages.size === 0 && sampleFiles.length > 0) {
+      for (var p = 1; p <= sampleFiles[0].totalPages; p++) state.selectedPages.add(p);
+    }
+    await showSampleThumbs(0);
+  }
+
+  async function showSampleThumbs(idx) {
+    state.sampleIndex = idx;
+    thumbGrid.innerHTML = '<div class="alert alert-info">Rendering thumbnails…</div>';
+    var f = state.files[idx];
+    if (!f || !f.pdfJsDoc) {
+      thumbGrid.innerHTML = '<div class="alert alert-error">Could not load this file.</div>';
+      return;
+    }
+    thumbGrid.innerHTML = '';
+    await PdfRenderer.renderAllThumbs(thumbGrid, f.pdfJsDoc, f.name, state.selectedPages, function () {
+      syncPatternFromSelection();
+    });
+    syncPatternFromSelection();
+  }
+
+  function syncPatternFromSelection() {
+    state.patternPages = Array.from(state.selectedPages).sort(function (a, b) { return a - b; });
+    patternInput.value = PdfRenderer.pagesToRangeString(state.selectedPages);
+    proceedToPreviewBtn.disabled = state.patternPages.length === 0 && !hasActiveRules();
+  }
+
+  function hasActiveRules() {
+    return rulesInput && rulesInput.value.trim().length > 0;
+  }
+
+  function getActiveRules() {
+    if (!rulesInput || !rulesInput.value.trim()) return [];
+    return PdfExtractor.parseRuleString(rulesInput.value);
+  }
+
+  selectAllBtn.addEventListener('click', function () {
+    var f = state.files[state.sampleIndex];
+    if (!f) return;
+    for (var p = 1; p <= f.totalPages; p++) state.selectedPages.add(p);
+    showSampleThumbs(state.sampleIndex);
+  });
+
+  selectNoneBtn.addEventListener('click', function () {
+    state.selectedPages.clear();
+    showSampleThumbs(state.sampleIndex);
+  });
+
+  applyPatternBtn.addEventListener('click', function () {
+    var parsed = PdfRenderer.parsePageRange(patternInput.value);
+    state.selectedPages = new Set(parsed);
+    state.patternPages = parsed;
+    showSampleThumbs(state.sampleIndex);
+  });
+  patternInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') applyPatternBtn.click();
+  });
+  rulesInput.addEventListener('input', function () {
+    proceedToPreviewBtn.disabled = state.patternPages.length === 0 && !hasActiveRules();
+  });
+
+  backToUploadBtn.addEventListener('click', function () {
+    panelSample.classList.add('hidden');
+    panelUpload.classList.remove('hidden');
+  });
+
+  proceedToPreviewBtn.addEventListener('click', function () {
+    state.activeRules = getActiveRules();
+    buildPreviewPanel();
+    panelSample.classList.add('hidden');
+    panelPreview.classList.remove('hidden');
+  });
+
+  /* ─────────────────────────────────────────────
+   * STEP 3 — Batch Preview
+   * ───────────────────────────────────────────── */
+  function buildPreviewPanel() {
+    previewTableBody.innerHTML = '';
+    var totalKept = 0, totalMissing = 0, filesWithMissing = 0;
+    var rules = state.activeRules.length > 0 ? state.activeRules : null;
+
+    state.files.forEach(function (f) {
+      var applied = PdfExtractor.applyPatternToFile(state.patternPages, f.totalPages, rules);
+      totalKept += applied.keptPages.length;
+      if (applied.missingPages.length > 0) { totalMissing += applied.missingPages.length; filesWithMissing++; }
+      var row = PdfRenderer.buildPreviewRow(f.name, f.totalPages, applied.keptPages, applied.missingPages);
+      previewTableBody.appendChild(row);
+    });
+
+    var modeLabel = state.outputMode === 'zip' ? 'ZIP (one PDF per file)' : 'Merged PDF';
+    previewSummary.innerHTML =
+      '<div class="ps-item"><span class="ps-val">' + state.files.length + '</span><span class="ps-lbl">Files</span></div>' +
+      '<div class="ps-item"><span class="ps-val">' + (rules ? state.activeRules.length + ' rules' : state.patternPages.length + ' pages') + '</span><span class="ps-lbl">Pattern</span></div>' +
+      '<div class="ps-item"><span class="ps-val">' + totalKept + '</span><span class="ps-lbl">Total Pages</span></div>' +
+      '<div class="ps-item"><span class="ps-val">' + filesWithMissing + '</span><span class="ps-lbl">Partial Files</span></div>' +
+      '<div class="ps-item"><span class="ps-val">' + modeLabel + '</span><span class="ps-lbl">Output</span></div>';
+
+    if (filesWithMissing > 0) {
+      previewWarnMsg.style.display = 'block';
+      previewWarnMsg.textContent = filesWithMissing + ' file(s) don\'t have all requested pages. Those pages will be skipped gracefully.';
+    } else {
+      previewWarnMsg.style.display = 'none';
+    }
+  }
+
+  backToSampleBtn.addEventListener('click', function () {
+    panelPreview.classList.add('hidden');
+    panelSample.classList.remove('hidden');
+    showSampleThumbs(state.sampleIndex);
+  });
+
+  runBatchBtn.addEventListener('click', function () {
+    panelPreview.classList.add('hidden');
+    panelProcessing.classList.remove('hidden');
+    runExtraction();
+  });
+
+  /* ─────────────────────────────────────────────
+   * STEP 4 — Processing
+   * ───────────────────────────────────────────── */
+  async function runExtraction() {
+    progressBar.style.width = '0%';
+    progressLabel.textContent = 'Starting…';
+    var rules = state.activeRules.length > 0 ? state.activeRules : null;
+
+    var onProgress = function (current, total, fileName) {
+      var pct = Math.round((current / total) * 100);
+      progressBar.style.width = pct + '%';
+      progressLabel.textContent = 'Processing ' + current + ' of ' + total + ': ' + truncate(fileName, 40);
+    };
+
+    try {
+      if (state.outputMode === 'zip') {
+        var zipResult = await PdfExtractor.extractToZip(state.files, state.patternPages, onProgress, rules);
+        state.resultZipBlob = zipResult.zipBlob;
+        state.resultReport  = zipResult.report;
+        state.resultPdfBytes = null;
+      } else {
+        var mergeResult = await PdfExtractor.extractAndMerge(state.files, state.patternPages, onProgress, rules);
+        state.resultPdfBytes = mergeResult.pdfBytes;
+        state.resultReport   = mergeResult.report;
+        state.resultZipBlob  = null;
+      }
+
+      progressBar.style.width = '100%';
+      progressLabel.textContent = 'Done!';
+      setTimeout(function () {
+        panelProcessing.classList.add('hidden');
+        showOutputPanel(state.resultReport);
+      }, 400);
+
+    } catch (err) {
+      progressLabel.textContent = 'Error: ' + err.message;
+      progressBar.style.backgroundColor = '#ef5350';
+    }
+  }
+
+  /* ─────────────────────────────────────────────
+   * STEP 5 — Output
+   * ───────────────────────────────────────────── */
+  function showOutputPanel(report) {
+    panelOutput.classList.remove('hidden');
+
+    var totalKept = report.reduce(function (s, r) { return s + r.keptPages.length; }, 0);
+    var errors    = report.filter(function (r) { return r.status === 'error'; }).length;
+    var partials  = report.filter(function (r) { return r.status === 'partial'; }).length;
+
+    resultStats.innerHTML =
+      '<div class="result-stat"><span class="rs-val">' + report.length + '</span><span class="rs-lbl">Files Processed</span></div>' +
+      '<div class="result-stat"><span class="rs-val">' + totalKept + '</span><span class="rs-lbl">Pages Extracted</span></div>' +
+      '<div class="result-stat"><span class="rs-val">' + partials + '</span><span class="rs-lbl">Partial Files</span></div>' +
+      '<div class="result-stat"><span class="rs-val">' + errors + '</span><span class="rs-lbl">Errors</span></div>';
+
+    if (errors > 0) {
+      outputWarnMsg.style.display = 'block';
+      outputWarnMsg.textContent = errors + ' file(s) failed. Check the CSV report for details.';
+    }
+
+    /* Show correct download button based on mode */
+    if (state.outputMode === 'zip') {
+      downloadPdfBtn.classList.add('hidden');
+      downloadZipBtn.classList.remove('hidden');
+    } else {
+      downloadPdfBtn.classList.remove('hidden');
+      downloadZipBtn.classList.add('hidden');
+    }
+  }
+
+  downloadPdfBtn.addEventListener('click', function () {
+    if (!state.resultPdfBytes) return;
+    PdfExtractor.downloadPdf(state.resultPdfBytes, 'extracted-pages.pdf');
+  });
+
+  downloadZipBtn.addEventListener('click', function () {
+    if (!state.resultZipBlob) return;
+    if (window.saveAs) {
+      window.saveAs(state.resultZipBlob, 'extracted-pdfs.zip');
+    } else {
+      var url = URL.createObjectURL(state.resultZipBlob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'extracted-pdfs.zip';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    }
+  });
+
+  downloadCsvBtn.addEventListener('click', function () {
+    if (!state.resultReport) return;
+    var csv = PdfExtractor.buildCsvReport(state.resultReport);
+    PdfExtractor.downloadCsv(csv, 'pdf-extraction-report.csv');
+  });
+
+  saveSessionBtn.addEventListener('click', function () {
+    PdfExtractor.saveSession(state.patternPages, 'My PDF Pattern', state.activeRules);
+  });
+
+  startOverBtn.addEventListener('click', function () {
+    state.files = [];
+    state.patternPages = [];
+    state.selectedPages = new Set();
+    state.activeRules = [];
+    state.resultPdfBytes = null;
+    state.resultZipBlob  = null;
+    state.resultReport = null;
+    fileItems.innerHTML = '';
+    fileList.style.display = 'none';
+    fileCountLabel.textContent = '0 files loaded';
+    proceedToSampleBtn.disabled = true;
+    patternInput.value = '';
+    rulesInput.value = '';
+    sessionLoadedMsg.style.display = 'none';
+    batchSizeWarn.style.display = 'none';
+    modeMergeBtn.classList.add('active');
+    modeZipBtn.classList.remove('active');
+    state.outputMode = 'merge';
+
+    panelOutput.classList.add('hidden');
+    panelProcessing.classList.add('hidden');
+    panelPreview.classList.add('hidden');
+    panelSample.classList.add('hidden');
+    panelUpload.classList.remove('hidden');
+
+    progressBar.style.width = '0%';
+    progressBar.style.backgroundColor = '';
+    outputWarnMsg.style.display = 'none';
+  });
+
+  /* ── Utility ── */
+  function truncate(str, len) {
+    return str && str.length > len ? str.slice(0, len - 1) + '…' : str;
+  }
+
+})();
+</script>
+
+</body>
+</html>

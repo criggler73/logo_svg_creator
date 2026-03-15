@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Favicon Generator — Create Favicon Sets from Any Logo | LeapfrogIQ Apps</title>
+  <meta name="description" content="Free online favicon generator. Upload your logo, crop it to the icon area, and download favicon.svg, favicon-16.png, favicon-32.png, favicon-48.png, and apple-touch-icon.png. No signup." />
+  <link rel="canonical" href="https://leapfrogiq.app/image-tools/favicon-generator/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Free Favicon Generator — Create Favicon Sets from Any Logo" />
+  <meta property="og:description" content="Upload your logo and generate a complete favicon set — SVG, 16px, 32px, 48px, and 180px — free, in your browser, no signup." />
+  <meta property="og:url" content="https://leapfrogiq.app/image-tools/favicon-generator/" />
+  <meta property="og:site_name" content="LeapfrogIQ Apps" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Free Favicon Generator — Favicon Set from Your Logo" />
+  <meta name="twitter:description" content="Create favicon.svg, favicon-16.png, favicon-32.png, favicon-48.png, and apple-touch-icon.png from any logo. Free, in-browser." />
+
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../../assets/img/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/shared.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Favicon Generator",
+    "url": "https://leapfrogiq.app/image-tools/favicon-generator/",
+    "description": "Free browser-based favicon generator. Upload your logo, crop to the icon area, and download a complete favicon set including SVG, PNG at 16, 32, 48, and 180px. No signup required.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Organization", "name": "LeapfrogIQ", "url": "https://leapfrogiq.ai" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What sizes do I need for a favicon?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The standard favicon sizes are: 16×16px (browser tab), 32×32px (taskbar/bookmark), 48×48px (Windows shortcut), and 180×180px (Apple touch icon for iPhone/iPad home screen). A scalable favicon.svg covers all sizes on modern browsers." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I create a favicon from my logo?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Upload your logo using the tool, then use the Favicon Crop Tool that appears after conversion. Drag the blue crop box to select just the icon portion of your logo (usually just the symbol, not the text). Then download individual sizes or all at once as a ZIP." }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I use the full logo or just the icon for my favicon?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Use just the icon/symbol portion of your logo. At 16×16px or 32×32px, text becomes unreadable and a complex logo looks like a blur. Most brands use just their logo mark (the symbol) for favicons — the same approach used by most major websites." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a favicon.svg and why do I need it?",
+        "acceptedAnswer": { "@type": "Answer", "text": "favicon.svg is a scalable vector favicon that modern browsers use at any resolution. It looks perfect on HiDPI/retina screens, supports dark mode variants, and is smaller than equivalent PNG files. All modern browsers support SVG favicons." }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    .hero { background: linear-gradient(135deg, #1E40AF 0%, #2563EB 55%, #3B82F6 100%); color:#fff; padding:72px 24px 64px; text-align:center; }
+    .hero-eyebrow { display:inline-block; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.3); border-radius:20px; padding:4px 16px; font-size:12px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; margin-bottom:20px; }
+    .hero h1 { font-size:clamp(28px,5vw,48px); font-weight:800; line-height:1.1; margin-bottom:16px; letter-spacing:-.02em; }
+    .hero-sub { font-size:clamp(14px,2.5vw,17px); opacity:.9; max-width:560px; margin:0 auto 32px; line-height:1.65; }
+    .hero-trust { margin-top:24px; font-size:12px; opacity:.75; display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
+    /* Favicon size preview strip */
+    .size-strip { display:flex; gap:24px; justify-content:center; align-items:flex-end; flex-wrap:wrap; margin:32px 0; }
+    .size-demo { text-align:center; }
+    .size-demo .size-box { background:var(--neutral-200); border:1px solid var(--border); border-radius:4px; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:9px; color:var(--text-muted); font-weight:600; }
+    .size-demo span { font-size:12px; color:var(--text-muted); font-weight:600; }
+    .steps-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:24px; margin-top:40px; }
+    .step-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px 20px; text-align:center; }
+    .step-num { width:36px; height:36px; background:var(--brand-primary); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:800; margin:0 auto 12px; }
+    .step-card h3 { font-size:14px; font-weight:700; margin-bottom:6px; }
+    .step-card p { font-size:13px; color:var(--text-muted); line-height:1.55; }
+    .output-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-top:32px; }
+    .output-card { background:var(--bg-card); border:1.5px solid var(--border); border-radius:var(--radius-lg); padding:20px 16px; text-align:center; }
+    .output-card .output-icon { font-size:28px; margin-bottom:8px; }
+    .output-card h4 { font-size:13px; font-weight:700; margin-bottom:4px; font-family:monospace; }
+    .output-card p { font-size:12px; color:var(--text-muted); }
+    .faq-list { max-width:720px; margin:0 auto; }
+    .faq-item { border-bottom:1px solid var(--border); }
+    .faq-item:last-child { border-bottom:none; }
+    .faq-question { width:100%; background:none; border:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; padding:18px 0; text-align:left; font-family:var(--font-sans); font-size:15px; font-weight:600; color:var(--text); -webkit-tap-highlight-color:transparent; }
+    .faq-question:hover { color:var(--brand-primary); }
+    .faq-arrow { font-size:18px; color:var(--text-muted); flex-shrink:0; transition:transform .2s; margin-left:16px; }
+    .faq-item.open .faq-arrow { transform:rotate(180deg); }
+    .faq-answer { display:none; font-size:14px; color:var(--text-muted); line-height:1.75; padding-bottom:18px; }
+    .faq-item.open .faq-answer { display:block; }
+    @media (max-width:600px) { .hero { padding:48px 20px; } }
+  </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2YME82DE9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J2YME82DE9');
+  </script>
+</head>
+<body>
+
+<main>
+
+<!-- Hero -->
+<section class="hero" aria-labelledby="heroHeading">
+  <div class="page-wrap" style="max-width:800px;">
+    <div class="hero-eyebrow">Free Online Tool — No Signup Required</div>
+    <h1 id="heroHeading">Free Favicon Generator</h1>
+    <p class="hero-sub">Upload your logo, drag to crop the icon area, and download a complete favicon set — SVG, 16px, 32px, 48px PNGs, and apple-touch-icon (180px). Free, in your browser, no signup.</p>
+    <a href="../logo-svg-converter/" class="btn btn-white btn-lg">&#x2B06; Upload Logo &amp; Generate Favicons</a>
+    <div class="hero-trust">
+      <span>&#x1F512; Files stay on your device</span>
+      <span>&#x1F7E2; No signup required</span>
+      <span>&#x26A1; Instant download</span>
+      <span>&#x1F4F1; Works on mobile</span>
+    </div>
+  </div>
+</section>
+
+<!-- SEO Intro -->
+<section style="background:#fff;padding:48px 24px 0;">
+  <div class="page-wrap" style="max-width:800px;text-align:center;">
+    <p style="font-size:16px;color:var(--neutral-700);line-height:1.8;margin-bottom:12px;">This free favicon generator lets you create a complete favicon set from any logo image — PNG, JPG, or WEBP. Upload your logo, use the visual crop tool to select just the icon portion, and download all sizes ready to drop into your website's <code>&lt;head&gt;</code>.</p>
+    <p style="font-size:15px;color:var(--neutral-600);line-height:1.75;">Most logos are too wide to use as a favicon at small sizes — you need just the icon/symbol, not the text. The drag-to-crop tool lets you pick exactly the right region. Your files never leave your browser.</p>
+  </div>
+</section>
+
+<!-- What you get -->
+<section class="page-section" aria-labelledby="outputsHeading">
+  <div class="page-wrap">
+    <h2 class="section-title" id="outputsHeading" style="text-align:center;">What You Get</h2>
+    <p class="section-subtitle" style="margin-bottom:32px;text-align:center;">A complete, production-ready favicon set for any website.</p>
+    <div class="output-grid">
+      <div class="output-card">
+        <div class="output-icon">&#x1F5BC;&#xFE0F;</div>
+        <h4>favicon.svg</h4>
+        <p>Scalable vector favicon. Perfect on retina screens. Supported by all modern browsers.</p>
+      </div>
+      <div class="output-card">
+        <div class="output-icon">&#x1F535;</div>
+        <h4>favicon-16.png</h4>
+        <p>16×16px — browser tab icon. The classic favicon size.</p>
+      </div>
+      <div class="output-card">
+        <div class="output-icon">&#x1F535;</div>
+        <h4>favicon-32.png</h4>
+        <p>32×32px — taskbar, bookmarks, and Windows shortcut icons.</p>
+      </div>
+      <div class="output-card">
+        <div class="output-icon">&#x1F535;</div>
+        <h4>favicon-48.png</h4>
+        <p>48×48px — Windows site shortcut and higher-density displays.</p>
+      </div>
+      <div class="output-card">
+        <div class="output-icon">&#x1F4F1;</div>
+        <h4>apple-touch-icon.png</h4>
+        <p>180×180px — iPhone and iPad home screen icon when users bookmark your site.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px;">
+      <a href="../logo-svg-converter/" class="btn btn-primary btn-lg">&#x2B06; Generate My Favicon Set — Free</a>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="page-section" style="background:#fff;" aria-labelledby="howHeading">
+  <div class="page-wrap">
+    <h2 class="section-title" id="howHeading" style="text-align:center;">How to Create a Favicon from Your Logo</h2>
+    <p class="section-subtitle" style="margin-bottom:32px;text-align:center;">Four steps. Under a minute.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Upload Your Logo</h3>
+        <p>Drag and drop any PNG, JPG, or WEBP logo file onto the converter tool.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Convert to SVG</h3>
+        <p>Click Convert. Embed mode is pre-selected for perfect quality — no settings to adjust.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Crop the Icon Area</h3>
+        <p>The Favicon Crop Tool appears below. Drag the blue box to select just your icon/symbol — not the text.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>Download All Sizes</h3>
+        <p>Download each size individually or click "Download All Favicons" for a ZIP with everything ready to use.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="page-section" aria-labelledby="faqHeading">
+  <div class="page-wrap">
+    <h2 class="section-title" id="faqHeading">Favicon Generator — Frequently Asked Questions</h2>
+    <p class="section-subtitle" style="margin-bottom:36px;">Common questions about creating favicons for websites.</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">What sizes do I need for a favicon?<span class="faq-arrow">&#x2304;</span></button>
+        <div class="faq-answer">The standard set: <strong>16×16px</strong> (browser tab), <strong>32×32px</strong> (bookmarks/taskbar), <strong>48×48px</strong> (Windows shortcut), <strong>180×180px</strong> (Apple touch icon), and <strong>favicon.svg</strong> for modern browsers at any resolution.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">How do I create a favicon from my logo?<span class="faq-arrow">&#x2304;</span></button>
+        <div class="faq-answer">Upload your logo, click Convert, then use the Favicon Crop Tool to drag the blue box over just the icon portion of your logo. Preview updates live at all sizes. Download individually or as a ZIP.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">Should I use my full logo or just the icon for the favicon?<span class="faq-arrow">&#x2304;</span></button>
+        <div class="faq-answer">Just the icon/symbol. At 16px or 32px, the text in a full logo is completely unreadable and the whole image becomes a blur. Use only the distinct graphic mark — the same symbol that appears alone in the "Icon Only" version of your brand guidelines.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">What is a favicon.svg and do I need it?<span class="faq-arrow">&#x2304;</span></button>
+        <div class="faq-answer">favicon.svg is a scalable vector favicon. It looks pixel-perfect on retina and HiDPI screens, supports dark mode with CSS, and a single file covers all sizes. All modern browsers (Chrome, Firefox, Edge, Safari) support SVG favicons. It's the recommended format for new websites.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">How do I add a favicon to my website?<span class="faq-arrow">&#x2304;</span></button>
+        <div class="faq-answer">Add these lines inside your HTML <code>&lt;head&gt;</code>:<br><br>
+<code>&lt;link rel="icon" href="/favicon.svg" type="image/svg+xml"&gt;</code><br>
+<code>&lt;link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32"&gt;</code><br>
+<code>&lt;link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16"&gt;</code><br>
+<code>&lt;link rel="apple-touch-icon" href="/apple-touch-icon.png"&gt;</code></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:linear-gradient(135deg,var(--brand-primary) 0%,var(--brand-primary-dark) 100%);color:#fff;padding:64px 24px;text-align:center;" aria-labelledby="ctaHeading">
+  <div class="page-wrap">
+    <h2 id="ctaHeading" style="font-size:clamp(22px,4vw,30px);font-weight:800;margin-bottom:12px;">Generate Your Favicon Set — Free &amp; Instant</h2>
+    <p style="font-size:16px;opacity:.9;margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto;">Upload your logo, crop your icon, download all sizes. No signup. No server. Under a minute.</p>
+    <a href="../logo-svg-converter/" class="btn btn-white btn-lg">&#x2B06; Create My Favicon Set Now</a>
+  </div>
+</section>
+
+</main>
+
+<script src="../../assets/js/nav.js"></script>
+<script>
+SiteNav.init({ depth: 3 });
+document.querySelectorAll('.faq-question').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var item = this.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(el) {
+      el.classList.remove('open');
+      el.querySelector('.faq-question').setAttribute('aria-expanded','false');
+    });
+    if (!isOpen) { item.classList.add('open'); this.setAttribute('aria-expanded','true'); }
+  });
+});
+</script>
+
+</body>
+</html>

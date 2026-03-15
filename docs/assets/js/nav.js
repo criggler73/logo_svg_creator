@@ -51,11 +51,12 @@
       '</a>' +
       '<div class="nav-links" id="siteNavLinks">' +
         navLink('', 'All Tools') +
-        navLink('tools/logo-svg-converter/', 'SVG Converter') +
-        navLink('tools/png-to-svg/', 'PNG to SVG') +
-        navLink('tools/jpg-to-svg/', 'JPG to SVG') +
-        navLink('tools/favicon-generator/', 'Favicons') +
-        navLink('tools/pdf-page-extractor/', 'PDF Extractor') +
+        navLink('image-tools/', 'Image Tools') +
+        navLink('image-tools/logo-svg-converter/', 'SVG Converter') +
+        navLink('pdf-tools/', 'PDF Tools') +
+        navLink('pdf-tools/extract-pages/', 'Extract Pages') +
+        navLink('pdf-tools/merge-pdfs/', 'Merge PDFs') +
+        navLink('pdf-tools/batch-extractor/', 'Batch Extractor') +
         navLink(AREA_CALC + '/', 'Blueprint Calc', true) +
         navLink('legal/privacy-policy.html', 'Privacy') +
         navLink('legal/terms-of-service.html', 'Terms') +
@@ -83,9 +84,20 @@
           '<a href="' + _root + 'tools/logo-svg-converter/">Logo SVG Converter</a>' +
           '<a href="' + _root + 'tools/png-to-svg/">PNG to SVG Converter</a>' +
           '<a href="' + _root + 'tools/jpg-to-svg/">JPG to SVG Converter</a>' +
-          '<a href="' + _root + 'tools/favicon-generator/">Favicon Generator</a>' +
-          '<a href="' + _root + 'tools/pdf-page-extractor/">PDF Page Extractor</a>' +
+        '<div class="footer-col">' +
+          '<h4>Image Tools</h4>' +
+          '<a href="' + _root + 'image-tools/logo-svg-converter/">Logo SVG Converter</a>' +
+          '<a href="' + _root + 'image-tools/png-to-svg/">PNG to SVG Converter</a>' +
+          '<a href="' + _root + 'image-tools/jpg-to-svg/">JPG to SVG Converter</a>' +
+          '<a href="' + _root + 'image-tools/favicon-generator/">Favicon Generator</a>' +
           '<a href="' + AREA_CALC + '/" target="_blank" rel="noopener">Blueprint Calc</a>' +
+        '</div>' +
+        '<div class="footer-col">' +
+          '<h4>PDF Tools</h4>' +
+          '<a href="' + _root + 'pdf-tools/extract-pages/">Extract Pages</a>' +
+          '<a href="' + _root + 'pdf-tools/merge-pdfs/">Merge PDFs</a>' +
+          '<a href="' + _root + 'pdf-tools/remove-pages/">Remove Pages</a>' +
+          '<a href="' + _root + 'pdf-tools/batch-extractor/">Batch Extractor</a>' +
         '</div>' +
         '<div class="footer-col">' +
           '<h4>More</h4>' +

@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extract Pages from PDF Free — No Signup, No Upload | LeapfrogIQ</title>
+  <meta name="description" content="Extract specific pages from any PDF file for free. Select pages visually or by range, then download a clean PDF with only the pages you need. No signup required." />
+  <link rel="canonical" href="https://leapfrogiq.app/pdf-tools/extract-pages/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Extract Pages from PDF Free — No Signup, No Upload | LeapfrogIQ" />
+  <meta property="og:description" content="Extract specific pages from any PDF file for free. Select pages visually or by range, then download a clean PDF with only the pages you need. No signup required." />
+  <meta property="og:url" content="https://leapfrogiq.app/pdf-tools/extract-pages/" />
+  <meta property="og:site_name" content="LeapfrogIQ Apps" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Extract Pages from PDF Free — No Signup | LeapfrogIQ" />
+  <meta name="twitter:description" content="Select pages visually or by range, download a clean PDF instantly. No signup, no server upload." />
+
+  <!-- Icons -->
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../../assets/img/logo.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- JSON-LD: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Extract Pages from PDF",
+    "url": "https://leapfrogiq.app/pdf-tools/extract-pages/",
+    "description": "Extract specific pages from any PDF file for free. Select pages visually or by range, then download a clean PDF with only the pages you need. No signup required.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Organization", "name": "LeapfrogIQ", "url": "https://leapfrogiq.ai" }
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I extract pages from a PDF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Upload your PDF using the file picker or drag and drop. All pages will render as clickable thumbnails. Click any page thumbnail to toggle it between Keep (green border) and Skip (grey/faded). You can also type a page range like '1, 3, 5-7' in the range input. When you're happy with your selection, click Download to save a new PDF containing only the pages you chose."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my PDF kept private?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — completely. This tool runs 100% in your browser using JavaScript. Your PDF file is never uploaded to any server. It is read locally on your device, processed in memory, and the output PDF downloads directly to your computer. No data ever leaves your device."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What page formats are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The tool works with any standard PDF file regardless of page size or orientation — A4, Letter, Legal, landscape, portrait, or mixed. It supports PDFs with text, images, forms, and complex layouts. Very large PDFs (hundreds of pages) may take a moment to render thumbnails but will process correctly."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2YME82DE9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J2YME82DE9');
+  </script>
+
+  <style>
+    /* ── Tool hero ── */
+    .tool-hero {
+      background: linear-gradient(135deg, #1a237e 0%, #1565c0 50%, #0288d1 100%);
+      padding: 56px 24px 48px;
+      text-align: center;
+      color: #fff;
+    }
+    .tool-hero .badge-pill {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 99px;
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .tool-hero h1 {
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      font-weight: 800;
+      margin: 0 0 14px;
+      line-height: 1.2;
+    }
+    .tool-hero p {
+      font-size: 1.05rem;
+      opacity: .88;
+      max-width: 560px;
+      margin: 0 auto 28px;
+      line-height: 1.65;
+    }
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px 24px;
+      font-size: .82rem;
+      opacity: .85;
+    }
+
+    /* ── Tool body wrapper ── */
+    .tool-body {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+
+    /* ── Cards / panels ── */
+    .tool-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .tool-card.hidden { display: none; }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 22px;
+      border-bottom: 1px solid #f0f0f0;
+      background: #fafafa;
+    }
+    .card-header h2 { margin: 0; font-size: 1.05rem; font-weight: 700; }
+    .card-header p  { margin: 2px 0 0; font-size: .82rem; color: #666; }
+
+    .card-body { padding: 24px; }
+
+    /* ── Upload zone ── */
+    .upload-zone {
+      border: 2px dashed #90caf9;
+      border-radius: 10px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+      background: #f0f7ff;
+    }
+    .upload-zone:hover,
+    .upload-zone.dragover {
+      background: #e3f2fd;
+      border-color: #1565c0;
+    }
+    .upload-zone svg { display: block; margin: 0 auto 12px; }
+    .upload-zone .uz-title { font-size: 1rem; font-weight: 600; color: #1a1a1a; margin: 0 0 6px; }
+    .upload-zone .uz-hint  { font-size: .8rem; color: #888; margin: 0; }
+    #fileInput { display: none; }
+
+    /* ── Selected file banner ── */
+    .file-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #e8f5e9;
+      border: 1px solid #a5d6a7;
+      border-radius: 8px;
+      margin-top: 14px;
+    }
+    .file-banner .fb-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .file-banner .fb-info { flex: 1; min-width: 0; }
+    .file-banner .fb-name { font-size: .88rem; font-weight: 600; color: #1b5e20; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-banner .fb-meta { font-size: .75rem; color: #388e3c; margin-top: 2px; }
+
+    /* ── Controls row ── */
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .range-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 220px;
+    }
+    .range-input-wrap label { font-size: .83rem; font-weight: 600; color: #333; white-space: nowrap; }
+    .range-input-wrap input {
+      flex: 1;
+      border: 1px solid #90caf9;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: .85rem;
+      outline: none;
+      transition: border-color .15s;
+    }
+    .range-input-wrap input:focus { border-color: #1565c0; }
+
+    .selection-info {
+      font-size: .82rem;
+      color: #1565c0;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* ── Spinner ── */
+    .spinner-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 48px 20px;
+    }
+    .spinner {
+      width: 42px; height: 42px;
+      border: 4px solid #e3f2fd;
+      border-top-color: #1565c0;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner-wrap p { font-size: .88rem; color: #555; margin: 0; }
+
+    /* ── Thumbnail grid ── */
+    .thumb-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 4px 0 8px;
+    }
+    .thumb-card {
+      width: 130px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 3px solid #e0e0e0;
+      cursor: pointer;
+      transition: transform .15s, border-color .15s, box-shadow .15s, opacity .15s;
+      position: relative;
+      background: #fff;
+      flex-shrink: 0;
+    }
+    .thumb-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.13); }
+    .thumb-card canvas { display: block; width: 100%; height: auto; }
+    .thumb-label {
+      font-size: .72rem;
+      text-align: center;
+      padding: 4px 6px;
+      background: #f5f5f5;
+      color: #555;
+      font-weight: 500;
+    }
+    .thumb-badge {
+      position: absolute;
+      top: 5px; right: 5px;
+      font-size: .62rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 99px;
+      pointer-events: none;
+    }
+
+    /* Keep state */
+    .thumb-kept { border-color: #43a047; }
+    .thumb-kept .thumb-label { background: #e8f5e9; color: #2e7d32; }
+    .thumb-kept .thumb-badge { background: #43a047; color: #fff; }
+
+    /* Skip state */
+    .thumb-skipped { border-color: #e0e0e0; opacity: .42; }
+    .thumb-skipped .thumb-badge { background: #bdbdbd; color: #fff; }
+
+    /* ── Download section ── */
+    .download-section {
+      background: #e8f5e9;
+      border: 1px solid #a5d6a7;
+      border-radius: 10px;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .dl-info { flex: 1; min-width: 160px; }
+    .dl-info .dl-count { font-size: 1.4rem; font-weight: 800; color: #2e7d32; }
+    .dl-info .dl-label { font-size: .8rem; color: #388e3c; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: opacity .15s, transform .1s;
+      white-space: nowrap;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: .4; cursor: not-allowed; transform: none !important; }
+    .btn-primary  { background: linear-gradient(135deg, #1565c0, #0288d1); color: #fff; }
+    .btn-success  { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+    .btn-secondary { background: #f5f5f5; color: #333; border: 1px solid #ddd; }
+    .btn-outline   { background: transparent; color: #1565c0; border: 2px solid #1565c0; }
+    .btn-sm { padding: 6px 14px; font-size: .78rem; }
+    .btn-lg { padding: 13px 28px; font-size: .95rem; }
+
+    /* ── Alert ── */
+    .alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: .85rem;
+      margin: 0;
+      line-height: 1.55;
+    }
+    .alert-info    { background: #e3f2fd; color: #0d47a1; border: 1px solid #90caf9; }
+    .alert-warn    { background: #fff8e1; color: #e65100; border: 1px solid #ffcc02; }
+    .alert-success { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+    .alert-error   { background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a; }
+
+    /* ── SEO section ── */
+    .seo-section {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 20px 56px;
+    }
+    .seo-section h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 40px 0 12px;
+    }
+    .seo-section p,
+    .seo-section li { font-size: .92rem; color: #444; line-height: 1.75; }
+    .seo-section ul  { padding-left: 22px; }
+
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 20px 0 32px;
+    }
+    .how-step {
+      background: #f9f9fb;
+      border-radius: 10px;
+      padding: 18px;
+      border: 1px solid #e8e8e8;
+    }
+    .how-step .hs-num {
+      font-size: .7rem;
+      font-weight: 700;
+      color: #1565c0;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 6px;
+    }
+    .how-step h3 { font-size: .9rem; font-weight: 700; margin: 0 0 6px; }
+    .how-step p  { font-size: .82rem; margin: 0; color: #555; }
+
+    .faq-list { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+    .faq-item {
+      background: #f9f9fb;
+      border: 1px solid #e8e8e8;
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .faq-item h3 { font-size: .92rem; font-weight: 700; margin: 0 0 8px; color: #1a1a1a; }
+    .faq-item p  { font-size: .88rem; color: #444; margin: 0; line-height: 1.7; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .tool-hero { padding: 40px 20px 36px; }
+      .trust-row { gap: 10px 16px; }
+      .thumb-card { width: 100px; }
+      .thumb-grid { gap: 8px; }
+      .download-section { flex-direction: column; gap: 14px; }
+      .controls-row { flex-direction: column; align-items: flex-start; }
+      .range-input-wrap { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<script src="../../assets/js/nav.js"></script>
+<script>SiteNav.init({ depth: 3 });</script>
+
+<!-- Hero -->
+<section class="tool-hero">
+  <div class="badge-pill">Free PDF Tool — No Signup</div>
+  <h1>Extract Pages from PDF — Free &amp; Instant</h1>
+  <p>Upload any PDF, click the pages you want to keep, and download a clean PDF — all in your browser. Your file never leaves your device.</p>
+  <div class="trust-row">
+    <span>&#x1F512; Files stay on your device</span>
+    <span>&#x1F7E2; No signup required</span>
+    <span>&#x26A1; Instant download</span>
+    <span>&#x1F4F1; Works on mobile</span>
+  </div>
+</section>
+
+<!-- Tool body -->
+<div class="tool-body">
+
+  <!-- ── Upload card ── -->
+  <div class="tool-card" id="cardUpload">
+    <div class="card-header">
+      <div>
+        <h2>&#x1F4C4; Upload a PDF</h2>
+        <p>Select one PDF file to get started</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="upload-zone" id="uploadZone" tabindex="0" role="button" aria-label="Click or drop a PDF file to upload">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="1.5" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <p class="uz-title">Click to choose a PDF, or drag &amp; drop here</p>
+        <p class="uz-hint">PDF files only &middot; Processed entirely in your browser</p>
+      </div>
+      <input type="file" id="fileInput" accept=".pdf,application/pdf" />
+      <div id="fileBanner" class="file-banner" style="display:none;">
+        <div class="fb-icon">&#x1F4C4;</div>
+        <div class="fb-info">
+          <div class="fb-name" id="fbName"></div>
+          <div class="fb-meta" id="fbMeta"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Page selection card ── -->
+  <div class="tool-card hidden" id="cardSelect">
+    <div class="card-header">
+      <div>
+        <h2>&#x1F5B1; Select Pages to Keep</h2>
+        <p>Click thumbnails to toggle Keep / Skip &mdash; green = keep, grey = skip</p>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <!-- Controls row -->
+      <div class="controls-row">
+        <button class="btn btn-secondary btn-sm" id="selectAllBtn">Select All</button>
+        <button class="btn btn-secondary btn-sm" id="deselectAllBtn">Deselect All</button>
+        <div class="range-input-wrap">
+          <label for="rangeInput">Range:</label>
+          <input type="text" id="rangeInput" placeholder="e.g. 1, 3, 5-7" aria-label="Page range to keep" />
+          <button class="btn btn-secondary btn-sm" id="applyRangeBtn">Apply</button>
+        </div>
+        <span class="selection-info" id="selectionInfo">0 pages selected</span>
+      </div>
+
+      <!-- Thumbnail grid or spinner -->
+      <div id="spinnerWrap" class="spinner-wrap">
+        <div class="spinner"></div>
+        <p id="spinnerMsg">Rendering page thumbnails&hellip;</p>
+      </div>
+      <div class="thumb-grid" id="thumbGrid" style="display:none;"></div>
+
+      <!-- Error message placeholder -->
+      <div id="renderError" class="alert alert-error" style="display:none;margin-top:12px;"></div>
+
+    </div>
+  </div>
+
+  <!-- ── Download card ── -->
+  <div class="tool-card hidden" id="cardDownload">
+    <div class="card-header">
+      <div>
+        <h2>&#x2705; Ready to Download</h2>
+        <p>Your extracted PDF is built in-browser and ready</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="download-section">
+        <div class="dl-info">
+          <div class="dl-count" id="dlCount">0</div>
+          <div class="dl-label">pages selected</div>
+        </div>
+        <button class="btn btn-success btn-lg" id="downloadBtn" disabled>
+          &#x2B07; Download Extracted PDF
+        </button>
+        <button class="btn btn-outline" id="extractMoreBtn" style="display:none;">
+          &#x21BA; Extract More Pages
+        </button>
+      </div>
+      <div id="downloadAlert" class="alert" style="display:none;margin-top:14px;"></div>
+    </div>
+  </div>
+
+  <!-- Start over strip (shown after download) -->
+  <div id="startOverStrip" style="display:none;text-align:center;padding:8px 0 4px;">
+    <button class="btn btn-secondary btn-sm" id="startOverBtn">&#x2190; Start Over with a New File</button>
+  </div>
+
+</div><!-- /.tool-body -->
+
+<!-- ── SEO: How-to section ── -->
+<div class="seo-section" aria-label="How to use the PDF page extractor">
+  <h2>How to Extract Pages from a PDF</h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="hs-num">Step 1</div>
+      <h3>Upload Your PDF</h3>
+      <p>Click the upload zone or drag your PDF file directly onto the page. The file is read locally — nothing is sent to a server.</p>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">Step 2</div>
+      <h3>Choose Pages to Keep</h3>
+      <p>Click any page thumbnail to toggle it between Keep (green border) and Skip (faded). Or type a range like <code>1, 3, 5-7</code> and hit Apply.</p>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">Step 3</div>
+      <h3>Download Your PDF</h3>
+      <p>Hit the Download button to instantly save a new PDF containing only the pages you selected. No waiting, no server, no signup.</p>
+    </div>
+  </div>
+
+  <h2>Why Extract PDF Pages in the Browser?</h2>
+  <p>Traditional PDF tools require either desktop software like Adobe Acrobat Pro (expensive) or uploading your file to a cloud service. Both options are slow and raise privacy concerns, especially for sensitive documents like contracts, medical records, or financial reports.</p>
+  <p>This tool uses <a href="https://mozilla.github.io/pdf.js/" target="_blank" rel="noopener">PDF.js</a> to render page previews and <a href="https://pdf-lib.js.org/" target="_blank" rel="noopener">pdf-lib</a> to build the output PDF — entirely within your browser tab. Your file is never transmitted anywhere.</p>
+  <ul>
+    <li>Works with any PDF: text, images, forms, mixed content</li>
+    <li>No file size limits enforced by a server — your device's memory is the only constraint</li>
+    <li>Instant results — no waiting for upload or processing queues</li>
+    <li>100% free, no account required, no watermarks on the output</li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <h3>How do I extract pages from a PDF?</h3>
+      <p>Upload your PDF using the file picker or drag and drop. All pages will render as clickable thumbnails. Click any thumbnail to toggle it between Keep (green border) and Skip (faded grey). You can also type a page range like <code>1, 3, 5-7</code>. When your selection is ready, click Download to save a new PDF with only those pages.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is my PDF kept private?</h3>
+      <p>Yes — completely. This tool runs 100% in your browser. Your PDF is read locally on your device, processed in memory, and the output downloads directly to your computer. No data ever leaves your device and nothing is stored on any server.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What page formats are supported?</h3>
+      <p>The tool works with any standard PDF regardless of page size or orientation — A4, Letter, Legal, landscape, portrait, or mixed-size documents. It handles PDFs with text, images, forms, and complex layouts. Very large PDFs may take a moment to render thumbnails but will process correctly.</p>
+    </div>
+  </div>
+
+  <h2>Need to Process Multiple PDFs at Once?</h2>
+  <p>Check out the <a href="../batch-extractor/">Batch PDF Extractor</a> — it lets you upload dozens or hundreds of PDFs, apply a page pattern across the entire batch, and download the results as a merged PDF or a ZIP of individual files.</p>
+</div>
+
+<!-- Libraries -->
+<script src="../../assets/libs/pdf.min.js"></script>
+<script src="../../assets/libs/pdf-lib.min.js"></script>
+<script src="../../assets/libs/FileSaver.min.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── PDF.js worker ── */
+  if (window.pdfjsLib) {
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = '../../assets/libs/pdf.worker.min.js';
+  }
+
+  /* ── State ── */
+  var state = {
+    pdfJsDoc: null,
+    pdfBytes: null,
+    fileName: 'document.pdf',
+    totalPages: 0,
+    keptPages: new Set(),
+    downloading: false
+  };
+
+  /* ── DOM refs ── */
+  var uploadZone    = document.getElementById('uploadZone');
+  var fileInput     = document.getElementById('fileInput');
+  var fileBanner    = document.getElementById('fileBanner');
+  var fbName        = document.getElementById('fbName');
+  var fbMeta        = document.getElementById('fbMeta');
+
+  var cardUpload    = document.getElementById('cardUpload');
+  var cardSelect    = document.getElementById('cardSelect');
+  var cardDownload  = document.getElementById('cardDownload');
+
+  var spinnerWrap   = document.getElementById('spinnerWrap');
+  var spinnerMsg    = document.getElementById('spinnerMsg');
+  var thumbGrid     = document.getElementById('thumbGrid');
+  var renderError   = document.getElementById('renderError');
+
+  var selectAllBtn  = document.getElementById('selectAllBtn');
+  var deselectAllBtn= document.getElementById('deselectAllBtn');
+  var rangeInput    = document.getElementById('rangeInput');
+  var applyRangeBtn = document.getElementById('applyRangeBtn');
+  var selectionInfo = document.getElementById('selectionInfo');
+
+  var dlCount       = document.getElementById('dlCount');
+  var downloadBtn   = document.getElementById('downloadBtn');
+  var extractMoreBtn= document.getElementById('extractMoreBtn');
+  var downloadAlert = document.getElementById('downloadAlert');
+  var startOverStrip= document.getElementById('startOverStrip');
+  var startOverBtn  = document.getElementById('startOverBtn');
+
+  /* ── Upload handlers ── */
+  uploadZone.addEventListener('click', function () { fileInput.click(); });
+  uploadZone.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') fileInput.click();
+  });
+  uploadZone.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    uploadZone.classList.add('dragover');
+  });
+  uploadZone.addEventListener('dragleave', function () {
+    uploadZone.classList.remove('dragover');
+  });
+  uploadZone.addEventListener('drop', function (e) {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+    var files = e.dataTransfer.files;
+    if (files && files[0]) handleFile(files[0]);
+  });
+  fileInput.addEventListener('change', function () {
+    if (fileInput.files && fileInput.files[0]) handleFile(fileInput.files[0]);
+    fileInput.value = '';
+  });
+
+  function handleFile(file) {
+    if (!file || (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf'))) {
+      showRenderError('Please select a PDF file.');
+      return;
+    }
+    state.fileName = file.name;
+    state.pdfJsDoc = null;
+    state.pdfBytes = null;
+    state.keptPages = new Set();
+    state.totalPages = 0;
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var ab = e.target.result;
+      state.pdfBytes = new Uint8Array(ab);
+      loadPdf(ab.slice(0));
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  async function loadPdf(arrayBuffer) {
+    /* Show selection card with spinner */
+    cardSelect.classList.remove('hidden');
+    cardDownload.classList.remove('hidden');
+    spinnerWrap.style.display = 'flex';
+    thumbGrid.style.display = 'none';
+    thumbGrid.innerHTML = '';
+    renderError.style.display = 'none';
+    downloadBtn.disabled = true;
+    extractMoreBtn.style.display = 'none';
+    startOverStrip.style.display = 'none';
+    dlCount.textContent = '0';
+
+    /* Update file banner */
+    fbName.textContent = state.fileName;
+    fbMeta.textContent = 'Loading\u2026';
+    fileBanner.style.display = 'flex';
+
+    try {
+      var loadingTask = window.pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+      state.pdfJsDoc = await loadingTask.promise;
+      state.totalPages = state.pdfJsDoc.numPages;
+
+      /* Default: all pages kept */
+      state.keptPages = new Set();
+      for (var i = 1; i <= state.totalPages; i++) state.keptPages.add(i);
+
+      fbMeta.textContent = state.totalPages + ' page' + (state.totalPages !== 1 ? 's' : '');
+      spinnerMsg.textContent = 'Rendering ' + state.totalPages + ' page thumbnail' + (state.totalPages !== 1 ? 's' : '') + '\u2026';
+
+      await renderThumbnails();
+
+      updateSelectionInfo();
+      updateDownloadCard();
+
+    } catch (err) {
+      spinnerWrap.style.display = 'none';
+      showRenderError('Could not load this PDF. It may be corrupt, password-protected, or an unsupported format. (' + err.message + ')');
+      fbMeta.textContent = 'Error loading file';
+    }
+  }
+
+  async function renderThumbnails() {
+    thumbGrid.innerHTML = '';
+    var THUMB_WIDTH = 130;
+
+    for (var pageNum = 1; pageNum <= state.totalPages; pageNum++) {
+      var page = await state.pdfJsDoc.getPage(pageNum);
+      var viewport = page.getViewport({ scale: 1.0 });
+      var scale = THUMB_WIDTH / viewport.width;
+      var scaledViewport = page.getViewport({ scale: scale });
+
+      var canvas = document.createElement('canvas');
+      canvas.width  = scaledViewport.width;
+      canvas.height = scaledViewport.height;
+
+      var ctx = canvas.getContext('2d');
+      await page.render({ canvasContext: ctx, viewport: scaledViewport }).promise;
+
+      var card = buildThumbCard(canvas, pageNum);
+      thumbGrid.appendChild(card);
+    }
+
+    spinnerWrap.style.display = 'none';
+    thumbGrid.style.display = 'flex';
+  }
+
+  function buildThumbCard(canvas, pageNum) {
+    var card = document.createElement('div');
+    card.className = 'thumb-card' + (state.keptPages.has(pageNum) ? ' thumb-kept' : ' thumb-skipped');
+    card.dataset.page = pageNum;
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', 'Page ' + pageNum + ', ' + (state.keptPages.has(pageNum) ? 'kept' : 'skipped') + '. Click to toggle.');
+    card.setAttribute('aria-pressed', state.keptPages.has(pageNum) ? 'true' : 'false');
+
+    var badge = document.createElement('div');
+    badge.className = 'thumb-badge';
+    badge.textContent = state.keptPages.has(pageNum) ? 'Keep' : 'Skip';
+
+    var label = document.createElement('div');
+    label.className = 'thumb-label';
+    label.textContent = 'Page ' + pageNum;
+
+    card.appendChild(canvas);
+    card.appendChild(badge);
+    card.appendChild(label);
+
+    card.addEventListener('click', function () { togglePage(pageNum); });
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); togglePage(pageNum); }
+    });
+
+    return card;
+  }
+
+  function togglePage(pageNum) {
+    if (state.keptPages.has(pageNum)) {
+      state.keptPages.delete(pageNum);
+    } else {
+      state.keptPages.add(pageNum);
+    }
+    updateThumbCard(pageNum);
+    updateSelectionInfo();
+    updateDownloadCard();
+  }
+
+  function updateThumbCard(pageNum) {
+    var card = thumbGrid.querySelector('[data-page="' + pageNum + '"]');
+    if (!card) return;
+    var isKept = state.keptPages.has(pageNum);
+    card.className = 'thumb-card ' + (isKept ? 'thumb-kept' : 'thumb-skipped');
+    var badge = card.querySelector('.thumb-badge');
+    if (badge) badge.textContent = isKept ? 'Keep' : 'Skip';
+    card.setAttribute('aria-pressed', isKept ? 'true' : 'false');
+    card.setAttribute('aria-label', 'Page ' + pageNum + ', ' + (isKept ? 'kept' : 'skipped') + '. Click to toggle.');
+  }
+
+  function updateAllThumbCards() {
+    var cards = thumbGrid.querySelectorAll('.thumb-card');
+    cards.forEach(function (card) {
+      var pageNum = parseInt(card.dataset.page, 10);
+      var isKept = state.keptPages.has(pageNum);
+      card.className = 'thumb-card ' + (isKept ? 'thumb-kept' : 'thumb-skipped');
+      var badge = card.querySelector('.thumb-badge');
+      if (badge) badge.textContent = isKept ? 'Keep' : 'Skip';
+      card.setAttribute('aria-pressed', isKept ? 'true' : 'false');
+    });
+  }
+
+  function updateSelectionInfo() {
+    var n = state.keptPages.size;
+    selectionInfo.textContent = n + ' page' + (n !== 1 ? 's' : '') + ' selected';
+    rangeInput.value = pagesToRangeString(state.keptPages);
+  }
+
+  function updateDownloadCard() {
+    var n = state.keptPages.size;
+    dlCount.textContent = n;
+    downloadBtn.disabled = (n === 0 || state.downloading);
+  }
+
+  /* ── Select all / deselect all ── */
+  selectAllBtn.addEventListener('click', function () {
+    state.keptPages = new Set();
+    for (var i = 1; i <= state.totalPages; i++) state.keptPages.add(i);
+    updateAllThumbCards();
+    updateSelectionInfo();
+    updateDownloadCard();
+  });
+
+  deselectAllBtn.addEventListener('click', function () {
+    state.keptPages = new Set();
+    updateAllThumbCards();
+    updateSelectionInfo();
+    updateDownloadCard();
+  });
+
+  /* ── Range input ── */
+  applyRangeBtn.addEventListener('click', applyRange);
+  rangeInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') applyRange();
+  });
+
+  function applyRange() {
+    var parsed = parsePageRange(rangeInput.value, state.totalPages);
+    state.keptPages = new Set(parsed);
+    updateAllThumbCards();
+    updateSelectionInfo();
+    updateDownloadCard();
+  }
+
+  /* ── Download ── */
+  downloadBtn.addEventListener('click', async function () {
+    if (state.keptPages.size === 0 || !state.pdfBytes || state.downloading) return;
+    state.downloading = true;
+    downloadBtn.disabled = true;
+    downloadBtn.textContent = 'Building PDF\u2026';
+    hideDownloadAlert();
+
+    try {
+      var PDFLib = window.PDFLib;
+      var srcDoc = await PDFLib.PDFDocument.load(state.pdfBytes);
+      var outDoc = await PDFLib.PDFDocument.create();
+
+      var sortedPages = Array.from(state.keptPages).sort(function (a, b) { return a - b; });
+      /* pdf-lib uses 0-based page indices */
+      var indices = sortedPages.map(function (p) { return p - 1; });
+
+      var copiedPages = await outDoc.copyPages(srcDoc, indices);
+      copiedPages.forEach(function (page) { outDoc.addPage(page); });
+
+      var outBytes = await outDoc.save();
+      var blob = new Blob([outBytes], { type: 'application/pdf' });
+      var baseName = state.fileName.replace(/\.pdf$/i, '');
+      var outName = baseName + '_extracted.pdf';
+
+      if (window.saveAs) {
+        window.saveAs(blob, outName);
+      } else {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = outName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+      }
+
+      showDownloadAlert('success', '&#x2705; Downloaded <strong>' + outName + '</strong> with ' + sortedPages.length + ' page' + (sortedPages.length !== 1 ? 's' : '') + '.');
+      extractMoreBtn.style.display = 'inline-flex';
+      startOverStrip.style.display = 'block';
+      downloadBtn.textContent = '\u2B07 Download Extracted PDF';
+
+    } catch (err) {
+      showDownloadAlert('error', 'Download failed: ' + err.message);
+      downloadBtn.textContent = '\u2B07 Download Extracted PDF';
+    } finally {
+      state.downloading = false;
+      updateDownloadCard();
+    }
+  });
+
+  extractMoreBtn.addEventListener('click', function () {
+    /* Reset selection to all kept, hide success state */
+    state.keptPages = new Set();
+    for (var i = 1; i <= state.totalPages; i++) state.keptPages.add(i);
+    updateAllThumbCards();
+    updateSelectionInfo();
+    updateDownloadCard();
+    extractMoreBtn.style.display = 'none';
+    startOverStrip.style.display = 'none';
+    hideDownloadAlert();
+    window.scrollTo({ top: cardSelect.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+  });
+
+  startOverBtn.addEventListener('click', resetAll);
+
+  function resetAll() {
+    state.pdfJsDoc = null;
+    state.pdfBytes = null;
+    state.fileName = 'document.pdf';
+    state.totalPages = 0;
+    state.keptPages = new Set();
+    state.downloading = false;
+
+    fileBanner.style.display = 'none';
+    thumbGrid.innerHTML = '';
+    thumbGrid.style.display = 'none';
+    spinnerWrap.style.display = 'flex';
+    spinnerMsg.textContent = 'Rendering page thumbnails\u2026';
+    renderError.style.display = 'none';
+
+    cardSelect.classList.add('hidden');
+    cardDownload.classList.add('hidden');
+    startOverStrip.style.display = 'none';
+    extractMoreBtn.style.display = 'none';
+    hideDownloadAlert();
+    rangeInput.value = '';
+    selectionInfo.textContent = '0 pages selected';
+    dlCount.textContent = '0';
+    downloadBtn.disabled = true;
+    downloadBtn.textContent = '\u2B07 Download Extracted PDF';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ── Helpers ── */
+  function parsePageRange(str, maxPage) {
+    var result = [];
+    if (!str || !str.trim()) return result;
+    var parts = str.split(',');
+    parts.forEach(function (part) {
+      part = part.trim();
+      var rangeMatch = part.match(/^(\d+)\s*-\s*(\d+)$/);
+      if (rangeMatch) {
+        var from = parseInt(rangeMatch[1], 10);
+        var to   = parseInt(rangeMatch[2], 10);
+        if (maxPage) { from = Math.min(from, maxPage); to = Math.min(to, maxPage); }
+        for (var i = from; i <= to; i++) {
+          if (i >= 1) result.push(i);
+        }
+      } else {
+        var n = parseInt(part, 10);
+        if (!isNaN(n) && n >= 1 && (!maxPage || n <= maxPage)) result.push(n);
+      }
+    });
+    /* Deduplicate */
+    return result.filter(function (v, i, a) { return a.indexOf(v) === i; });
+  }
+
+  function pagesToRangeString(pageSet) {
+    if (!pageSet || pageSet.size === 0) return '';
+    var sorted = Array.from(pageSet).sort(function (a, b) { return a - b; });
+    var ranges = [];
+    var start = sorted[0], end = sorted[0];
+    for (var i = 1; i < sorted.length; i++) {
+      if (sorted[i] === end + 1) {
+        end = sorted[i];
+      } else {
+        ranges.push(start === end ? String(start) : start + '-' + end);
+        start = end = sorted[i];
+      }
+    }
+    ranges.push(start === end ? String(start) : start + '-' + end);
+    return ranges.join(', ');
+  }
+
+  function showRenderError(msg) {
+    renderError.innerHTML = msg;
+    renderError.style.display = 'block';
+  }
+
+  function showDownloadAlert(type, html) {
+    downloadAlert.className = 'alert alert-' + type;
+    downloadAlert.innerHTML = html;
+    downloadAlert.style.display = 'block';
+  }
+
+  function hideDownloadAlert() {
+    downloadAlert.style.display = 'none';
+  }
+
+})();
+</script>
+
+</body>
+</html>
