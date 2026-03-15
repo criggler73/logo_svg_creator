@@ -58,13 +58,13 @@
     thumbWidth = thumbWidth || 140;
     var numPages = pdfDoc.numPages;
 
+    /* Build cards in strict page order: create placeholders first so DOM order is guaranteed,
+     * then fill canvases sequentially. This avoids any out-of-order display for large PDFs. */
+    var cards = [];
     for (var i = 1; i <= numPages; i++) {
       var card = document.createElement('div');
       card.className = 'thumb-card' + (selectedPages.has(i) ? ' thumb-kept' : ' thumb-discarded');
-      card.dataset.page = i;
-
-      var canvas = await renderPageToCanvas(pdfDoc, i, thumbWidth);
-      card.appendChild(canvas);
+      card.dataset.page = String(i);
 
       var label = document.createElement('div');
       label.className = 'thumb-label';
@@ -94,7 +94,19 @@
         });
       })(card, i);
 
-      container.appendChild(card);
+      cards.push({ card: card, pageNum: i });
+    }
+
+    /* Append cards in order so DOM order is always 1, 2, 3, ... */
+    for (var j = 0; j < cards.length; j++) {
+      container.appendChild(cards[j].card);
+    }
+
+    /* Fill in canvases sequentially and insert at the top of each card (before label/badge) */
+    for (var k = 0; k < cards.length; k++) {
+      var pageNum = cards[k].pageNum;
+      var canvas = await renderPageToCanvas(pdfDoc, pageNum, thumbWidth);
+      cards[k].card.insertBefore(canvas, cards[k].card.firstChild);
     }
   }
 

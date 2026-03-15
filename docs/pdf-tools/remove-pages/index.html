@@ -866,8 +866,16 @@
       }
     }
 
+    sortThumbGridByPage(thumbGrid);
     loadingMsg.style.display = 'none';
     updateCounter();
+  }
+
+  function sortThumbGridByPage(container) {
+    const cards = Array.from(container.querySelectorAll('.thumb-card'));
+    if (cards.length === 0) return;
+    cards.sort((a, b) => (parseInt(a.dataset.page, 10) || 0) - (parseInt(b.dataset.page, 10) || 0));
+    cards.forEach(c => container.appendChild(c));
   }
 
   /* ── Load PDF ── */

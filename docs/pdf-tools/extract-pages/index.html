@@ -732,8 +732,18 @@
       thumbGrid.appendChild(card);
     }
 
+    sortThumbGridByPage(thumbGrid);
     spinnerWrap.style.display = 'none';
     thumbGrid.style.display = 'flex';
+  }
+
+  function sortThumbGridByPage(container) {
+    var cards = Array.from(container.querySelectorAll('.thumb-card'));
+    if (cards.length === 0) return;
+    cards.sort(function (a, b) {
+      return (parseInt(a.dataset.page, 10) || 0) - (parseInt(b.dataset.page, 10) || 0);
+    });
+    cards.forEach(function (c) { container.appendChild(c); });
   }
 
   function buildThumbCard(canvas, pageNum) {
