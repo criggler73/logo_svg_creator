@@ -47,7 +47,7 @@ var ZipBuilder = (function() {
     /* README */
     var lines = [
       'LeapfrogIQ Apps \u2014 Brand Asset Pack',
-      'Tool: Logo SVG Converter (https://leapfrogiq.apps/tools/logo-svg-converter/)',
+      'Tool: Logo SVG Converter (https://leapfrogiq.app/tools/logo-svg-converter/)',
       '',
       'Contents:',
       '  svg/' + name + '.svg                  \u2014 scalable vector logo',
