@@ -51,7 +51,10 @@
       '</a>' +
       '<div class="nav-links" id="siteNavLinks">' +
         navLink('', 'All Tools') +
-        navLink('tools/logo-svg-converter/', 'Logo SVG Converter') +
+        navLink('tools/logo-svg-converter/', 'SVG Converter') +
+        navLink('tools/png-to-svg/', 'PNG to SVG') +
+        navLink('tools/jpg-to-svg/', 'JPG to SVG') +
+        navLink('tools/favicon-generator/', 'Favicons') +
         navLink(AREA_CALC + '/', 'Blueprint Calc', true) +
         navLink('legal/privacy-policy.html', 'Privacy') +
         navLink('legal/terms-of-service.html', 'Terms') +
@@ -77,9 +80,10 @@
         '<div class="footer-col">' +
           '<h4>Tools</h4>' +
           '<a href="' + _root + 'tools/logo-svg-converter/">Logo SVG Converter</a>' +
+          '<a href="' + _root + 'tools/png-to-svg/">PNG to SVG Converter</a>' +
+          '<a href="' + _root + 'tools/jpg-to-svg/">JPG to SVG Converter</a>' +
+          '<a href="' + _root + 'tools/favicon-generator/">Favicon Generator</a>' +
           '<a href="' + AREA_CALC + '/" target="_blank" rel="noopener">Blueprint Calc</a>' +
-          '<a href="' + _root + '#tools">Favicon Generator <em style="font-size:11px;opacity:.7;">(Soon)</em></a>' +
-          '<a href="' + _root + '#tools">PNG to SVG <em style="font-size:11px;opacity:.7;">(Soon)</em></a>' +
         '</div>' +
         '<div class="footer-col">' +
           '<h4>More</h4>' +

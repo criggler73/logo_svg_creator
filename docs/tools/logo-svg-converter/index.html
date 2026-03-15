@@ -711,6 +711,14 @@
     }
   }
   convMode.addEventListener('change', updateModeUI);
+  /* Pre-select mode from URL param e.g. ?mode=embed or ?mode=logo */
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var m = params.get('mode');
+    if (m && convMode.querySelector('option[value="' + m + '"]')) {
+      convMode.value = m;
+    }
+  })();
   updateModeUI(); // set initial state
 
   /* ---------- Helpers ---------- */
