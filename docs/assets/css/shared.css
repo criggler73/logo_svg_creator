@@ -84,14 +84,17 @@ main { flex: 1; }
 .site-nav .nav-logo .nav-brand {
   display: flex;
   flex-direction: column;
+  gap: 2px;
   line-height: 1.2;
 }
 .site-nav .nav-logo .nav-brand-main {
+  display: block;
   font-size: 16px;
   font-weight: 700;
   color: var(--text);
 }
 .site-nav .nav-logo .nav-brand-sub {
+  display: block;
   font-size: 11px;
   color: var(--text-muted);
   font-weight: 500;
@@ -159,7 +162,7 @@ main { flex: 1; }
   max-width: var(--container);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   gap: 40px;
 }
 .footer-brand img { width: 100px; height: auto; border-radius: 8px; margin-bottom: 12px; }
@@ -241,7 +244,13 @@ main { flex: 1; }
 }
 .btn-outline-white:hover { background: rgba(255,255,255,.22); text-decoration: none; }
 .btn-lg { padding: 14px 28px; font-size: 15px; }
+.btn-sm { padding: 6px 14px; font-size: 12px; }
+.btn-success { background: #2e7d32; color: #fff; }
+.btn-success:hover { background: #1b5e20; text-decoration: none; }
+.btn-danger  { background: #c62828; color: #fff; }
+.btn-danger:hover  { background: #b71c1c; text-decoration: none; }
 .btn:disabled { opacity: .4; cursor: not-allowed; }
+.tool-page .tool-body { max-width: 1000px; margin: 0 auto; padding: 32px 20px 64px; }
 
 /* --- Card --- */
 .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); }
@@ -266,6 +275,30 @@ main { flex: 1; }
 .faq-item .faq-body { padding: 4px 20px 18px; font-size: 14px; color: var(--text-muted); line-height: 1.7; background: var(--bg-card); }
 .faq-item .faq-body p + p { margin-top: 10px; }
 .faq-item .faq-body a { color: var(--brand-primary); }
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+@media (max-width: 480px) { .tool-grid { grid-template-columns: 1fr; } }
+.tool-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all .2s;
+  display: flex;
+  flex-direction: column;
+  -webkit-tap-highlight-color: transparent;
+}
+.tool-card:hover { border-color: var(--brand-primary); box-shadow: var(--shadow-md); transform: translateY(-2px); text-decoration: none; }
+.tool-card .tool-icon { font-size: 36px; margin-bottom: 14px; }
+.tool-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.tool-card p  { font-size: 13px; color: var(--text-muted); line-height: 1.55; flex: 1; }
+.tool-card .tool-status { margin-top: 16px; }
 
 /* --- Prose --- */
 .prose h2 { font-size: 22px; font-weight: 700; color: var(--text); margin: 40px 0 12px; }

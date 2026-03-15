@@ -57,13 +57,14 @@
         navLink('pdf-tools/extract-pages/', 'Extract Pages') +
         navLink('pdf-tools/merge-pdfs/', 'Merge PDFs') +
         navLink('pdf-tools/batch-extractor/', 'Batch Extractor') +
+        navLink('pdf-tools/table-extractor/', 'Table Extractor') +
         navLink(AREA_CALC + '/', 'Blueprint Calc', true) +
         navLink('legal/privacy-policy.html', 'Privacy') +
         navLink('legal/terms-of-service.html', 'Terms') +
       '</div>' +
       '<button class="nav-menu-btn" id="navMenuBtn" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>' +
       '<div class="nav-cta">' +
-        '<a class="btn btn-primary" href="' + _root + 'tools/logo-svg-converter/" style="font-size:13px;padding:8px 16px;">Convert Logo &rarr;</a>' +
+        '<a class="btn btn-primary" href="' + _root + 'image-tools/logo-svg-converter/" style="font-size:13px;padding:8px 16px;">Convert Logo &rarr;</a>' +
       '</div>';
     return el;
   }
@@ -80,11 +81,6 @@
           '<p>Free browser-based utility tools for contractors, designers, developers, and small businesses. No signup, no downloads, no stored data.</p>' +
         '</div>' +
         '<div class="footer-col">' +
-          '<h4>Tools</h4>' +
-          '<a href="' + _root + 'tools/logo-svg-converter/">Logo SVG Converter</a>' +
-          '<a href="' + _root + 'tools/png-to-svg/">PNG to SVG Converter</a>' +
-          '<a href="' + _root + 'tools/jpg-to-svg/">JPG to SVG Converter</a>' +
-        '<div class="footer-col">' +
           '<h4>Image Tools</h4>' +
           '<a href="' + _root + 'image-tools/logo-svg-converter/">Logo SVG Converter</a>' +
           '<a href="' + _root + 'image-tools/png-to-svg/">PNG to SVG Converter</a>' +
@@ -98,6 +94,7 @@
           '<a href="' + _root + 'pdf-tools/merge-pdfs/">Merge PDFs</a>' +
           '<a href="' + _root + 'pdf-tools/remove-pages/">Remove Pages</a>' +
           '<a href="' + _root + 'pdf-tools/batch-extractor/">Batch Extractor</a>' +
+          '<a href="' + _root + 'pdf-tools/table-extractor/">Table Extractor</a>' +
         '</div>' +
         '<div class="footer-col">' +
           '<h4>More</h4>' +
