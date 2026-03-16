@@ -4,18 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Extract Tables from PDF — Invoice &amp; Patient Data | LeapfrogIQ</title>
-  <meta name="description" content="Extract structured tables from facility and invoice PDFs. Recognizes Total Charges, Medicare Part A/B detail, patient-by-modality tables. Combine all months into one CSV per table type. Free, browser-based." />
+  <meta name="description" content="Extract structured tables from facility and invoice PDFs. Upload one report type at a time — Invoice, Medicare Part A detail, patient tables, Part B, or Private &amp; Medical. Download clean CSV. Free, browser-based." />
   <link rel="canonical" href="https://leapfrogiq.app/pdf-tools/table-extractor/" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Extract Tables from PDF — Invoice &amp; Patient Data" />
-  <meta property="og:description" content="Extract tables from facility/invoice PDFs into CSV. Recognizes 5 section types, combines all months. Free, private, no server upload." />
+  <meta property="og:description" content="Extract invoice and patient tables from facility PDFs. One report type per upload. Download clean CSV. Free, private, no server." />
   <meta property="og:url" content="https://leapfrogiq.app/pdf-tools/table-extractor/" />
   <meta property="og:site_name" content="LeapfrogIQ Apps" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Extract Tables from PDF" />
-  <meta name="twitter:description" content="Extract invoice and patient tables from PDFs into CSV. Combines all months. Free, browser-based." />
+  <meta name="twitter:description" content="Extract invoice and patient tables from PDFs into CSV. One report type per upload. Free, browser-based." />
 
   <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 
@@ -25,7 +25,7 @@
     "@type": "WebApplication",
     "name": "PDF Table Extractor",
     "url": "https://leapfrogiq.app/pdf-tools/table-extractor/",
-    "description": "Extract structured tables from facility and invoice PDFs. Recognizes Total Charges, Medicare Part A/B, patient-by-modality tables. Combine all months into one CSV per type.",
+    "description": "Extract structured tables from facility and invoice PDFs. Upload one report type at a time.",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
@@ -41,6 +41,7 @@
   </script>
 
   <style>
+    /* ── hero ── */
     .tool-hero {
       background: linear-gradient(135deg, #1a237e 0%, #1565c0 50%, #0288d1 100%);
       padding: 56px 24px 48px;
@@ -59,120 +60,99 @@
       text-transform: uppercase;
       margin-bottom: 18px;
     }
-    .tool-hero h1 {
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
-      font-weight: 800;
-      margin: 0 0 14px;
-      line-height: 1.2;
-    }
-    .tool-hero p {
-      font-size: 1.05rem;
-      opacity: .88;
-      max-width: 600px;
-      margin: 0 auto 28px;
-      line-height: 1.65;
-    }
-    .tool-body { max-width: 900px; margin: 0 auto; padding: 32px 20px 64px; }
-    .step-panel {
-      background: #fff;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      margin-bottom: 24px;
-      overflow: hidden;
-    }
+    .tool-hero h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; margin: 0 0 14px; line-height: 1.2; }
+    .tool-hero p  { font-size: 1.05rem; opacity: .88; max-width: 640px; margin: 0 auto 28px; line-height: 1.65; }
+
+    /* ── layout ── */
+    .tool-body { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .step-panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; margin-bottom: 24px; overflow: hidden; }
     .step-panel.hidden { display: none; }
     .step-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 18px 22px;
-      border-bottom: 1px solid #f0f0f0;
-      background: #fafafa;
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 22px; border-bottom: 1px solid #f0f0f0; background: #fafafa;
     }
     .step-num {
-      width: 32px; height: 32px;
-      border-radius: 50%;
+      width: 32px; height: 32px; border-radius: 50%;
       background: linear-gradient(135deg, #1565c0, #0288d1);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+      color: #fff; font-size: 14px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
     .step-header h2 { margin: 0; font-size: 1.05rem; font-weight: 700; }
-    .step-header p { margin: 2px 0 0; font-size: .82rem; color: #666; }
+    .step-header p  { margin: 2px 0 0; font-size: .82rem; color: #666; }
     .step-body { padding: 22px; }
 
-    .upload-zone {
-      border: 2px dashed #90caf9;
+    /* ── report type cards ── */
+    .report-types {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+    .report-type-card {
+      border: 2px solid #e0e0e0;
       border-radius: 10px;
-      padding: 36px 20px;
-      text-align: center;
+      padding: 16px 18px;
       cursor: pointer;
-      transition: background .2s, border-color .2s;
-      background: #f0f7ff;
+      transition: border-color .15s, background .15s;
+      background: #fafafa;
+      user-select: none;
     }
-    .upload-zone:hover, .upload-zone.dragover {
-      background: #e3f2fd;
-      border-color: #1565c0;
+    .report-type-card:hover { border-color: #90caf9; background: #f0f7ff; }
+    .report-type-card.selected { border-color: #1565c0; background: #e3f2fd; }
+    .report-type-card .rt-icon { font-size: 22px; margin-bottom: 8px; }
+    .report-type-card .rt-name { font-size: .9rem; font-weight: 700; color: #1a237e; margin-bottom: 4px; }
+    .report-type-card .rt-desc { font-size: .78rem; color: #555; line-height: 1.45; }
+    .report-hint { font-size: .82rem; color: #888; margin-top: 6px; }
+
+    /* ── upload zone ── */
+    .upload-zone {
+      border: 2px dashed #90caf9; border-radius: 10px; padding: 36px 20px;
+      text-align: center; cursor: pointer;
+      transition: background .2s, border-color .2s; background: #f0f7ff;
     }
+    .upload-zone:hover, .upload-zone.dragover { background: #e3f2fd; border-color: #1565c0; }
     #fileInput { display: none; }
     .upload-zone p { margin: 6px 0 0; font-size: .9rem; color: #555; }
     .upload-zone .upload-hint { font-size: .78rem; color: #999; margin-top: 8px; }
 
-    .file-list { margin-top: 18px; }
-    .file-items { display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto; }
+    /* ── file list ── */
+    .file-items { display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto; margin-top: 14px; }
     .file-item {
       display: flex; align-items: center; gap: 10px;
-      padding: 8px 12px;
-      background: #f5f5f5;
-      border-radius: 7px;
-      font-size: .83rem;
+      padding: 8px 12px; background: #f5f5f5; border-radius: 7px; font-size: .83rem;
     }
     .file-item .fi-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-    .section-types-list {
-      background: #f8f9fa;
-      border-radius: 8px;
-      padding: 14px 18px;
-      margin: 16px 0;
-      font-size: .85rem;
-      color: #444;
+    .file-item .fi-rm {
+      background: none; border: none; cursor: pointer; color: #999; font-size: 1rem;
+      line-height: 1; padding: 0 2px;
     }
-    .section-types-list strong { display: block; margin-bottom: 6px; color: #1565c0; }
-    .section-types-list ol { margin: 0; padding-left: 20px; }
-    .section-types-list li { margin: 2px 0; }
+    .file-item .fi-rm:hover { color: #c62828; }
 
-    .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; font-size: .9rem; font-weight: 600; cursor: pointer; border: none; transition: background .2s, color .2s; }
-    .btn:disabled { opacity: .6; cursor: not-allowed; }
-    .btn-primary { background: #1565c0; color: #fff; }
-    .btn-primary:hover:not(:disabled) { background: #0d47a1; }
-    .btn-secondary { background: #e0e0e0; color: #333; }
-    .btn-secondary:hover:not(:disabled) { background: #bdbdbd; }
-
+    /* ── progress ── */
     .progress-wrap { margin: 20px 0; }
     .progress-label { font-size: .9rem; margin-bottom: 8px; color: #333; }
     .progress-bar-wrap { height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; }
-    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #1565c0, #0288d1); width: 0%; transition: width .2s; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #1565c0, #0288d1); width: 0%; transition: width .3s; }
 
-    .results-panel { margin-top: 24px; }
+    /* ── results preview table ── */
+    .preview-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid #e0e0e0; border-radius: 8px; }
+    .preview-table { width: 100%; border-collapse: collapse; font-size: .78rem; min-width: 700px; }
+    .preview-table th { background: #1565c0; color: #fff; padding: 7px 10px; text-align: left; font-weight: 600; white-space: nowrap; }
+    .preview-table td { padding: 6px 10px; border-bottom: 1px solid #f0f0f0; white-space: nowrap; }
+    .preview-table tr:last-child td { border-bottom: none; }
+    .preview-table tr:nth-child(even) td { background: #f9f9f9; }
+    .preview-table td.total-row { font-weight: 700; background: #e8f5e9 !important; }
+    .preview-table td.summary-row { font-weight: 700; background: #fff8e1 !important; }
+
+    /* ── results summary ── */
     .results-summary { font-size: .9rem; color: #333; margin-bottom: 18px; padding: 12px 16px; background: #e8f5e9; border-radius: 8px; }
-    .table-download-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      padding: 12px 16px;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      background: #fff;
-    }
-    .table-download-row .name { font-weight: 600; color: #1565c0; }
-    .table-download-row .meta { font-size: .82rem; color: #666; }
-    .table-download-row .dl-btn { flex-shrink: 0; }
+    .results-errors   { font-size: .85rem; color: #c62828; margin-bottom: 12px; padding: 10px 16px; background: #ffebee; border-radius: 8px; }
+    .dl-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 12px 16px; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 10px; background: #fff; }
+    .dl-row .dl-name { font-weight: 600; color: #1565c0; }
+    .dl-row .dl-meta { font-size: .82rem; color: #666; }
 
+    /* ── alerts ── */
     .alert { padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: .9rem; }
     .alert-info { background: #e3f2fd; color: #0d47a1; }
     .alert-warn { background: #fff8e1; color: #f57f17; }
@@ -192,82 +172,139 @@
   <section class="tool-hero">
     <span class="badge-pill">PDF Data Extraction</span>
     <h1>Extract Tables from PDF</h1>
-    <p>Upload facility or invoice PDFs with a consistent layout. The tool recognizes five section types (Total Charges, Medicare Part A detail, patient-by-modality, Medicare Part B, Private &amp; Medical), extracts table data, and combines all months into one CSV per type. Everything runs in your browser; nothing is uploaded.</p>
+    <p>Upload PDFs for <strong>one report type at a time</strong>. The tool extracts every row from every page and combines all months into a single clean CSV. Nothing is uploaded — runs entirely in your browser.</p>
   </section>
 
   <div class="tool-body">
+
+    <!-- Step 1: Pick report type + upload -->
     <div class="step-panel" id="panelUpload">
       <div class="step-header">
         <div class="step-num">1</div>
         <div>
-          <h2>Upload PDFs</h2>
-          <p>Add one or more PDFs (e.g. one per month). Tables will be combined with a &quot;Month&quot; column.</p>
+          <h2>Choose Report Type &amp; Upload PDFs</h2>
+          <p>Select which type of report you are uploading, then add your PDF files</p>
         </div>
       </div>
       <div class="step-body">
-        <div class="upload-zone" id="uploadZone">
-          <p><strong>Click or drop PDF files here</strong></p>
-          <p class="upload-hint">Multiple files allowed. Layout should match: Invoice, Medicare Part A detail, patient tables, Part B, Private &amp; Medical.</p>
+
+        <div style="font-size:.85rem;font-weight:600;color:#333;margin-bottom:10px;">What type of report is this?</div>
+        <div class="report-types" id="reportTypeGrid">
+
+          <div class="report-type-card" data-type="invoice">
+            <div class="rt-icon">🧾</div>
+            <div class="rt-name">Invoice (Total Charges)</div>
+            <div class="rt-desc">Summary page showing Medicare Part A, HMO Skilled, Part B, Private &amp; Medical, Subtotal, and Total of All Therapy.</div>
+          </div>
+
+          <div class="report-type-card" data-type="parta">
+            <div class="rt-icon">📋</div>
+            <div class="rt-name">Medicare Part A Detail</div>
+            <div class="rt-desc">Resident line-item detail: Date Range, ARD, Component, CMG, Days, Full Rate, Contracted Rate, Charges per patient.</div>
+          </div>
+
+          <div class="report-type-card" data-type="modality">
+            <div class="rt-icon">📊</div>
+            <div class="rt-name">Patient Details by Modality</div>
+            <div class="rt-desc">Summary table: Patient Name, PT min/charge, OT min/charge, ST min/charge, Total min/charge.</div>
+          </div>
+
+          <div class="report-type-card" data-type="partb">
+            <div class="rt-icon">💊</div>
+            <div class="rt-name">Medicare Part B</div>
+            <div class="rt-desc">Patient-level table with PT, OT, ST amounts, Amount Bill, 75% of Charges, and Date PD.</div>
+          </div>
+
+          <div class="report-type-card" data-type="private">
+            <div class="rt-icon">🏥</div>
+            <div class="rt-name">Private &amp; Medical</div>
+            <div class="rt-desc">Evaluation + treatment detail by therapy type (PT/OT/ST): Eval Date, Minutes, Visits, Charges.</div>
+          </div>
+
         </div>
-        <input type="file" id="fileInput" accept=".pdf,application/pdf" multiple />
-        <div class="file-list" id="fileList" style="display:none;">
+        <p class="report-hint">Upload only one report type at a time. Run the tool again for each type.</p>
+
+        <div class="alert alert-info" id="typeAlert" style="margin-top:16px;">Select a report type above to continue.</div>
+
+        <div id="uploadSection" style="display:none;margin-top:20px;">
+          <div class="upload-zone" id="uploadZone">
+            <p><strong>Click or drag PDF files here</strong></p>
+            <p class="upload-hint">Upload one or more PDF files of the same report type (e.g. all Invoice PDFs from different months)</p>
+          </div>
+          <input type="file" id="fileInput" accept=".pdf,application/pdf" multiple />
           <div class="file-items" id="fileItems"></div>
+          <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" id="extractBtn" disabled>Extract &amp; Download CSV</button>
+            <button class="btn btn-secondary" id="clearFilesBtn" style="display:none;">Clear files</button>
+          </div>
         </div>
-        <div class="section-types-list">
-          <strong>Recognized section types</strong>
-          <ol>
-            <li>Invoice (Total Charges summary)</li>
-            <li>Invoice Detail for Medicare Part A (resident/patient line items)</li>
-            <li>Patient details by modality (PT min, OT min, ST min, etc.)</li>
-            <li>Medicare Part B table (patient + AMOUNT BILL, 75% of Charges)</li>
-            <li>Private and Medical details by patient and modality</li>
-          </ol>
-        </div>
-        <div style="margin-top:18px;">
-          <button class="btn btn-primary" id="extractBtn" disabled>Extract tables</button>
-        </div>
+
       </div>
     </div>
 
+    <!-- Progress -->
     <div class="step-panel hidden" id="panelProgress">
       <div class="step-header">
         <div class="step-num">2</div>
         <div>
           <h2>Extracting…</h2>
-          <p>Reading text and detecting sections in your PDFs</p>
+          <p>Reading text from your PDFs — this may take a moment for large files</p>
         </div>
       </div>
       <div class="step-body">
         <div class="progress-wrap">
           <div class="progress-label" id="progressLabel">Starting…</div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar-fill" id="progressBar"></div>
-          </div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
         </div>
+        <p style="font-size:.82rem;color:#888;margin:4px 0 0;">Do not close this tab while processing.</p>
       </div>
     </div>
 
+    <!-- Results -->
     <div class="step-panel hidden" id="panelResults">
       <div class="step-header">
-        <div class="step-num">2</div>
+        <div class="step-num">3</div>
         <div>
           <h2>Results</h2>
-          <p>Download one CSV per table type (all months combined)</p>
+          <p>Preview the extracted data and download your CSV</p>
         </div>
       </div>
       <div class="step-body">
         <div class="results-summary" id="resultsSummary"></div>
-        <div id="downloadRows"></div>
-        <div style="margin-top:20px;">
-          <button class="btn btn-secondary" id="startOverBtn">Extract from more PDFs</button>
+        <div id="resultsErrors" style="display:none;" class="results-errors"></div>
+
+        <div id="downloadSection" style="display:none;">
+          <div class="dl-row">
+            <div>
+              <span class="dl-name" id="dlName">extracted-data.csv</span><br>
+              <span class="dl-meta" id="dlMeta"></span>
+            </div>
+            <button type="button" class="btn btn-primary" id="downloadCsvBtn">Download CSV</button>
+          </div>
+        </div>
+
+        <!-- Data preview (first 20 rows) -->
+        <div id="previewSection" style="display:none;">
+          <div style="font-size:.85rem;font-weight:600;color:#333;margin-bottom:8px;">Preview (first 20 data rows)</div>
+          <div class="preview-wrap">
+            <table class="preview-table" id="previewTable">
+              <thead id="previewHead"></thead>
+              <tbody id="previewBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-secondary" id="startOverBtn">Process more PDFs</button>
         </div>
       </div>
     </div>
+
   </div>
 </main>
 
 <script src="../../assets/libs/pdf.min.js"></script>
-<script src="../../assets/js/pdfTableExtractor.js"></script>
+<script src="../../assets/js/pdfInvoiceExtractor.js"></script>
 <script>
 (function () {
   'use strict';
@@ -276,28 +313,65 @@
     window.pdfjsLib.GlobalWorkerOptions.workerSrc = '../../assets/libs/pdf.worker.min.js';
   }
 
-  var uploadZone = document.getElementById('uploadZone');
-  var fileInput = document.getElementById('fileInput');
-  var fileList = document.getElementById('fileList');
-  var fileItems = document.getElementById('fileItems');
-  var extractBtn = document.getElementById('extractBtn');
-  var panelUpload = document.getElementById('panelUpload');
-  var panelProgress = document.getElementById('panelProgress');
-  var panelResults = document.getElementById('panelResults');
-  var progressLabel = document.getElementById('progressLabel');
-  var progressBar = document.getElementById('progressBar');
-  var resultsSummary = document.getElementById('resultsSummary');
-  var downloadRows = document.getElementById('downloadRows');
-  var startOverBtn = document.getElementById('startOverBtn');
+  /* ── DOM refs ── */
+  var reportTypeGrid  = document.getElementById('reportTypeGrid');
+  var typeAlert       = document.getElementById('typeAlert');
+  var uploadSection   = document.getElementById('uploadSection');
+  var uploadZone      = document.getElementById('uploadZone');
+  var fileInput       = document.getElementById('fileInput');
+  var fileItems       = document.getElementById('fileItems');
+  var extractBtn      = document.getElementById('extractBtn');
+  var clearFilesBtn   = document.getElementById('clearFilesBtn');
 
-  var state = { files: [] };
+  var panelUpload     = document.getElementById('panelUpload');
+  var panelProgress   = document.getElementById('panelProgress');
+  var panelResults    = document.getElementById('panelResults');
+  var progressLabel   = document.getElementById('progressLabel');
+  var progressBar     = document.getElementById('progressBar');
 
-  uploadZone.addEventListener('click', function () { fileInput.click(); });
-  uploadZone.addEventListener('dragover', function (e) {
-    e.preventDefault();
-    uploadZone.classList.add('dragover');
+  var resultsSummary  = document.getElementById('resultsSummary');
+  var resultsErrors   = document.getElementById('resultsErrors');
+  var downloadSection = document.getElementById('downloadSection');
+  var dlName          = document.getElementById('dlName');
+  var dlMeta          = document.getElementById('dlMeta');
+  var downloadCsvBtn  = document.getElementById('downloadCsvBtn');
+  var previewSection  = document.getElementById('previewSection');
+  var previewHead     = document.getElementById('previewHead');
+  var previewBody     = document.getElementById('previewBody');
+  var startOverBtn    = document.getElementById('startOverBtn');
+
+  var state = {
+    reportType: null,
+    files:      [],
+    csvData:    null,
+    csvName:    'extracted-data.csv'
+  };
+
+  /* ── Report type selection ── */
+  reportTypeGrid.querySelectorAll('.report-type-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      reportTypeGrid.querySelectorAll('.report-type-card').forEach(function (c) { c.classList.remove('selected'); });
+      card.classList.add('selected');
+      state.reportType = card.getAttribute('data-type');
+
+      typeAlert.style.display = 'none';
+      uploadSection.style.display = 'block';
+
+      var names = {
+        invoice:  'Invoice (Total Charges)',
+        parta:    'Medicare Part A Detail',
+        modality: 'Patient Details by Modality',
+        partb:    'Medicare Part B',
+        private:  'Private & Medical'
+      };
+      uploadZone.querySelector('p').innerHTML = '<strong>Click or drag ' + escapeHtml(names[state.reportType]) + ' PDFs here</strong>';
+    });
   });
-  uploadZone.addEventListener('dragleave', function () { uploadZone.classList.remove('dragover'); });
+
+  /* ── File handling ── */
+  uploadZone.addEventListener('click', function () { fileInput.click(); });
+  uploadZone.addEventListener('dragover', function (e) { e.preventDefault(); uploadZone.classList.add('dragover'); });
+  uploadZone.addEventListener('dragleave', function ()  { uploadZone.classList.remove('dragover'); });
   uploadZone.addEventListener('drop', function (e) {
     e.preventDefault();
     uploadZone.classList.remove('dragover');
@@ -308,46 +382,48 @@
     fileInput.value = '';
   });
 
-  function addFiles(fileListLike) {
-    var added = 0;
-    for (var i = 0; i < fileListLike.length; i++) {
-      var f = fileListLike[i];
-      if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) continue;
+  function addFiles(list) {
+    for (var i = 0; i < list.length; i++) {
+      var f = list[i];
+      if (!f.name.toLowerCase().endsWith('.pdf') && f.type !== 'application/pdf') continue;
       state.files.push(f);
-      added++;
     }
     renderFileList();
-    extractBtn.disabled = state.files.length === 0;
   }
 
   function renderFileList() {
     fileItems.innerHTML = '';
-    state.files.forEach(function (f) {
+    state.files.forEach(function (f, idx) {
       var div = document.createElement('div');
       div.className = 'file-item';
-      div.innerHTML = '<span class="fi-name">' + escapeHtml(f.name) + '</span>';
+      var btn = document.createElement('button');
+      btn.className = 'fi-rm';
+      btn.textContent = '✕';
+      btn.title = 'Remove';
+      btn.addEventListener('click', function () {
+        state.files.splice(idx, 1);
+        renderFileList();
+      });
+      var span = document.createElement('span');
+      span.className = 'fi-name';
+      span.textContent = f.name;
+      div.appendChild(span);
+      div.appendChild(btn);
       fileItems.appendChild(div);
     });
-    fileList.style.display = state.files.length ? 'block' : 'none';
+    extractBtn.disabled  = state.files.length === 0;
+    clearFilesBtn.style.display = state.files.length ? 'inline-block' : 'none';
   }
 
-  function escapeHtml(s) {
-    var d = document.createElement('div');
-    d.textContent = s;
-    return d.innerHTML;
-  }
-
-  extractBtn.addEventListener('click', function () {
-    if (!state.files.length || !window.PdfTableExtractor) return;
-    runExtraction();
-  });
-
-  startOverBtn.addEventListener('click', function () {
-    panelResults.classList.add('hidden');
-    panelUpload.classList.remove('hidden');
+  clearFilesBtn.addEventListener('click', function () {
     state.files = [];
     renderFileList();
-    extractBtn.disabled = true;
+  });
+
+  /* ── Extraction ── */
+  extractBtn.addEventListener('click', function () {
+    if (!state.files.length || !state.reportType) return;
+    runExtraction();
   });
 
   async function runExtraction() {
@@ -357,88 +433,158 @@
     progressBar.style.width = '0%';
 
     var results = [];
-    var total = state.files.length;
-    var Extract = window.PdfTableExtractor;
+    var errors  = [];
+    var total   = state.files.length;
 
-    for (var i = 0; i < state.files.length; i++) {
-      progressLabel.textContent = 'Parsing PDF ' + (i + 1) + ' of ' + total + ': ' + state.files[i].name;
-      progressBar.style.width = ((i / total) * 100) + '%';
+    for (var i = 0; i < total; i++) {
+      var f = state.files[i];
+      progressLabel.textContent = 'Reading ' + (i + 1) + ' of ' + total + ': ' + f.name;
+      progressBar.style.width = Math.round((i / total) * 90) + '%';
 
-      var ab = await readFileAsArrayBuffer(state.files[i]);
-      if (!ab) {
-        results.push({ fileName: state.files[i].name, month: '', tables: {}, sectionLineCounts: {}, error: 'Could not read file' });
-        continue;
-      }
       try {
+        var ab     = await readFileAsArrayBuffer(f);
         var pdfDoc = await window.pdfjsLib.getDocument({ data: new Uint8Array(ab) }).promise;
-        var one = await Extract.extractOnePdf(pdfDoc, state.files[i].name);
-        results.push(one);
+        var result;
+
+        if (state.reportType === 'invoice') {
+          result = await window.PdfInvoiceExtractor.extractInvoicePdf(pdfDoc, f.name);
+        } else {
+          /* Placeholder for other extractors — same pattern when built */
+          result = { fileName: f.name, rows: [], error: 'Extractor for "' + state.reportType + '" coming soon. Invoice extractor is available now.' };
+          errors.push(f.name + ': extractor not yet implemented for this report type.');
+        }
+        results.push(result);
       } catch (err) {
-        results.push({ fileName: state.files[i].name, month: '', tables: {}, sectionLineCounts: {}, error: err.message });
+        errors.push(f.name + ': ' + err.message);
+        results.push({ fileName: f.name, rows: [], error: err.message });
       }
     }
 
     progressBar.style.width = '100%';
-    progressLabel.textContent = 'Combining tables…';
-    var combined = Extract.combineResults(results.filter(function (r) { return !r.error; }));
+    progressLabel.textContent = 'Building CSV…';
 
+    /* Combine rows */
+    var allRows = [];
+    if (state.reportType === 'invoice') {
+      allRows = window.PdfInvoiceExtractor.combineResults(results);
+    }
+
+    var csv     = '';
+    var headers = [];
+    if (state.reportType === 'invoice') {
+      csv     = window.PdfInvoiceExtractor.rowsToCsv(allRows);
+      headers = window.PdfInvoiceExtractor.CSV_HEADERS;
+    }
+
+    state.csvData = csv;
+
+    var typeNames = {
+      invoice:  'Invoice-Total-Charges',
+      parta:    'Medicare-Part-A-Detail',
+      modality: 'Patient-Modality-Detail',
+      partb:    'Medicare-Part-B',
+      private:  'Private-Medical'
+    };
+    state.csvName = typeNames[state.reportType] + '-combined.csv';
+
+    /* Show results */
     panelProgress.classList.add('hidden');
     panelResults.classList.remove('hidden');
 
-    var totalRows = 0;
-    var parts = [];
-    for (var t = 1; t <= 5; t++) {
-      var ct = combined[t];
-      var r = (ct && ct.rows) ? ct.rows.length : 0;
-      totalRows += r;
-      parts.push(Extract.SECTION_NAMES[t] + ': ' + r + ' row' + (r !== 1 ? 's' : ''));
-    }
-    resultsSummary.textContent = 'Extraction complete. ' + (results.filter(function (r) { return r.error; }).length) + ' file(s) had errors; ' + (results.length - results.filter(function (r) { return r.error; }).length) + ' processed. Combined tables: ' + parts.join('; ') + '.';
+    resultsSummary.textContent =
+      total + ' file' + (total > 1 ? 's' : '') + ' processed. ' +
+      allRows.length + ' data row' + (allRows.length !== 1 ? 's' : '') + ' extracted.';
 
-    downloadRows.innerHTML = '';
-    for (var type = 1; type <= 5; type++) {
-      var tbl = combined[type];
-      var rowCount = (tbl && tbl.rows) ? tbl.rows.length : 0;
-      var csv = (tbl && rowCount > 0) ? Extract.combinedTableToCsv(tbl) : '';
-
-      var row = document.createElement('div');
-      row.className = 'table-download-row';
-      var btn = csv
-        ? '<button type="button" class="btn btn-primary download-csv" data-type="' + type + '">Download CSV</button>'
-        : '<span class="meta">No data</span>';
-      row.innerHTML =
-        '<div><span class="name">' + escapeHtml(Extract.SECTION_NAMES[type]) + '</span><br><span class="meta">' + rowCount + ' row' + (rowCount !== 1 ? 's' : '') + '</span></div>' +
-        '<div class="dl-btn">' + btn + '</div>';
-      downloadRows.appendChild(row);
+    if (errors.length) {
+      resultsErrors.style.display = 'block';
+      resultsErrors.innerHTML = '<strong>Issues:</strong><br>' + errors.map(escapeHtml).join('<br>');
+    } else {
+      resultsErrors.style.display = 'none';
     }
 
-    /* Store combined for download (avoid huge data attributes) */
-    downloadRows._combined = combined;
-    downloadRows.querySelectorAll('.download-csv').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var type = parseInt(btn.getAttribute('data-type'), 10);
-        var combinedRef = downloadRows._combined;
-        if (!combinedRef || !combinedRef[type] || !combinedRef[type].rows.length) return;
-        var csv = Extract.combinedTableToCsv(combinedRef[type]);
-        var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-        var url = URL.createObjectURL(blob);
-        var link = document.createElement('a');
-        link.href = url;
-        link.download = 'table-' + type + '-combined.csv';
-        link.click();
-        URL.revokeObjectURL(url);
-      });
-    });
+    if (allRows.length > 0 && csv) {
+      downloadSection.style.display = 'block';
+      dlName.textContent = state.csvName;
+      dlMeta.textContent = allRows.length + ' rows · ' + headers.length + ' columns';
+      showPreview(headers, allRows);
+    } else {
+      downloadSection.style.display = 'none';
+      if (!errors.length) {
+        resultsErrors.style.display = 'block';
+        resultsErrors.textContent = 'No data rows were extracted. Check that your PDFs match the selected report type and have a selectable text layer (not a scanned image).';
+      }
+    }
   }
+
+  function showPreview(headers, rows) {
+    previewSection.style.display = 'block';
+    var hRow = document.createElement('tr');
+    headers.forEach(function (h) {
+      var th = document.createElement('th');
+      th.textContent = h;
+      hRow.appendChild(th);
+    });
+    previewHead.innerHTML = '';
+    previewHead.appendChild(hRow);
+
+    previewBody.innerHTML = '';
+    var shown = Math.min(rows.length, 20);
+    for (var i = 0; i < shown; i++) {
+      var row = rows[i];
+      var tr  = document.createElement('tr');
+      var isTotalRow   = row.subType === 'TOTAL';
+      var isSummaryRow = row.section === 'Summary';
+      var vals = [
+        row.facility, row.month, row.section, row.subType,
+        row.pt, row.ot, row.st, row.sectionTotal, row.notes
+      ];
+      vals.forEach(function (v) {
+        var td = document.createElement('td');
+        if (isSummaryRow) td.className = 'summary-row';
+        else if (isTotalRow) td.className = 'total-row';
+        td.textContent = v === '' ? '' : v;
+        tr.appendChild(td);
+      });
+      previewBody.appendChild(tr);
+    }
+  }
+
+  downloadCsvBtn.addEventListener('click', function () {
+    if (!state.csvData) return;
+    var blob = new Blob([state.csvData], { type: 'text/csv;charset=utf-8' });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href     = url;
+    a.download = state.csvName;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  startOverBtn.addEventListener('click', function () {
+    panelResults.classList.add('hidden');
+    panelUpload.classList.remove('hidden');
+    state.files   = [];
+    state.csvData = null;
+    renderFileList();
+    previewSection.style.display  = 'none';
+    downloadSection.style.display = 'none';
+  });
 
   function readFileAsArrayBuffer(file) {
     return new Promise(function (resolve) {
       var r = new FileReader();
-      r.onload = function () { resolve(r.result); };
+      r.onload  = function () { resolve(r.result); };
       r.onerror = function () { resolve(null); };
       r.readAsArrayBuffer(file);
     });
   }
+
+  function escapeHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
 })();
 </script>
 
