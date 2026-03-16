@@ -305,6 +305,7 @@
 
 <script src="../../assets/libs/pdf.min.js"></script>
 <script src="../../assets/js/pdfInvoiceExtractor.js"></script>
+<script src="../../assets/js/pdfPartAExtractor.js"></script>
 <script>
 (function () {
   'use strict';
@@ -448,9 +449,11 @@
 
         if (state.reportType === 'invoice') {
           result = await window.PdfInvoiceExtractor.extractInvoicePdf(pdfDoc, f.name);
+        } else if (state.reportType === 'parta') {
+          result = await window.PdfPartAExtractor.extractPartAPdf(pdfDoc, f.name);
         } else {
           /* Placeholder for other extractors — same pattern when built */
-          result = { fileName: f.name, rows: [], error: 'Extractor for "' + state.reportType + '" coming soon. Invoice extractor is available now.' };
+          result = { fileName: f.name, rows: [], error: 'Extractor for "' + state.reportType + '" coming soon.' };
           errors.push(f.name + ': extractor not yet implemented for this report type.');
         }
         results.push(result);
@@ -467,6 +470,8 @@
     var allRows = [];
     if (state.reportType === 'invoice') {
       allRows = window.PdfInvoiceExtractor.combineResults(results);
+    } else if (state.reportType === 'parta') {
+      allRows = window.PdfPartAExtractor.combineResults(results);
     }
 
     var csv     = '';
@@ -474,6 +479,9 @@
     if (state.reportType === 'invoice') {
       csv     = window.PdfInvoiceExtractor.rowsToCsv(allRows);
       headers = window.PdfInvoiceExtractor.CSV_HEADERS;
+    } else if (state.reportType === 'parta') {
+      csv     = window.PdfPartAExtractor.rowsToCsv(allRows);
+      headers = window.PdfPartAExtractor.CSV_HEADERS;
     }
 
     state.csvData = csv;
@@ -491,9 +499,10 @@
     panelProgress.classList.add('hidden');
     panelResults.classList.remove('hidden');
 
+    var dataRows = allRows.filter(function (r) { return r !== null; });
     resultsSummary.textContent =
       total + ' file' + (total > 1 ? 's' : '') + ' processed. ' +
-      allRows.length + ' data row' + (allRows.length !== 1 ? 's' : '') + ' extracted.';
+      dataRows.length + ' data row' + (dataRows.length !== 1 ? 's' : '') + ' extracted.';
 
     if (errors.length) {
       resultsErrors.style.display = 'block';
@@ -505,7 +514,7 @@
     if (allRows.length > 0 && csv) {
       downloadSection.style.display = 'block';
       dlName.textContent = state.csvName;
-      dlMeta.textContent = allRows.length + ' rows · ' + headers.length + ' columns';
+      dlMeta.textContent = dataRows.length + ' rows · ' + headers.length + ' columns';
       showPreview(headers, allRows);
     } else {
       downloadSection.style.display = 'none';
@@ -529,27 +538,65 @@
 
     previewBody.innerHTML = '';
 
-    /* Show through end of the first complete invoice (first "Total of All Therapy" row),
-       then stop — this guarantees all rows for one facility/month are visible */
+    /* For invoice: show through first "Total of All Therapy".
+       For Part A and others: show first 40 non-null rows. */
     var cutoff = rows.length;
-    for (var k = 0; k < rows.length; k++) {
-      if (rows[k].subType === 'Total of All Therapy') {
-        cutoff = k + 1; /* include this row */
-        break;
+    if (state.reportType === 'invoice') {
+      for (var k = 0; k < rows.length; k++) {
+        if (rows[k] && rows[k].subType === 'Total of All Therapy') { cutoff = k + 1; break; }
+      }
+      if (cutoff === rows.length && rows.length > 40) cutoff = 40;
+    } else {
+      /* Show up to 40 rows (nulls count as rows for display but don't count toward limit) */
+      var dataCount = 0;
+      for (var k2 = 0; k2 < rows.length; k2++) {
+        if (rows[k2] !== null) dataCount++;
+        if (dataCount >= 40) { cutoff = k2 + 1; break; }
       }
     }
-    /* If nothing found (e.g. partial data), cap at 40 */
-    if (cutoff === rows.length && rows.length > 40) cutoff = 40;
+
+    var dataRowCount = 0;
+    for (var j = 0; j < rows.length; j++) { if (rows[j] !== null) dataRowCount++; }
 
     var previewLabelEl = document.getElementById('previewLabel');
-    previewLabelEl.textContent = 'Preview — first invoice (' + cutoff + ' rows shown of ' + rows.length + ' total)';
+    previewLabelEl.textContent = 'Preview — first ' + cutoff + ' rows shown of ' + dataRowCount + ' total data rows';
 
     for (var i = 0; i < cutoff; i++) {
       var row = rows[i];
-      var tr  = document.createElement('tr');
-      var isTotalRow   = (row.subType === 'TOTAL');
-      var isSummaryRow = (row.section === 'Summary');
-      var vals = [row.facility, row.month, row.section, row.subType, row.modality, row.amount];
+
+      /* Blank separator row */
+      if (row === null) {
+        var sepTr = document.createElement('tr');
+        var sepTd = document.createElement('td');
+        sepTd.colSpan = headers.length;
+        sepTd.style.padding = '4px';
+        sepTd.style.background = '#f0f0f0';
+        sepTr.appendChild(sepTd);
+        previewBody.appendChild(sepTr);
+        continue;
+      }
+
+      var tr = document.createElement('tr');
+      var isTotalRow   = (row.subType === 'TOTAL' || row.recordType === 'Resident Total' || row.recordType === 'Section Total');
+      var isSummaryRow = (row.section === 'Summary' || row.recordType === 'Patient Summary' || row.recordType === 'Invoiced Amount' || row.recordType === 'Per Minute');
+
+      /* Build values array matching headers order */
+      var vals;
+      if (state.reportType === 'invoice') {
+        vals = [row.facility, row.month, row.section, row.subType, row.modality, row.amount];
+      } else if (state.reportType === 'parta') {
+        vals = [
+          row.facility, row.month, row.section, row.recordType, row.residentName, row.serviceDates,
+          row.dateRange, row.ard, row.reason, row.component, row.cmg, row.days,
+          row.fullRate, row.contractedRate, row.charges,
+          row.ptMin, row.ptCharge, row.otMin, row.otCharge,
+          row.stMin, row.stCharge, row.totalMin, row.totalCharge,
+          row.notes
+        ];
+      } else {
+        vals = headers.map(function () { return ''; });
+      }
+
       vals.forEach(function (v) {
         var td = document.createElement('td');
         if (isSummaryRow) td.className = 'summary-row';
