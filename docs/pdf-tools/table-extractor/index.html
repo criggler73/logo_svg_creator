@@ -211,10 +211,10 @@
             <div class="rt-desc">Coming soon — PT/OT/ST minutes and charges summary per patient.</div>
           </div>
 
-          <div class="report-type-card" data-type="partb" style="opacity:.55;cursor:not-allowed;" title="Coming soon">
+          <div class="report-type-card" data-type="partb">
             <div class="rt-icon">💊</div>
-            <div class="rt-name">Focus One Rehab Extracts — Medicare Part B</div>
-            <div class="rt-desc">Coming soon — patient-level table with PT, OT, ST amounts and billing totals.</div>
+            <div class="rt-name">Focus One Rehab Extracts — Medicare Part B / HMO Part B</div>
+            <div class="rt-desc">Patient-level charges table: PT ($), OT ($), ST ($), Amount Bill, Amount PD, Date PD. Handles both Medicare Part B and HMO Part B sections.</div>
           </div>
 
           <div class="report-type-card" data-type="private" style="opacity:.55;cursor:not-allowed;" title="Coming soon">
@@ -308,6 +308,7 @@
 <script src="../../assets/libs/pdf.min.js"></script>
 <script src="../../assets/js/pdfInvoiceExtractor.js"></script>
 <script src="../../assets/js/pdfPartAExtractor.js"></script>
+<script src="../../assets/js/pdfPartBExtractor.js"></script>
 <script>
 (function () {
   'use strict';
@@ -366,7 +367,7 @@
         invoice:  'Focus One Rehab Extracts — Invoice (Total Charges)',
         parta:    'Focus One Rehab Extracts — Medicare Part A Detail',
         modality: 'Patient Details by Modality',
-        partb:    'Medicare Part B',
+        partb:    'Focus One Rehab Extracts — Medicare Part B / HMO Part B',
         private:  'Private & Medical'
       };
       uploadZone.querySelector('p').innerHTML = '<strong>Click or drag ' + escapeHtml(names[state.reportType]) + ' PDFs here</strong>';
@@ -455,6 +456,8 @@
           result = await window.PdfInvoiceExtractor.extractInvoicePdf(pdfDoc, f.name);
         } else if (state.reportType === 'parta') {
           result = await window.PdfPartAExtractor.extractPartAPdf(pdfDoc, f.name);
+        } else if (state.reportType === 'partb') {
+          result = await window.PdfPartBExtractor.extractPartBPdf(pdfDoc, f.name);
         } else {
           /* Placeholder for other extractors — same pattern when built */
           result = { fileName: f.name, rows: [], error: 'Extractor for "' + state.reportType + '" coming soon.' };
@@ -476,6 +479,8 @@
       allRows = window.PdfInvoiceExtractor.combineResults(results);
     } else if (state.reportType === 'parta') {
       allRows = window.PdfPartAExtractor.combineResults(results);
+    } else if (state.reportType === 'partb') {
+      allRows = window.PdfPartBExtractor.combineResults(results);
     }
 
     var csv     = '';
@@ -486,6 +491,9 @@
     } else if (state.reportType === 'parta') {
       csv     = window.PdfPartAExtractor.rowsToCsv(allRows);
       headers = window.PdfPartAExtractor.CSV_HEADERS;
+    } else if (state.reportType === 'partb') {
+      csv     = window.PdfPartBExtractor.rowsToCsv(allRows);
+      headers = window.PdfPartBExtractor.CSV_HEADERS;
     }
 
     state.csvData = csv;
@@ -494,7 +502,7 @@
       invoice:  'FocusOne-Invoice-TotalCharges',
       parta:    'FocusOne-MedicarePartA-Detail',
       modality: 'Patient-Modality-Detail',
-      partb:    'Medicare-Part-B',
+      partb:    'FocusOne-PartB-Combined',
       private:  'Private-Medical'
     };
     state.csvName = typeNames[state.reportType] + '-combined.csv';
@@ -594,8 +602,8 @@
       }
 
       var tr = document.createElement('tr');
-      var isTotalRow   = (row.subType === 'TOTAL' || row.recordType === 'Resident Total' || row.recordType === 'Section Total');
-      var isSummaryRow = (row.section === 'Summary' || row.recordType === 'Patient Summary' || row.recordType === 'Invoiced Amount' || row.recordType === 'Per Minute');
+      var isTotalRow   = (row.subType === 'TOTAL' || row.recordType === 'Resident Total' || row.recordType === 'Section Total' || row.recordType === 'Total');
+      var isSummaryRow = (row.section === 'Summary' || row.recordType === 'Patient Summary' || row.recordType === 'Invoiced Amount' || row.recordType === 'Per Minute' || row.recordType === 'Percentage Summary');
 
       var vals;
       if (state.reportType === 'invoice') {
@@ -607,6 +615,11 @@
           row.fullRate, row.contractedRate, row.charges,
           row.ptMin, row.ptCharge, row.otMin, row.otCharge,
           row.stMin, row.stCharge, row.totalMin, row.totalCharge, row.notes
+        ];
+      } else if (state.reportType === 'partb') {
+        vals = [
+          row.facility, row.month, row.section, row.recordType, row.patientName,
+          row.pt, row.ot, row.st, row.amountBill, row.amountPd, row.datePd
         ];
       } else {
         vals = headers.map(function () { return ''; });
