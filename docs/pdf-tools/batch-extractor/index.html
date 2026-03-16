@@ -382,6 +382,32 @@
     .preview-summary .ps-val { font-size: 1.3rem; font-weight: 700; color: #1565c0; }
     .preview-summary .ps-lbl { font-size: .73rem; color: #666; }
 
+    /* ── Preview pages section ── */
+    .preview-pages-section {
+      margin-top: 22px; padding-top: 18px; border-top: 1px solid #e8e8e8;
+    }
+    .preview-pages-header {
+      display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 10px;
+    }
+    .preview-pages-header h3 { margin: 0; font-size: .95rem; font-weight: 700; color: #1a1a1a; }
+    .preview-pages-count { font-size: .78rem; color: #666; }
+    .preview-pages-note  { font-size: .75rem; color: #888; font-style: italic; }
+    /* Read-only thumbs — no click affordance */
+    .thumb-grid-preview .thumb-card {
+      cursor: default;
+    }
+    .thumb-grid-preview .thumb-card:hover {
+      transform: none; box-shadow: none;
+    }
+    .thumb-preview-badge {
+      position: absolute; top: 5px; right: 5px;
+      font-size: .6rem; font-weight: 700; padding: 2px 6px; border-radius: 99px;
+      background: #43a047; color: #fff;
+    }
+    .preview-file-more {
+      font-size: .78rem; color: #888; padding: 10px 0;
+    }
+
     /* ── Progress + output ── */
     .progress-bar-wrap {
       background: #e3f2fd; border-radius: 99px; height: 14px; overflow: hidden; margin: 16px 0;
@@ -616,7 +642,7 @@
       <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
         <button class="btn btn-secondary" id="backToUploadBtn">← Back</button>
         <button class="btn btn-primary" id="proceedToPreviewBtn" disabled>
-          Next: Preview Batch →
+          Next: Review Included Pages →
         </button>
       </div>
     </div>
@@ -627,8 +653,8 @@
     <div class="step-header">
       <div class="step-num">3</div>
       <div>
-        <h2>Batch Preview</h2>
-        <p>Review how the pattern applies to every file before processing</p>
+        <h2>Review Included Pages</h2>
+        <p>See exactly which pages will be extracted from each file — then run when ready</p>
       </div>
     </div>
     <div class="step-body">
@@ -650,8 +676,22 @@
         </table>
       </div>
 
-      <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btn btn-secondary" id="backToSampleBtn">← Back</button>
+      <!-- ── Page thumbnails preview ── -->
+      <div class="preview-pages-section" id="previewPagesSection">
+        <div class="preview-pages-header">
+          <h3>📄 Pages Included</h3>
+          <span class="preview-pages-count" id="previewPagesCount"></span>
+          <span class="preview-pages-note">Thumbnails are for review only — click ← Back to adjust your selection</span>
+        </div>
+        <div class="sample-tabs" id="previewFileTabs"></div>
+        <div class="thumb-grid thumb-grid-preview" id="previewThumbGrid">
+          <div class="alert alert-info" style="width:100%">Select a file tab above to preview its included pages.</div>
+        </div>
+        <div id="previewFileMore" class="preview-file-more" style="display:none"></div>
+      </div>
+
+      <div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-secondary" id="backToSampleBtn">← Back: Adjust Selection</button>
         <button class="btn btn-success" id="runBatchBtn">
           ▶ Run Batch &amp; Merge PDF
         </button>
@@ -833,6 +873,10 @@
   var previewTableBody = document.getElementById('previewTableBody');
   var backToSampleBtn= document.getElementById('backToSampleBtn');
   var runBatchBtn    = document.getElementById('runBatchBtn');
+  var previewFileTabs  = document.getElementById('previewFileTabs');
+  var previewThumbGrid = document.getElementById('previewThumbGrid');
+  var previewPagesCount= document.getElementById('previewPagesCount');
+  var previewFileMore  = document.getElementById('previewFileMore');
 
   var progressLabel  = document.getElementById('progressLabel');
   var progressBar    = document.getElementById('progressBar');
@@ -1390,13 +1434,10 @@
     var rules = (!state.textFilterActive && state.activeRules.length > 0) ? state.activeRules : null;
 
     state.files.forEach(function (f, i) {
-      var keptPages, missingPages;
-      if (state.textFilterActive && state.textFilterPageMap && state.textFilterPageMap[i] !== undefined) {
-        keptPages    = state.textFilterPageMap[i].filter(function (p) { return p >= 1 && p <= f.totalPages; });
-        missingPages = [];
-      } else {
-        var applied  = PdfExtractor.applyPatternToFile(state.patternPages, f.totalPages, rules);
-        keptPages    = applied.keptPages;
+      var keptPages = getKeptPagesForFile(i);
+      var missingPages = [];
+      if (!state.textFilterActive || !state.textFilterPageMap) {
+        var applied = PdfExtractor.applyPatternToFile(state.patternPages, f.totalPages, rules);
         missingPages = applied.missingPages;
       }
       totalKept += keptPages.length;
@@ -1428,6 +1469,121 @@
       previewWarnMsg.textContent = filesWithMissing + ' file(s) don\'t have all requested pages. Those pages will be skipped gracefully.';
     } else {
       previewWarnMsg.style.display = 'none';
+    }
+
+    /* Build the visual page preview section */
+    buildPreviewSection();
+  }
+
+  /* ── Helper: get kept pages for a given file index ── */
+  function getKeptPagesForFile(fileIdx) {
+    var f = state.files[fileIdx];
+    if (!f) return [];
+    var rules = (!state.textFilterActive && state.activeRules.length > 0) ? state.activeRules : null;
+    if (state.textFilterActive && state.textFilterPageMap && state.textFilterPageMap[fileIdx] !== undefined) {
+      return state.textFilterPageMap[fileIdx].filter(function (p) { return p >= 1 && p <= f.totalPages; });
+    }
+    return PdfExtractor.applyPatternToFile(state.patternPages, f.totalPages, rules).keptPages;
+  }
+
+  /* ── Build the file-tab row and kick off thumbnail render for first file ── */
+  var previewCurrentFileIdx = 0;
+  var MAX_PREVIEW_TABS = 8;
+
+  function buildPreviewSection() {
+    previewFileTabs.innerHTML = '';
+    previewCurrentFileIdx = 0;
+
+    var tabFiles = state.files.slice(0, Math.min(MAX_PREVIEW_TABS, state.files.length));
+    tabFiles.forEach(function (f, i) {
+      var kept = getKeptPagesForFile(i);
+      var tab = document.createElement('button');
+      tab.className = 'sample-tab' + (i === 0 ? ' active' : '');
+      tab.textContent = truncate(f.name, 20) + ' (' + kept.length + ' pg)';
+      tab.dataset.idx = i;
+      if (kept.length === 0) tab.style.opacity = '.5';
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('#previewFileTabs .sample-tab').forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        previewCurrentFileIdx = parseInt(tab.dataset.idx, 10);
+        renderPreviewThumbs(previewCurrentFileIdx);
+      });
+      previewFileTabs.appendChild(tab);
+    });
+
+    if (state.files.length > MAX_PREVIEW_TABS) {
+      var more = document.createElement('span');
+      more.style.cssText = 'font-size:.75rem;color:#888;align-self:center;padding-left:4px;';
+      more.textContent = '+ ' + (state.files.length - MAX_PREVIEW_TABS) + ' more files (see table above)';
+      previewFileTabs.appendChild(more);
+    }
+
+    renderPreviewThumbs(0);
+  }
+
+  /* ── Render thumbnails for kept pages of one file ── */
+  async function renderPreviewThumbs(fileIdx) {
+    var f = state.files[fileIdx];
+    var keptPages = getKeptPagesForFile(fileIdx);
+
+    var totalKept = 0;
+    state.files.forEach(function (_, i) { totalKept += getKeptPagesForFile(i).length; });
+    previewPagesCount.textContent = totalKept + ' page' + (totalKept !== 1 ? 's' : '') +
+      ' total across ' + state.files.length + ' file' + (state.files.length !== 1 ? 's' : '');
+
+    if (!f || !f.pdfJsDoc || keptPages.length === 0) {
+      previewThumbGrid.innerHTML =
+        '<div class="alert alert-warn" style="width:100%">No pages will be included from this file.</div>';
+      previewFileMore.style.display = 'none';
+      return;
+    }
+
+    var MAX_THUMBS = 60;
+    var showPages = keptPages.slice(0, MAX_THUMBS);
+    var remaining = keptPages.length - showPages.length;
+
+    previewThumbGrid.innerHTML = '';
+    previewFileMore.style.display = 'none';
+
+    /* Build placeholder cards first (ensures correct DOM order) */
+    var cards = [];
+    showPages.forEach(function (pageNum) {
+      var card = document.createElement('div');
+      card.className = 'thumb-card thumb-kept';
+      card.style.cursor = 'default';
+
+      var placeholder = document.createElement('div');
+      placeholder.style.cssText = 'width:100%;height:160px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#aaa;';
+      placeholder.textContent = '…';
+      card.appendChild(placeholder);
+
+      var label = document.createElement('div');
+      label.className = 'thumb-label';
+      label.textContent = 'Page ' + pageNum;
+      card.appendChild(label);
+
+      var badge = document.createElement('div');
+      badge.className = 'thumb-preview-badge';
+      badge.textContent = '✓';
+      card.appendChild(badge);
+
+      previewThumbGrid.appendChild(card);
+      cards.push({ card: card, pageNum: pageNum, placeholder: placeholder });
+    });
+
+    /* Fill canvases asynchronously */
+    for (var k = 0; k < cards.length; k++) {
+      try {
+        var canvas = await PdfRenderer.renderPageToCanvas(f.pdfJsDoc, cards[k].pageNum, 140);
+        cards[k].card.replaceChild(canvas, cards[k].placeholder);
+      } catch (e) { /* keep placeholder on error */ }
+      if (k % 4 === 0) await new Promise(function (r) { setTimeout(r, 0); });
+    }
+
+    if (remaining > 0) {
+      previewFileMore.style.display = 'block';
+      previewFileMore.textContent = '… and ' + remaining + ' more page' + (remaining !== 1 ? 's' : '') +
+        ' from this file (scroll table above for full list)';
     }
   }
 
