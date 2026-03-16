@@ -203,9 +203,12 @@
         var tx = ltext(line).trim();
         var fm = tx.match(/facility\s*:\s*(.+?)(?:\s{2,}|$)/i);
         if (fm) facility = fm[1].trim();
-        /* Month is on same line as Bill Type */
+        /* Month: label is present on most pages */
         var mm = tx.match(/month\s*:\s*(.+)/i);
-        if (mm) month = mm[1].trim();
+        if (mm) { month = mm[1].trim(); return; }
+        /* Some pages omit the "Month:" label — year/month follows directly after "HMO Skilled" */
+        var nm = tx.match(/hmo\s+skilled\s+(\d{4}\s+\w+)/i);
+        if (nm && !month) month = nm[1].trim();
       });
 
       /* Check this is an HMO Skilled page */
