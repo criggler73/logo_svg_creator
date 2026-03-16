@@ -217,10 +217,16 @@
             <div class="rt-desc">Patient-level charges table: PT ($), OT ($), ST ($), Amount Bill, Amount PD, Date PD. Handles both Medicare Part B and HMO Part B sections.</div>
           </div>
 
-          <div class="report-type-card" data-type="private" style="opacity:.55;cursor:not-allowed;" title="Coming soon">
+          <div class="report-type-card" data-type="hmoskilled">
+            <div class="rt-icon">🏨</div>
+            <div class="rt-name">Focus One Rehab Extracts — HMO Skilled</div>
+            <div class="rt-desc">Units and charges per modality (OT, PT, ST) plus Total Charges per patient per month. Includes monthly Totals row.</div>
+          </div>
+
+          <div class="report-type-card" data-type="private">
             <div class="rt-icon">🏥</div>
-            <div class="rt-name">Focus One Rehab Extracts — Private &amp; Medical</div>
-            <div class="rt-desc">Coming soon — evaluation and treatment detail by therapy type.</div>
+            <div class="rt-name">Focus One Rehab Extracts — Private / Medical / Hospice</div>
+            <div class="rt-desc">Per-patient, per-therapy-type detail: Evaluation and Treatment minutes, amounts, and Total Charges. Handles Private, Private/Medical/Hospice bill types.</div>
           </div>
 
         </div>
@@ -309,6 +315,8 @@
 <script src="../../assets/js/pdfInvoiceExtractor.js"></script>
 <script src="../../assets/js/pdfPartAExtractor.js"></script>
 <script src="../../assets/js/pdfPartBExtractor.js"></script>
+<script src="../../assets/js/pdfHmoSkilledExtractor.js"></script>
+<script src="../../assets/js/pdfPrivateExtractor.js"></script>
 <script>
 (function () {
   'use strict';
@@ -365,9 +373,11 @@
 
       var names = {
         invoice:  'Focus One Rehab Extracts — Invoice (Total Charges)',
-        parta:    'Focus One Rehab Extracts — Medicare Part A Detail',
-        modality: 'Patient Details by Modality',
-        partb:    'Focus One Rehab Extracts — Medicare Part B / HMO Part B',
+        parta:      'Focus One Rehab Extracts — Medicare Part A Detail',
+        modality:   'Patient Details by Modality',
+        partb:      'Focus One Rehab Extracts — Medicare Part B / HMO Part B',
+        hmoskilled: 'Focus One Rehab Extracts — HMO Skilled',
+        private:    'Focus One Rehab Extracts — Private / Medical / Hospice',
         private:  'Private & Medical'
       };
       uploadZone.querySelector('p').innerHTML = '<strong>Click or drag ' + escapeHtml(names[state.reportType]) + ' PDFs here</strong>';
@@ -458,6 +468,10 @@
           result = await window.PdfPartAExtractor.extractPartAPdf(pdfDoc, f.name);
         } else if (state.reportType === 'partb') {
           result = await window.PdfPartBExtractor.extractPartBPdf(pdfDoc, f.name);
+        } else if (state.reportType === 'hmoskilled') {
+          result = await window.PdfHmoSkilledExtractor.extractHmoSkilledPdf(pdfDoc, f.name);
+        } else if (state.reportType === 'private') {
+          result = await window.PdfPrivateExtractor.extractPrivatePdf(pdfDoc, f.name);
         } else {
           /* Placeholder for other extractors — same pattern when built */
           result = { fileName: f.name, rows: [], error: 'Extractor for "' + state.reportType + '" coming soon.' };
@@ -481,6 +495,10 @@
       allRows = window.PdfPartAExtractor.combineResults(results);
     } else if (state.reportType === 'partb') {
       allRows = window.PdfPartBExtractor.combineResults(results);
+    } else if (state.reportType === 'hmoskilled') {
+      allRows = window.PdfHmoSkilledExtractor.combineResults(results);
+    } else if (state.reportType === 'private') {
+      allRows = window.PdfPrivateExtractor.combineResults(results);
     }
 
     var csv     = '';
@@ -494,15 +512,23 @@
     } else if (state.reportType === 'partb') {
       csv     = window.PdfPartBExtractor.rowsToCsv(allRows);
       headers = window.PdfPartBExtractor.CSV_HEADERS;
+    } else if (state.reportType === 'hmoskilled') {
+      csv     = window.PdfHmoSkilledExtractor.rowsToCsv(allRows);
+      headers = window.PdfHmoSkilledExtractor.CSV_HEADERS;
+    } else if (state.reportType === 'private') {
+      csv     = window.PdfPrivateExtractor.rowsToCsv(allRows);
+      headers = window.PdfPrivateExtractor.CSV_HEADERS;
     }
 
     state.csvData = csv;
 
     var typeNames = {
       invoice:  'FocusOne-Invoice-TotalCharges',
-      parta:    'FocusOne-MedicarePartA-Detail',
-      modality: 'Patient-Modality-Detail',
-      partb:    'FocusOne-PartB-Combined',
+      parta:      'FocusOne-MedicarePartA-Detail',
+      modality:   'Patient-Modality-Detail',
+      partb:      'FocusOne-PartB-Combined',
+      hmoskilled: 'FocusOne-HMO-Skilled',
+      private:    'FocusOne-Private-Medical',
       private:  'Private-Medical'
     };
     state.csvName = typeNames[state.reportType] + '-combined.csv';
@@ -602,8 +628,8 @@
       }
 
       var tr = document.createElement('tr');
-      var isTotalRow   = (row.subType === 'TOTAL' || row.recordType === 'Resident Total' || row.recordType === 'Section Total' || row.recordType === 'Total');
-      var isSummaryRow = (row.section === 'Summary' || row.recordType === 'Patient Summary' || row.recordType === 'Invoiced Amount' || row.recordType === 'Per Minute' || row.recordType === 'Percentage Summary');
+      var isTotalRow   = (row.subType === 'TOTAL' || row.recordType === 'Resident Total' || row.recordType === 'Section Total' || row.recordType === 'Total' || row.patientName === 'Totals');
+      var isSummaryRow = (row.section === 'Summary' || row.recordType === 'Patient Summary' || row.recordType === 'Invoiced Amount' || row.recordType === 'Per Minute' || row.recordType === 'Percentage Summary' || row.recordType === 'Invoice Total');
 
       var vals;
       if (state.reportType === 'invoice') {
@@ -620,6 +646,19 @@
         vals = [
           row.facility, row.month, row.section, row.recordType, row.patientName,
           row.pt, row.ot, row.st, row.amountBill, row.amountPd, row.datePd
+        ];
+      } else if (state.reportType === 'hmoskilled') {
+        vals = [
+          row.facility, row.month, row.section, row.recordType, row.patientName,
+          row.otUnits, row.otCharges, row.ptUnits, row.ptCharges,
+          row.stUnits, row.stCharges, row.totalCharges
+        ];
+      } else if (state.reportType === 'private') {
+        vals = [
+          row.facility, row.month, row.section, row.therapyType, row.recordType, row.patientName,
+          row.evalDate, row.evalMins, row.evalAmt,
+          row.treatVisits, row.treatMins, row.treatAmt,
+          row.totalVisits, row.totalMins, row.totalCharges
         ];
       } else {
         vals = headers.map(function () { return ''; });
