@@ -283,9 +283,9 @@
           </div>
         </div>
 
-        <!-- Data preview (first 20 rows) -->
+        <!-- Data preview (first full invoice / up to 40 rows) -->
         <div id="previewSection" style="display:none;">
-          <div style="font-size:.85rem;font-weight:600;color:#333;margin-bottom:8px;">Preview (first 20 data rows)</div>
+          <div style="font-size:.85rem;font-weight:600;color:#333;margin-bottom:8px;" id="previewLabel">Preview</div>
           <div class="preview-wrap">
             <table class="preview-table" id="previewTable">
               <thead id="previewHead"></thead>
@@ -528,21 +528,33 @@
     previewHead.appendChild(hRow);
 
     previewBody.innerHTML = '';
-    var shown = Math.min(rows.length, 20);
-    for (var i = 0; i < shown; i++) {
+
+    /* Show through end of the first complete invoice (first "Total of All Therapy" row),
+       then stop — this guarantees all rows for one facility/month are visible */
+    var cutoff = rows.length;
+    for (var k = 0; k < rows.length; k++) {
+      if (rows[k].subType === 'Total of All Therapy') {
+        cutoff = k + 1; /* include this row */
+        break;
+      }
+    }
+    /* If nothing found (e.g. partial data), cap at 40 */
+    if (cutoff === rows.length && rows.length > 40) cutoff = 40;
+
+    var previewLabelEl = document.getElementById('previewLabel');
+    previewLabelEl.textContent = 'Preview — first invoice (' + cutoff + ' rows shown of ' + rows.length + ' total)';
+
+    for (var i = 0; i < cutoff; i++) {
       var row = rows[i];
       var tr  = document.createElement('tr');
-      var isTotalRow   = row.subType === 'TOTAL';
-      var isSummaryRow = row.section === 'Summary';
-      var vals = [
-        row.facility, row.month, row.section, row.subType,
-        row.pt, row.ot, row.st, row.sectionTotal, row.notes
-      ];
+      var isTotalRow   = (row.subType === 'TOTAL');
+      var isSummaryRow = (row.section === 'Summary');
+      var vals = [row.facility, row.month, row.section, row.subType, row.modality, row.amount];
       vals.forEach(function (v) {
         var td = document.createElement('td');
         if (isSummaryRow) td.className = 'summary-row';
         else if (isTotalRow) td.className = 'total-row';
-        td.textContent = v === '' ? '' : v;
+        td.textContent = (v === '' || v === null || v === undefined) ? '' : v;
         tr.appendChild(td);
       });
       previewBody.appendChild(tr);
