@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Extract Tables from PDF — Invoice &amp; Patient Data | LeapfrogIQ</title>
-  <meta name="description" content="Extract structured tables from facility and invoice PDFs. Upload one report type at a time — Invoice, Medicare Part A detail, patient tables, Part B, or Private &amp; Medical. Download clean CSV. Free, browser-based." />
+  <title>Focus One Rehab Extracts — Invoice &amp; Medicare Part A Detail | LeapfrogIQ</title>
+  <meta name="description" content="Extract structured data from Focus One Rehab Services PDFs. Choose Invoice (Total Charges) or Medicare Part A Detail. Combines all uploaded months into one clean CSV. Free, browser-based, no data leaves your device." />
   <link rel="canonical" href="https://leapfrogiq.app/pdf-tools/table-extractor/" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Extract Tables from PDF — Invoice &amp; Patient Data" />
-  <meta property="og:description" content="Extract invoice and patient tables from facility PDFs. One report type per upload. Download clean CSV. Free, private, no server." />
+  <meta property="og:title" content="Focus One Rehab Extracts — Invoice &amp; Medicare Part A Detail" />
+  <meta property="og:description" content="Extract Invoice and Medicare Part A Detail data from Focus One Rehab Services PDFs. Combines all months into one CSV. Free, private, no server." />
   <meta property="og:url" content="https://leapfrogiq.app/pdf-tools/table-extractor/" />
   <meta property="og:site_name" content="LeapfrogIQ Apps" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Extract Tables from PDF" />
-  <meta name="twitter:description" content="Extract invoice and patient tables from PDFs into CSV. One report type per upload. Free, browser-based." />
+  <meta name="twitter:description" content="Extract Invoice and Medicare Part A Detail data from Focus One Rehab Services PDFs into CSV. Free, browser-based." />
 
   <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml" />
 
@@ -65,6 +65,7 @@
 
     /* ── layout ── */
     .tool-body { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+    .tool-body.wide { max-width: 98vw; }
 
     .step-panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; margin-bottom: 24px; overflow: hidden; }
     .step-panel.hidden { display: none; }
@@ -136,14 +137,15 @@
     .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #1565c0, #0288d1); width: 0%; transition: width .3s; }
 
     /* ── results preview table ── */
-    .preview-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid #e0e0e0; border-radius: 8px; }
-    .preview-table { width: 100%; border-collapse: collapse; font-size: .78rem; min-width: 700px; }
-    .preview-table th { background: #1565c0; color: #fff; padding: 7px 10px; text-align: left; font-weight: 600; white-space: nowrap; }
-    .preview-table td { padding: 6px 10px; border-bottom: 1px solid #f0f0f0; white-space: nowrap; }
+    .preview-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid #e0e0e0; border-radius: 8px; width: 100%; }
+    .preview-table { width: 100%; border-collapse: collapse; font-size: .72rem; white-space: nowrap; }
+    .preview-table th { background: #1565c0; color: #fff; padding: 5px 8px; text-align: left; font-weight: 600; white-space: nowrap; }
+    .preview-table td { padding: 4px 8px; border-bottom: 1px solid #f0f0f0; white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
     .preview-table tr:last-child td { border-bottom: none; }
     .preview-table tr:nth-child(even) td { background: #f9f9f9; }
     .preview-table td.total-row { font-weight: 700; background: #e8f5e9 !important; }
     .preview-table td.summary-row { font-weight: 700; background: #fff8e1 !important; }
+    .preview-table td.separator-row { background: #eeeeee !important; padding: 2px; }
 
     /* ── results summary ── */
     .results-summary { font-size: .9rem; color: #333; margin-bottom: 18px; padding: 12px 16px; background: #e8f5e9; border-radius: 8px; }
@@ -170,8 +172,8 @@
 
 <main>
   <section class="tool-hero">
-    <span class="badge-pill">PDF Data Extraction</span>
-    <h1>Extract Tables from PDF</h1>
+    <span class="badge-pill">Focus One Rehab Extracts</span>
+    <h1>Focus One Rehab Services — Data Extracts</h1>
     <p>Upload PDFs for <strong>one report type at a time</strong>. The tool extracts every row from every page and combines all months into a single clean CSV. Nothing is uploaded — runs entirely in your browser.</p>
   </section>
 
@@ -193,32 +195,32 @@
 
           <div class="report-type-card" data-type="invoice">
             <div class="rt-icon">🧾</div>
-            <div class="rt-name">Invoice (Total Charges)</div>
+            <div class="rt-name">Focus One Rehab Extracts — Invoice (Total Charges)</div>
             <div class="rt-desc">Summary page showing Medicare Part A, HMO Skilled, Part B, Private &amp; Medical, Subtotal, and Total of All Therapy.</div>
           </div>
 
           <div class="report-type-card" data-type="parta">
             <div class="rt-icon">📋</div>
-            <div class="rt-name">Medicare Part A Detail</div>
-            <div class="rt-desc">Resident line-item detail: Date Range, ARD, Component, CMG, Days, Full Rate, Contracted Rate, Charges per patient.</div>
+            <div class="rt-name">Focus One Rehab Extracts — Medicare Part A Detail</div>
+            <div class="rt-desc">Resident line-item detail with Patient Summary: Date Range, ARD, Component, CMG, Days, Full Rate, Contracted Rate, Charges — plus PT/OT/ST minutes and charges per patient.</div>
           </div>
 
-          <div class="report-type-card" data-type="modality">
+          <div class="report-type-card" data-type="modality" style="opacity:.55;cursor:not-allowed;" title="Coming soon">
             <div class="rt-icon">📊</div>
-            <div class="rt-name">Patient Details by Modality</div>
-            <div class="rt-desc">Summary table: Patient Name, PT min/charge, OT min/charge, ST min/charge, Total min/charge.</div>
+            <div class="rt-name">Focus One Rehab Extracts — Patient Details by Modality</div>
+            <div class="rt-desc">Coming soon — PT/OT/ST minutes and charges summary per patient.</div>
           </div>
 
-          <div class="report-type-card" data-type="partb">
+          <div class="report-type-card" data-type="partb" style="opacity:.55;cursor:not-allowed;" title="Coming soon">
             <div class="rt-icon">💊</div>
-            <div class="rt-name">Medicare Part B</div>
-            <div class="rt-desc">Patient-level table with PT, OT, ST amounts, Amount Bill, 75% of Charges, and Date PD.</div>
+            <div class="rt-name">Focus One Rehab Extracts — Medicare Part B</div>
+            <div class="rt-desc">Coming soon — patient-level table with PT, OT, ST amounts and billing totals.</div>
           </div>
 
-          <div class="report-type-card" data-type="private">
+          <div class="report-type-card" data-type="private" style="opacity:.55;cursor:not-allowed;" title="Coming soon">
             <div class="rt-icon">🏥</div>
-            <div class="rt-name">Private &amp; Medical</div>
-            <div class="rt-desc">Evaluation + treatment detail by therapy type (PT/OT/ST): Eval Date, Minutes, Visits, Charges.</div>
+            <div class="rt-name">Focus One Rehab Extracts — Private &amp; Medical</div>
+            <div class="rt-desc">Coming soon — evaluation and treatment detail by therapy type.</div>
           </div>
 
         </div>
@@ -351,6 +353,8 @@
   /* ── Report type selection ── */
   reportTypeGrid.querySelectorAll('.report-type-card').forEach(function (card) {
     card.addEventListener('click', function () {
+      /* Ignore clicks on "coming soon" cards */
+      if (card.style.cursor === 'not-allowed') return;
       reportTypeGrid.querySelectorAll('.report-type-card').forEach(function (c) { c.classList.remove('selected'); });
       card.classList.add('selected');
       state.reportType = card.getAttribute('data-type');
@@ -359,8 +363,8 @@
       uploadSection.style.display = 'block';
 
       var names = {
-        invoice:  'Invoice (Total Charges)',
-        parta:    'Medicare Part A Detail',
+        invoice:  'Focus One Rehab Extracts — Invoice (Total Charges)',
+        parta:    'Focus One Rehab Extracts — Medicare Part A Detail',
         modality: 'Patient Details by Modality',
         partb:    'Medicare Part B',
         private:  'Private & Medical'
@@ -487,8 +491,8 @@
     state.csvData = csv;
 
     var typeNames = {
-      invoice:  'Invoice-Total-Charges',
-      parta:    'Medicare-Part-A-Detail',
+      invoice:  'FocusOne-Invoice-TotalCharges',
+      parta:    'FocusOne-MedicarePartA-Detail',
       modality: 'Patient-Modality-Detail',
       partb:    'Medicare-Part-B',
       private:  'Private-Medical'
@@ -526,6 +530,10 @@
   }
 
   function showPreview(headers, rows) {
+    /* Expand layout to full width for wide tables */
+    var toolBody = document.querySelector('.tool-body');
+    if (toolBody) toolBody.classList.add('wide');
+
     previewSection.style.display = 'block';
     var hRow = document.createElement('tr');
     headers.forEach(function (h) {
@@ -539,19 +547,29 @@
     previewBody.innerHTML = '';
 
     /* For invoice: show through first "Total of All Therapy".
-       For Part A and others: show first 40 non-null rows. */
+       For Part A: show through first Section Total (end of Med A summary block).
+       Default fallback: 60 rows. */
     var cutoff = rows.length;
     if (state.reportType === 'invoice') {
       for (var k = 0; k < rows.length; k++) {
         if (rows[k] && rows[k].subType === 'Total of All Therapy') { cutoff = k + 1; break; }
       }
       if (cutoff === rows.length && rows.length > 40) cutoff = 40;
-    } else {
-      /* Show up to 40 rows (nulls count as rows for display but don't count toward limit) */
-      var dataCount = 0;
+    } else if (state.reportType === 'parta') {
+      /* Show through end of the first Patient Summary block (first Section Total row) */
+      var foundSep = false;
       for (var k2 = 0; k2 < rows.length; k2++) {
-        if (rows[k2] !== null) dataCount++;
-        if (dataCount >= 40) { cutoff = k2 + 1; break; }
+        if (rows[k2] === null) { foundSep = true; }
+        if (foundSep && rows[k2] && rows[k2].recordType === 'Section Total') {
+          cutoff = k2 + 1; break;
+        }
+      }
+      if (cutoff === rows.length && rows.length > 100) cutoff = 100;
+    } else {
+      var dCount = 0;
+      for (var k3 = 0; k3 < rows.length; k3++) {
+        if (rows[k3] !== null) dCount++;
+        if (dCount >= 60) { cutoff = k3 + 1; break; }
       }
     }
 
@@ -559,7 +577,7 @@
     for (var j = 0; j < rows.length; j++) { if (rows[j] !== null) dataRowCount++; }
 
     var previewLabelEl = document.getElementById('previewLabel');
-    previewLabelEl.textContent = 'Preview — first ' + cutoff + ' rows shown of ' + dataRowCount + ' total data rows';
+    previewLabelEl.textContent = 'Preview — ' + cutoff + ' rows shown of ' + dataRowCount + ' total data rows';
 
     for (var i = 0; i < cutoff; i++) {
       var row = rows[i];
@@ -569,8 +587,7 @@
         var sepTr = document.createElement('tr');
         var sepTd = document.createElement('td');
         sepTd.colSpan = headers.length;
-        sepTd.style.padding = '4px';
-        sepTd.style.background = '#f0f0f0';
+        sepTd.className = 'separator-row';
         sepTr.appendChild(sepTd);
         previewBody.appendChild(sepTr);
         continue;
@@ -580,7 +597,6 @@
       var isTotalRow   = (row.subType === 'TOTAL' || row.recordType === 'Resident Total' || row.recordType === 'Section Total');
       var isSummaryRow = (row.section === 'Summary' || row.recordType === 'Patient Summary' || row.recordType === 'Invoiced Amount' || row.recordType === 'Per Minute');
 
-      /* Build values array matching headers order */
       var vals;
       if (state.reportType === 'invoice') {
         vals = [row.facility, row.month, row.section, row.subType, row.modality, row.amount];
@@ -590,8 +606,7 @@
           row.dateRange, row.ard, row.reason, row.component, row.cmg, row.days,
           row.fullRate, row.contractedRate, row.charges,
           row.ptMin, row.ptCharge, row.otMin, row.otCharge,
-          row.stMin, row.stCharge, row.totalMin, row.totalCharge,
-          row.notes
+          row.stMin, row.stCharge, row.totalMin, row.totalCharge, row.notes
         ];
       } else {
         vals = headers.map(function () { return ''; });
@@ -622,6 +637,8 @@
   startOverBtn.addEventListener('click', function () {
     panelResults.classList.add('hidden');
     panelUpload.classList.remove('hidden');
+    var toolBody = document.querySelector('.tool-body');
+    if (toolBody) toolBody.classList.remove('wide');
     state.files   = [];
     state.csvData = null;
     renderFileList();
