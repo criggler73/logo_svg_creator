@@ -236,6 +236,68 @@
     }
     .rules-example-chip:hover { background: #d1c4e9; }
 
+    /* ── Text Filter panel ── */
+    .text-filter-panel {
+      background: #e0f7f4; border: 1px solid #80cbc4; border-radius: 10px;
+      padding: 16px 18px; margin-bottom: 18px;
+    }
+    .text-filter-panel h4 { margin: 0 0 6px; font-size: .88rem; font-weight: 700; color: #00695c; }
+    .text-filter-panel .tf-desc { font-size: .78rem; color: #00695c; margin: 0 0 12px; }
+    .tf-input-row {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;
+    }
+    .tf-input-row input[type="text"] {
+      flex: 1; min-width: 200px; max-width: 400px;
+      border: 1px solid #80cbc4; border-radius: 6px; padding: 7px 10px; font-size: .88rem;
+      background: #fff;
+    }
+    .tf-case-label {
+      display: flex; align-items: center; gap: 5px; font-size: .78rem; color: #00695c;
+      white-space: nowrap; cursor: pointer;
+    }
+    .tf-mode-row {
+      display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .tf-mode-label { font-size: .78rem; font-weight: 600; color: #00695c; }
+    .tf-radio-label {
+      display: flex; align-items: center; gap: 6px; font-size: .82rem; color: #004d40;
+      cursor: pointer;
+    }
+    .tf-radio-label input { cursor: pointer; }
+    .tf-radio-select { accent-color: #00897b; }
+    .tf-radio-deselect { accent-color: #e53935; }
+    .tf-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .tf-active-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #00897b; color: #fff; border-radius: 99px;
+      padding: 3px 10px; font-size: .72rem; font-weight: 700;
+    }
+    .tf-status {
+      margin-top: 10px; padding: 10px 12px; border-radius: 7px; font-size: .82rem;
+    }
+    .tf-status.tf-scanning {
+      background: #fff8e1; color: #e65100; border: 1px solid #ffcc02;
+    }
+    .tf-status.tf-done {
+      background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7;
+    }
+    .tf-status.tf-error {
+      background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a;
+    }
+    .tf-progress-bar-wrap {
+      background: #b2dfdb; border-radius: 99px; height: 6px; overflow: hidden; margin-top: 6px;
+    }
+    .tf-progress-bar {
+      height: 100%; background: #00897b; border-radius: 99px; transition: width .2s; width: 0%;
+    }
+    .tf-filter-active-notice {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      padding: 8px 12px; background: #e0f7f4; border: 1px solid #80cbc4;
+      border-radius: 7px; margin-bottom: 10px; font-size: .80rem; color: #00695c;
+    }
+    .tf-filter-active-notice strong { color: #004d40; }
+
     /* ── Output mode toggle ── */
     .output-mode-row {
       display: flex; gap: 0; margin-bottom: 18px; border: 1px solid #ddd;
@@ -435,7 +497,46 @@
         <p class="rules-hint">Rules override the thumbnail selection. One rule per line. Leave blank to use thumbnail/range selection below.</p>
       </div>
 
+      <!-- Text-based page filter -->
+      <div class="text-filter-panel">
+        <h4>🔍 Text-Based Page Filter <span style="font-weight:400;font-size:.75rem;color:#00695c;">(optional)</span></h4>
+        <p class="tf-desc">Scan all files for pages containing specific text — then auto-select or auto-deselect those pages.</p>
+
+        <div class="tf-input-row">
+          <input type="text" id="textFilterInput" placeholder='Enter text to find, e.g. Total Charges' autocomplete="off" />
+          <label class="tf-case-label">
+            <input type="checkbox" id="textFilterCaseSensitive" />
+            Case sensitive
+          </label>
+        </div>
+
+        <div class="tf-mode-row">
+          <span class="tf-mode-label">When page contains that text:</span>
+          <label class="tf-radio-label">
+            <input type="radio" name="textFilterMode" value="select" checked class="tf-radio-select" />
+            ✓ Select (Keep matching pages)
+          </label>
+          <label class="tf-radio-label">
+            <input type="radio" name="textFilterMode" value="deselect" class="tf-radio-deselect" />
+            ✗ Deselect (Skip matching pages)
+          </label>
+        </div>
+
+        <div class="tf-actions">
+          <button class="btn btn-primary btn-sm" id="textFilterScanBtn">🔍 Scan All Files &amp; Apply</button>
+          <button class="btn btn-secondary btn-sm" id="textFilterClearBtn" style="display:none">✕ Clear Text Filter</button>
+          <span id="textFilterActiveBadge" class="tf-active-badge" style="display:none">● Text Filter Active</span>
+        </div>
+
+        <div id="textFilterStatus" class="tf-status" style="display:none"></div>
+      </div>
+
       <div class="sample-tabs" id="sampleTabs"></div>
+
+      <div id="textFilterActiveNotice" class="tf-filter-active-notice" style="display:none">
+        <span>🔍</span>
+        <span>Text filter active — thumbnails show per-file results for <strong id="textFilterActiveLabel"></strong>. Click any thumbnail to manually override pages for this file.</span>
+      </div>
 
       <div class="select-all-row">
         <button class="btn btn-secondary btn-sm" id="selectAllBtn">Select All Pages</button>
@@ -606,7 +707,12 @@
     sampleIndex: 0,
     resultPdfBytes: null,
     resultZipBlob: null,
-    resultReport: null
+    resultReport: null,
+    /* text filter */
+    textFilterActive: false,
+    textFilterPageMap: null,  // object: { fileIndex: [page, ...] }
+    textFilterString: '',
+    textFilterMode: 'select'
   };
 
   /* ── DOM refs ── */
@@ -645,6 +751,15 @@
   var modeMergeBtn   = document.getElementById('modeMergeBtn');
   var modeZipBtn     = document.getElementById('modeZipBtn');
   var rulesInput     = document.getElementById('rulesInput');
+
+  var textFilterInput       = document.getElementById('textFilterInput');
+  var textFilterCaseSensitive = document.getElementById('textFilterCaseSensitive');
+  var textFilterScanBtn     = document.getElementById('textFilterScanBtn');
+  var textFilterClearBtn    = document.getElementById('textFilterClearBtn');
+  var textFilterActiveBadge = document.getElementById('textFilterActiveBadge');
+  var textFilterStatus      = document.getElementById('textFilterStatus');
+  var textFilterActiveNotice= document.getElementById('textFilterActiveNotice');
+  var textFilterActiveLabel = document.getElementById('textFilterActiveLabel');
 
   var previewSummary = document.getElementById('previewSummary');
   var previewWarnMsg = document.getElementById('previewWarnMsg');
@@ -843,6 +958,16 @@
 
   async function showSampleThumbs(idx) {
     state.sampleIndex = idx;
+
+    /* When text filter is active, show per-file selection from the map */
+    if (state.textFilterActive && state.textFilterPageMap) {
+      state.selectedPages = new Set(state.textFilterPageMap[idx] || []);
+      textFilterActiveNotice.style.display = 'flex';
+      textFilterActiveLabel.textContent = '"' + state.textFilterString + '"';
+    } else {
+      textFilterActiveNotice.style.display = 'none';
+    }
+
     thumbGrid.innerHTML = '<div class="alert alert-info">Rendering thumbnails…</div>';
     var f = state.files[idx];
     if (!f || !f.pdfJsDoc) {
@@ -859,7 +984,23 @@
   function syncPatternFromSelection() {
     state.patternPages = Array.from(state.selectedPages).sort(function (a, b) { return a - b; });
     patternInput.value = PdfRenderer.pagesToRangeString(state.selectedPages);
-    proceedToPreviewBtn.disabled = state.patternPages.length === 0 && !hasActiveRules();
+
+    /* If text filter is active, sync manual thumb changes back to the per-file map */
+    if (state.textFilterActive && state.textFilterPageMap) {
+      state.textFilterPageMap[state.sampleIndex] = state.patternPages.slice();
+    }
+
+    var canProceed;
+    if (state.textFilterActive && state.textFilterPageMap) {
+      var totalSelected = 0;
+      for (var k in state.textFilterPageMap) {
+        if (state.textFilterPageMap.hasOwnProperty(k)) totalSelected += state.textFilterPageMap[k].length;
+      }
+      canProceed = totalSelected > 0;
+    } else {
+      canProceed = state.patternPages.length > 0 || hasActiveRules();
+    }
+    proceedToPreviewBtn.disabled = !canProceed;
   }
 
   function hasActiveRules() {
@@ -869,6 +1010,142 @@
   function getActiveRules() {
     if (!rulesInput || !rulesInput.value.trim()) return [];
     return PdfExtractor.parseRuleString(rulesInput.value);
+  }
+
+  /* ─────────────────────────────────────────────
+   * TEXT FILTER — Scan & Apply
+   * ───────────────────────────────────────────── */
+  textFilterScanBtn.addEventListener('click', function () {
+    runTextFilterScan();
+  });
+
+  textFilterInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') runTextFilterScan();
+  });
+
+  textFilterClearBtn.addEventListener('click', function () {
+    clearTextFilter();
+  });
+
+  async function runTextFilterScan() {
+    var searchStr = textFilterInput.value.trim();
+    if (!searchStr) {
+      textFilterStatus.style.display = 'block';
+      textFilterStatus.className = 'tf-status tf-error';
+      textFilterStatus.textContent = 'Please enter text to search for.';
+      return;
+    }
+
+    var mode = document.querySelector('input[name="textFilterMode"]:checked').value;
+    var caseSensitive = textFilterCaseSensitive.checked;
+    var searchKey = caseSensitive ? searchStr : searchStr.toLowerCase();
+
+    textFilterScanBtn.disabled = true;
+    textFilterClearBtn.style.display = 'none';
+    textFilterActiveBadge.style.display = 'none';
+    textFilterStatus.style.display = 'block';
+    textFilterStatus.className = 'tf-status tf-scanning';
+
+    var pageMap = {};
+    var totalMatchPages = 0;
+
+    try {
+      for (var i = 0; i < state.files.length; i++) {
+        var f = state.files[i];
+        var pct = Math.round((i / state.files.length) * 100);
+        textFilterStatus.innerHTML =
+          '<strong>Scanning ' + (i + 1) + ' of ' + state.files.length + ':</strong> ' + truncate(f.name, 42) +
+          '<div class="tf-progress-bar-wrap"><div class="tf-progress-bar" style="width:' + pct + '%"></div></div>';
+
+        var matchingPages = [];
+
+        if (f.pdfJsDoc) {
+          for (var p = 1; p <= f.totalPages; p++) {
+            try {
+              var page = await f.pdfJsDoc.getPage(p);
+              var textContent = await page.getTextContent();
+              /* Join text items, normalise whitespace so multi-run phrases still match */
+              var pageText = textContent.items.map(function (item) { return item.str || ''; }).join(' ');
+              pageText = pageText.replace(/\s+/g, ' ');
+              var pageKey = caseSensitive ? pageText : pageText.toLowerCase();
+              if (pageKey.indexOf(searchKey) !== -1) {
+                matchingPages.push(p);
+              }
+            } catch (e) { /* skip unreadable page */ }
+
+            /* Yield every 4 pages so the UI stays responsive */
+            if (p % 4 === 0) {
+              await new Promise(function (resolve) { setTimeout(resolve, 0); });
+            }
+          }
+        }
+
+        totalMatchPages += matchingPages.length;
+
+        if (mode === 'select') {
+          pageMap[i] = matchingPages;
+        } else {
+          /* deselect: keep all pages EXCEPT matching ones */
+          var keepPages = [];
+          for (var q = 1; q <= f.totalPages; q++) {
+            if (matchingPages.indexOf(q) === -1) keepPages.push(q);
+          }
+          pageMap[i] = keepPages;
+        }
+
+        /* Yield between files */
+        await new Promise(function (resolve) { setTimeout(resolve, 0); });
+      }
+
+      state.textFilterActive  = true;
+      state.textFilterPageMap = pageMap;
+      state.textFilterString  = searchStr;
+      state.textFilterMode    = mode;
+
+      var totalSelected = 0;
+      for (var k in pageMap) {
+        if (pageMap.hasOwnProperty(k)) totalSelected += pageMap[k].length;
+      }
+
+      textFilterStatus.className = 'tf-status tf-done';
+      textFilterStatus.innerHTML =
+        '✓ Scan complete — <strong>' + totalMatchPages + ' page' + (totalMatchPages !== 1 ? 's' : '') +
+        '</strong> matched "' + searchStr + '" across ' + state.files.length + ' file' + (state.files.length !== 1 ? 's' : '') + '. ' +
+        '<strong>' + totalSelected + ' page' + (totalSelected !== 1 ? 's' : '') + '</strong> will be ' +
+        (mode === 'select' ? 'kept' : 'skipped') + '.';
+
+      textFilterActiveBadge.style.display = 'inline-flex';
+      textFilterClearBtn.style.display = 'inline-flex';
+
+      /* Refresh thumbnails for currently viewed sample file */
+      await showSampleThumbs(state.sampleIndex);
+
+    } catch (err) {
+      textFilterStatus.className = 'tf-status tf-error';
+      textFilterStatus.textContent = 'Scan error: ' + err.message;
+    }
+
+    textFilterScanBtn.disabled = false;
+  }
+
+  function clearTextFilter() {
+    state.textFilterActive  = false;
+    state.textFilterPageMap = null;
+    state.textFilterString  = '';
+    state.textFilterMode    = 'select';
+
+    textFilterActiveBadge.style.display = 'none';
+    textFilterClearBtn.style.display    = 'none';
+    textFilterStatus.style.display      = 'none';
+    textFilterActiveNotice.style.display = 'none';
+
+    /* Restore selectedPages to cover all pages of the current sample */
+    var f = state.files[state.sampleIndex];
+    if (f) {
+      state.selectedPages = new Set();
+      for (var p = 1; p <= f.totalPages; p++) state.selectedPages.add(p);
+    }
+    showSampleThumbs(state.sampleIndex);
   }
 
   selectAllBtn.addEventListener('click', function () {
@@ -897,6 +1174,8 @@
   });
 
   backToUploadBtn.addEventListener('click', function () {
+    /* Clear text filter when returning to upload — file list may change */
+    if (state.textFilterActive) clearTextFilter();
     panelSample.classList.add('hidden');
     panelUpload.classList.remove('hidden');
   });
@@ -913,23 +1192,42 @@
    * ───────────────────────────────────────────── */
   function buildPreviewPanel() {
     previewTableBody.innerHTML = '';
-    var totalKept = 0, totalMissing = 0, filesWithMissing = 0;
-    var rules = state.activeRules.length > 0 ? state.activeRules : null;
+    var totalKept = 0, totalMissing = 0, filesWithMissing = 0, filesSkipped = 0;
+    var rules = (!state.textFilterActive && state.activeRules.length > 0) ? state.activeRules : null;
 
-    state.files.forEach(function (f) {
-      var applied = PdfExtractor.applyPatternToFile(state.patternPages, f.totalPages, rules);
-      totalKept += applied.keptPages.length;
-      if (applied.missingPages.length > 0) { totalMissing += applied.missingPages.length; filesWithMissing++; }
-      var row = PdfRenderer.buildPreviewRow(f.name, f.totalPages, applied.keptPages, applied.missingPages);
+    state.files.forEach(function (f, i) {
+      var keptPages, missingPages;
+      if (state.textFilterActive && state.textFilterPageMap && state.textFilterPageMap[i] !== undefined) {
+        keptPages    = state.textFilterPageMap[i].filter(function (p) { return p >= 1 && p <= f.totalPages; });
+        missingPages = [];
+      } else {
+        var applied  = PdfExtractor.applyPatternToFile(state.patternPages, f.totalPages, rules);
+        keptPages    = applied.keptPages;
+        missingPages = applied.missingPages;
+      }
+      totalKept += keptPages.length;
+      if (missingPages.length > 0) { totalMissing += missingPages.length; filesWithMissing++; }
+      if (keptPages.length === 0)  { filesSkipped++; }
+      var row = PdfRenderer.buildPreviewRow(f.name, f.totalPages, keptPages, missingPages);
       previewTableBody.appendChild(row);
     });
+
+    var patternLabel;
+    if (state.textFilterActive) {
+      var tfMode = state.textFilterMode === 'select' ? 'Keep' : 'Skip';
+      patternLabel = tfMode + ': "' + truncate(state.textFilterString, 20) + '"';
+    } else if (rules) {
+      patternLabel = state.activeRules.length + ' rule' + (state.activeRules.length !== 1 ? 's' : '');
+    } else {
+      patternLabel = state.patternPages.length + ' pg pattern';
+    }
 
     var modeLabel = state.outputMode === 'zip' ? 'ZIP (one PDF per file)' : 'Merged PDF';
     previewSummary.innerHTML =
       '<div class="ps-item"><span class="ps-val">' + state.files.length + '</span><span class="ps-lbl">Files</span></div>' +
-      '<div class="ps-item"><span class="ps-val">' + (rules ? state.activeRules.length + ' rules' : state.patternPages.length + ' pages') + '</span><span class="ps-lbl">Pattern</span></div>' +
+      '<div class="ps-item"><span class="ps-val" style="font-size:.9rem">' + patternLabel + '</span><span class="ps-lbl">Filter</span></div>' +
       '<div class="ps-item"><span class="ps-val">' + totalKept + '</span><span class="ps-lbl">Total Pages</span></div>' +
-      '<div class="ps-item"><span class="ps-val">' + filesWithMissing + '</span><span class="ps-lbl">Partial Files</span></div>' +
+      '<div class="ps-item"><span class="ps-val">' + filesSkipped + '</span><span class="ps-lbl">Files Skipped</span></div>' +
       '<div class="ps-item"><span class="ps-val">' + modeLabel + '</span><span class="ps-lbl">Output</span></div>';
 
     if (filesWithMissing > 0) {
@@ -958,7 +1256,8 @@
   async function runExtraction() {
     progressBar.style.width = '0%';
     progressLabel.textContent = 'Starting…';
-    var rules = state.activeRules.length > 0 ? state.activeRules : null;
+    var rules = (!state.textFilterActive && state.activeRules.length > 0) ? state.activeRules : null;
+    var perFilePageMap = state.textFilterActive ? state.textFilterPageMap : null;
 
     var onProgress = function (current, total, fileName) {
       var pct = Math.round((current / total) * 100);
@@ -968,12 +1267,12 @@
 
     try {
       if (state.outputMode === 'zip') {
-        var zipResult = await PdfExtractor.extractToZip(state.files, state.patternPages, onProgress, rules);
+        var zipResult = await PdfExtractor.extractToZip(state.files, state.patternPages, onProgress, rules, perFilePageMap);
         state.resultZipBlob = zipResult.zipBlob;
         state.resultReport  = zipResult.report;
         state.resultPdfBytes = null;
       } else {
-        var mergeResult = await PdfExtractor.extractAndMerge(state.files, state.patternPages, onProgress, rules);
+        var mergeResult = await PdfExtractor.extractAndMerge(state.files, state.patternPages, onProgress, rules, perFilePageMap);
         state.resultPdfBytes = mergeResult.pdfBytes;
         state.resultReport   = mergeResult.report;
         state.resultZipBlob  = null;
@@ -1059,12 +1358,21 @@
     state.resultPdfBytes = null;
     state.resultZipBlob  = null;
     state.resultReport = null;
+    state.textFilterActive  = false;
+    state.textFilterPageMap = null;
+    state.textFilterString  = '';
+    state.textFilterMode    = 'select';
     fileItems.innerHTML = '';
     fileList.style.display = 'none';
     fileCountLabel.textContent = '0 files loaded';
     proceedToSampleBtn.disabled = true;
     patternInput.value = '';
     rulesInput.value = '';
+    textFilterInput.value = '';
+    textFilterStatus.style.display = 'none';
+    textFilterActiveBadge.style.display = 'none';
+    textFilterClearBtn.style.display = 'none';
+    textFilterActiveNotice.style.display = 'none';
     sessionLoadedMsg.style.display = 'none';
     batchSizeWarn.style.display = 'none';
     modeMergeBtn.classList.add('active');

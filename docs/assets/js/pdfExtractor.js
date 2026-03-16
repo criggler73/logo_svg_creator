@@ -180,7 +180,10 @@
    *
    * Returns { pdfBytes (Uint8Array), report (array of result rows) }
    * ────────────────────────────────────────────── */
-  async function extractAndMerge(fileItems, patternPages, onProgress, rules) {
+  /* perFilePageMap (optional): plain object { fileIndex: [page, ...] }
+   * When provided, overrides patternPages/rules for each file individually.
+   * Used by the text-based page filter. */
+  async function extractAndMerge(fileItems, patternPages, onProgress, rules, perFilePageMap) {
     if (!window.PDFLib) throw new Error('pdf-lib not loaded');
     var PDFDocument = window.PDFLib.PDFDocument;
 
@@ -193,10 +196,18 @@
       if (onProgress) onProgress(i + 1, fileItems.length, item.name);
 
       try {
-        var applied = applyPatternToFile(patternPages, item.totalPages, rules);
+        var keptPages, missingPages;
+        if (perFilePageMap && perFilePageMap[i] !== undefined) {
+          keptPages = perFilePageMap[i].filter(function (p) { return p >= 1 && p <= item.totalPages; });
+          missingPages = [];
+        } else {
+          var applied = applyPatternToFile(patternPages, item.totalPages, rules);
+          keptPages = applied.keptPages;
+          missingPages = applied.missingPages;
+        }
 
-        if (applied.keptPages.length > 0) {
-          var indices = applied.keptPages.map(function (p) { return p - 1; });
+        if (keptPages.length > 0) {
+          var indices = keptPages.map(function (p) { return p - 1; });
           var srcDoc = await PDFDocument.load(item.arrayBuffer, { ignoreEncryption: true });
           var copiedPages = await mergedDoc.copyPages(srcDoc, indices);
           copiedPages.forEach(function (page) { mergedDoc.addPage(page); });
@@ -205,9 +216,9 @@
         report.push({
           fileName: item.name,
           totalPages: item.totalPages,
-          keptPages: applied.keptPages,
-          missingPages: applied.missingPages,
-          status: applied.missingPages.length > 0 ? 'partial' : 'ok',
+          keptPages: keptPages,
+          missingPages: missingPages,
+          status: missingPages.length > 0 ? 'partial' : (keptPages.length === 0 ? 'skipped' : 'ok'),
           error: null
         });
       } catch (err) {
@@ -238,7 +249,7 @@
    *
    * Returns { zipBlob, report }
    * ────────────────────────────────────────────── */
-  async function extractToZip(fileItems, patternPages, onProgress, rules) {
+  async function extractToZip(fileItems, patternPages, onProgress, rules, perFilePageMap) {
     if (!window.PDFLib) throw new Error('pdf-lib not loaded');
     if (!window.JSZip)  throw new Error('JSZip not loaded');
     var PDFDocument = window.PDFLib.PDFDocument;
@@ -252,17 +263,24 @@
       if (onProgress) onProgress(i + 1, fileItems.length, item.name);
 
       try {
-        var applied = applyPatternToFile(patternPages, item.totalPages, rules);
+        var keptPages, missingPages;
+        if (perFilePageMap && perFilePageMap[i] !== undefined) {
+          keptPages = perFilePageMap[i].filter(function (p) { return p >= 1 && p <= item.totalPages; });
+          missingPages = [];
+        } else {
+          var applied = applyPatternToFile(patternPages, item.totalPages, rules);
+          keptPages = applied.keptPages;
+          missingPages = applied.missingPages;
+        }
 
-        if (applied.keptPages.length > 0) {
-          var indices = applied.keptPages.map(function (p) { return p - 1; });
+        if (keptPages.length > 0) {
+          var indices = keptPages.map(function (p) { return p - 1; });
           var srcDoc = await PDFDocument.load(item.arrayBuffer, { ignoreEncryption: true });
           var outDoc = await PDFDocument.create();
           var copiedPages = await outDoc.copyPages(srcDoc, indices);
           copiedPages.forEach(function (page) { outDoc.addPage(page); });
           var pdfBytes = await outDoc.save();
 
-          // Strip .pdf extension, add -extracted suffix
           var baseName = item.name.replace(/\.pdf$/i, '') + '-extracted.pdf';
           zip.file(baseName, pdfBytes);
         }
@@ -270,9 +288,9 @@
         report.push({
           fileName: item.name,
           totalPages: item.totalPages,
-          keptPages: applied.keptPages,
-          missingPages: applied.missingPages,
-          status: applied.keptPages.length === 0 ? 'skipped' : applied.missingPages.length > 0 ? 'partial' : 'ok',
+          keptPages: keptPages,
+          missingPages: missingPages,
+          status: keptPages.length === 0 ? 'skipped' : missingPages.length > 0 ? 'partial' : 'ok',
           error: null
         });
       } catch (err) {
