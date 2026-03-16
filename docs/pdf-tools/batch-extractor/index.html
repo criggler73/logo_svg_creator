@@ -241,32 +241,85 @@
       background: #e0f7f4; border: 1px solid #80cbc4; border-radius: 10px;
       padding: 16px 18px; margin-bottom: 18px;
     }
-    .text-filter-panel h4 { margin: 0 0 6px; font-size: .88rem; font-weight: 700; color: #00695c; }
+    .text-filter-panel h4 { margin: 0 0 4px; font-size: .88rem; font-weight: 700; color: #00695c; }
     .text-filter-panel .tf-desc { font-size: .78rem; color: #00695c; margin: 0 0 12px; }
-    .tf-input-row {
-      display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;
+
+    /* Help box */
+    .tf-help-box {
+      background: #fff; border: 1px solid #80cbc4; border-radius: 7px;
+      padding: 10px 13px; margin-bottom: 12px; font-size: .78rem; color: #004d40; line-height: 1.6;
     }
-    .tf-input-row input[type="text"] {
-      flex: 1; min-width: 200px; max-width: 400px;
-      border: 1px solid #80cbc4; border-radius: 6px; padding: 7px 10px; font-size: .88rem;
-      background: #fff;
+    .tf-help-box strong { color: #00695c; }
+    .tf-help-toggle {
+      font-size: .75rem; color: #00897b; cursor: pointer; text-decoration: underline;
+      background: none; border: none; padding: 0; margin-bottom: 8px; display: inline-block;
     }
-    .tf-case-label {
-      display: flex; align-items: center; gap: 5px; font-size: .78rem; color: #00695c;
-      white-space: nowrap; cursor: pointer;
+
+    /* AND / OR logic toggle */
+    .tf-logic-row {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;
     }
-    .tf-mode-row {
-      display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
-      margin-bottom: 12px;
+    .tf-logic-label { font-size: .78rem; font-weight: 600; color: #00695c; white-space: nowrap; }
+    .tf-logic-toggle {
+      display: flex; border: 1px solid #80cbc4; border-radius: 6px; overflow: hidden;
     }
-    .tf-mode-label { font-size: .78rem; font-weight: 600; color: #00695c; }
-    .tf-radio-label {
-      display: flex; align-items: center; gap: 6px; font-size: .82rem; color: #004d40;
-      cursor: pointer;
+    .tf-logic-btn {
+      padding: 5px 14px; font-size: .78rem; font-weight: 700; border: none; cursor: pointer;
+      background: #fff; color: #00695c; transition: background .15s, color .15s;
     }
-    .tf-radio-label input { cursor: pointer; }
-    .tf-radio-select { accent-color: #00897b; }
-    .tf-radio-deselect { accent-color: #e53935; }
+    .tf-logic-btn:first-child { border-right: 1px solid #80cbc4; }
+    .tf-logic-btn.active { background: #00897b; color: #fff; }
+    .tf-logic-hint { font-size: .72rem; color: #00796b; font-style: italic; }
+
+    /* Condition rows */
+    .tf-conditions { display: flex; flex-direction: column; gap: 7px; margin-bottom: 10px; }
+    .tf-condition-row {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      padding: 8px 10px; background: #fff; border: 1px solid #b2dfdb; border-radius: 7px;
+    }
+    .tf-cond-num {
+      width: 20px; height: 20px; border-radius: 50%; background: #00897b; color: #fff;
+      font-size: .68rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .tf-cond-input {
+      flex: 1; min-width: 160px;
+      border: 1px solid #b2dfdb; border-radius: 5px; padding: 6px 9px; font-size: .85rem;
+      background: #f9fffe;
+    }
+    .tf-cond-input:focus { outline: none; border-color: #00897b; box-shadow: 0 0 0 2px rgba(0,137,123,.15); }
+    .tf-cond-mode-toggle {
+      display: flex; border: 1px solid #b2dfdb; border-radius: 5px; overflow: hidden; flex-shrink: 0;
+    }
+    .tf-mode-btn {
+      padding: 5px 11px; font-size: .75rem; font-weight: 700; border: none; cursor: pointer;
+      background: #f0fdfb; color: #555; transition: background .13s, color .13s;
+    }
+    .tf-mode-btn:first-child { border-right: 1px solid #b2dfdb; }
+    .tf-mode-btn.tf-mode-select.active  { background: #00897b; color: #fff; }
+    .tf-mode-btn.tf-mode-deselect.active { background: #e53935; color: #fff; }
+    .tf-remove-btn {
+      padding: 4px 9px; font-size: .75rem; border-radius: 5px; border: 1px solid #ddd;
+      background: #fafafa; color: #888; cursor: pointer; flex-shrink: 0; line-height: 1;
+      transition: background .13s, color .13s;
+    }
+    .tf-remove-btn:hover { background: #ffebee; color: #c62828; border-color: #ef9a9a; }
+
+    /* Bottom controls */
+    .tf-bottom-row {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px;
+    }
+    .tf-add-btn {
+      font-size: .78rem; font-weight: 600; color: #00897b; border: 1px dashed #80cbc4;
+      background: transparent; border-radius: 5px; padding: 5px 12px; cursor: pointer;
+      transition: background .13s;
+    }
+    .tf-add-btn:hover { background: #b2dfdb44; }
+    .tf-add-btn:disabled { opacity: .4; cursor: not-allowed; }
+    .tf-case-row {
+      display: flex; align-items: center; gap: 5px; font-size: .78rem; color: #00695c; cursor: pointer;
+    }
+
     .tf-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     .tf-active-badge {
       display: inline-flex; align-items: center; gap: 5px;
@@ -276,15 +329,9 @@
     .tf-status {
       margin-top: 10px; padding: 10px 12px; border-radius: 7px; font-size: .82rem;
     }
-    .tf-status.tf-scanning {
-      background: #fff8e1; color: #e65100; border: 1px solid #ffcc02;
-    }
-    .tf-status.tf-done {
-      background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7;
-    }
-    .tf-status.tf-error {
-      background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a;
-    }
+    .tf-status.tf-scanning { background: #fff8e1; color: #e65100; border: 1px solid #ffcc02; }
+    .tf-status.tf-done    { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+    .tf-status.tf-error   { background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a; }
     .tf-progress-bar-wrap {
       background: #b2dfdb; border-radius: 99px; height: 6px; overflow: hidden; margin-top: 6px;
     }
@@ -292,7 +339,7 @@
       height: 100%; background: #00897b; border-radius: 99px; transition: width .2s; width: 0%;
     }
     .tf-filter-active-notice {
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      display: flex; align-items: flex-start; gap: 8px; flex-wrap: wrap;
       padding: 8px 12px; background: #e0f7f4; border: 1px solid #80cbc4;
       border-radius: 7px; margin-bottom: 10px; font-size: .80rem; color: #00695c;
     }
@@ -500,32 +547,44 @@
       <!-- Text-based page filter -->
       <div class="text-filter-panel">
         <h4>🔍 Text-Based Page Filter <span style="font-weight:400;font-size:.75rem;color:#00695c;">(optional)</span></h4>
-        <p class="tf-desc">Scan all files for pages containing specific text — then auto-select or auto-deselect those pages.</p>
+        <p class="tf-desc">Scan all files and auto-select or deselect pages based on text they contain. Add up to 3 conditions.</p>
 
-        <div class="tf-input-row">
-          <input type="text" id="textFilterInput" placeholder='Enter text to find, e.g. Total Charges' autocomplete="off" />
-          <label class="tf-case-label">
-            <input type="checkbox" id="textFilterCaseSensitive" />
+        <button class="tf-help-toggle" id="tfHelpToggle">▶ How does the logic work?</button>
+        <div id="tfHelpBox" class="tf-help-box" style="display:none">
+          <strong>SELECT conditions</strong> build the initial pool of pages to keep:<br>
+          &nbsp;&nbsp;• <strong>OR</strong> — a page is kept if it matches <em>any</em> Select condition (great for catching different report layouts)<br>
+          &nbsp;&nbsp;• <strong>AND</strong> — a page is kept only if it matches <em>all</em> Select conditions (strict match)<br><br>
+          <strong>DESELECT conditions</strong> always run <em>after</em> the selects — any page matching a Deselect rule is removed from the pool, regardless of which Select conditions it passed.<br><br>
+          <strong>Example:</strong> Select "Resident Name" OR "TOTAL min" → catches pages with either phrase. Then Deselect "Cover Page" → removes any of those that also say "Cover Page".
+        </div>
+
+        <!-- AND / OR logic for SELECT conditions -->
+        <div class="tf-logic-row">
+          <span class="tf-logic-label">SELECT logic:</span>
+          <div class="tf-logic-toggle">
+            <button class="tf-logic-btn active" id="tfLogicOrBtn" title="Keep a page if it matches ANY Select condition">OR — any match</button>
+            <button class="tf-logic-btn" id="tfLogicAndBtn" title="Keep a page only if it matches ALL Select conditions">AND — all must match</button>
+          </div>
+          <span class="tf-logic-hint" id="tfLogicHint">A page is kept if it matches <em>any</em> Select condition</span>
+        </div>
+
+        <!-- Condition rows (rendered by JS) -->
+        <div class="tf-conditions" id="tfConditions"></div>
+
+        <!-- Add condition + case sensitive -->
+        <div class="tf-bottom-row">
+          <button class="tf-add-btn" id="tfAddConditionBtn">＋ Add Condition</button>
+          <label class="tf-case-row">
+            <input type="checkbox" id="tfCaseSensitive" />
             Case sensitive
           </label>
         </div>
 
-        <div class="tf-mode-row">
-          <span class="tf-mode-label">When page contains that text:</span>
-          <label class="tf-radio-label">
-            <input type="radio" name="textFilterMode" value="select" checked class="tf-radio-select" />
-            ✓ Select (Keep matching pages)
-          </label>
-          <label class="tf-radio-label">
-            <input type="radio" name="textFilterMode" value="deselect" class="tf-radio-deselect" />
-            ✗ Deselect (Skip matching pages)
-          </label>
-        </div>
-
+        <!-- Action buttons -->
         <div class="tf-actions">
           <button class="btn btn-primary btn-sm" id="textFilterScanBtn">🔍 Scan All Files &amp; Apply</button>
-          <button class="btn btn-secondary btn-sm" id="textFilterClearBtn" style="display:none">✕ Clear Text Filter</button>
-          <span id="textFilterActiveBadge" class="tf-active-badge" style="display:none">● Text Filter Active</span>
+          <button class="btn btn-secondary btn-sm" id="textFilterClearBtn" style="display:none">✕ Clear Filter</button>
+          <span id="textFilterActiveBadge" class="tf-active-badge" style="display:none">● Filter Active</span>
         </div>
 
         <div id="textFilterStatus" class="tf-status" style="display:none"></div>
@@ -535,7 +594,7 @@
 
       <div id="textFilterActiveNotice" class="tf-filter-active-notice" style="display:none">
         <span>🔍</span>
-        <span>Text filter active — thumbnails show per-file results for <strong id="textFilterActiveLabel"></strong>. Click any thumbnail to manually override pages for this file.</span>
+        <div>Text filter active — thumbnails show per-file results. Filter: <strong id="textFilterActiveLabel"></strong>. Click any thumbnail to manually override pages for this file.</div>
       </div>
 
       <div class="select-all-row">
@@ -710,9 +769,11 @@
     resultReport: null,
     /* text filter */
     textFilterActive: false,
-    textFilterPageMap: null,  // object: { fileIndex: [page, ...] }
-    textFilterString: '',
-    textFilterMode: 'select'
+    textFilterPageMap: null,        // { fileIndex: [page, ...] }
+    textFilterLogic: 'or',          // 'or' | 'and' — applies to SELECT conditions only
+    textFilterConditions: [         // UI conditions; each: { text, mode: 'select'|'deselect' }
+      { text: '', mode: 'select' }
+    ]
   };
 
   /* ── DOM refs ── */
@@ -752,14 +813,20 @@
   var modeZipBtn     = document.getElementById('modeZipBtn');
   var rulesInput     = document.getElementById('rulesInput');
 
-  var textFilterInput       = document.getElementById('textFilterInput');
-  var textFilterCaseSensitive = document.getElementById('textFilterCaseSensitive');
   var textFilterScanBtn     = document.getElementById('textFilterScanBtn');
   var textFilterClearBtn    = document.getElementById('textFilterClearBtn');
   var textFilterActiveBadge = document.getElementById('textFilterActiveBadge');
   var textFilterStatus      = document.getElementById('textFilterStatus');
   var textFilterActiveNotice= document.getElementById('textFilterActiveNotice');
   var textFilterActiveLabel = document.getElementById('textFilterActiveLabel');
+  var tfConditionsEl        = document.getElementById('tfConditions');
+  var tfLogicOrBtn          = document.getElementById('tfLogicOrBtn');
+  var tfLogicAndBtn         = document.getElementById('tfLogicAndBtn');
+  var tfLogicHint           = document.getElementById('tfLogicHint');
+  var tfAddConditionBtn     = document.getElementById('tfAddConditionBtn');
+  var tfCaseSensitive       = document.getElementById('tfCaseSensitive');
+  var tfHelpToggle          = document.getElementById('tfHelpToggle');
+  var tfHelpBox             = document.getElementById('tfHelpBox');
 
   var previewSummary = document.getElementById('previewSummary');
   var previewWarnMsg = document.getElementById('previewWarnMsg');
@@ -963,7 +1030,7 @@
     if (state.textFilterActive && state.textFilterPageMap) {
       state.selectedPages = new Set(state.textFilterPageMap[idx] || []);
       textFilterActiveNotice.style.display = 'flex';
-      textFilterActiveLabel.textContent = '"' + state.textFilterString + '"';
+      textFilterActiveLabel.textContent = buildFilterSummary();
     } else {
       textFilterActiveNotice.style.display = 'none';
     }
@@ -1013,41 +1080,170 @@
   }
 
   /* ─────────────────────────────────────────────
-   * TEXT FILTER — Scan & Apply
+   * TEXT FILTER — Setup, Render, Scan, Clear
    * ───────────────────────────────────────────── */
-  textFilterScanBtn.addEventListener('click', function () {
-    runTextFilterScan();
+
+  /* Help toggle */
+  tfHelpToggle.addEventListener('click', function () {
+    var open = tfHelpBox.style.display !== 'none';
+    tfHelpBox.style.display = open ? 'none' : 'block';
+    tfHelpToggle.textContent = (open ? '▶' : '▼') + ' How does the logic work?';
   });
 
-  textFilterInput.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') runTextFilterScan();
+  /* AND / OR toggle */
+  tfLogicOrBtn.addEventListener('click', function () {
+    state.textFilterLogic = 'or';
+    tfLogicOrBtn.classList.add('active');
+    tfLogicAndBtn.classList.remove('active');
+    tfLogicHint.innerHTML = 'A page is kept if it matches <em>any</em> Select condition';
+  });
+  tfLogicAndBtn.addEventListener('click', function () {
+    state.textFilterLogic = 'and';
+    tfLogicAndBtn.classList.add('active');
+    tfLogicOrBtn.classList.remove('active');
+    tfLogicHint.innerHTML = 'A page is kept only if it matches <em>all</em> Select conditions';
   });
 
-  textFilterClearBtn.addEventListener('click', function () {
-    clearTextFilter();
+  /* Add condition button */
+  tfAddConditionBtn.addEventListener('click', function () {
+    if (state.textFilterConditions.length < 3) {
+      state.textFilterConditions.push({ text: '', mode: 'select' });
+      renderTfConditions();
+    }
   });
+
+  /* Render condition rows from state.textFilterConditions */
+  function renderTfConditions() {
+    tfConditionsEl.innerHTML = '';
+    state.textFilterConditions.forEach(function (cond, idx) {
+      var row = document.createElement('div');
+      row.className = 'tf-condition-row';
+
+      var num = document.createElement('span');
+      num.className = 'tf-cond-num';
+      num.textContent = idx + 1;
+
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'tf-cond-input';
+      input.placeholder = idx === 0 ? 'Enter text to match on page, e.g. Total Charges' : 'Another phrase to match…';
+      input.value = cond.text;
+      input.autocomplete = 'off';
+      (function (condRef, el) {
+        el.addEventListener('input', function () { condRef.text = el.value; });
+        el.addEventListener('keydown', function (e) { if (e.key === 'Enter') runTextFilterScan(); });
+      })(cond, input);
+
+      var modeToggle = document.createElement('div');
+      modeToggle.className = 'tf-cond-mode-toggle';
+
+      var selectBtn = document.createElement('button');
+      selectBtn.type = 'button';
+      selectBtn.className = 'tf-mode-btn tf-mode-select' + (cond.mode === 'select' ? ' active' : '');
+      selectBtn.textContent = '✓ Select';
+      selectBtn.title = 'Keep pages containing this text';
+
+      var deselectBtn = document.createElement('button');
+      deselectBtn.type = 'button';
+      deselectBtn.className = 'tf-mode-btn tf-mode-deselect' + (cond.mode === 'deselect' ? ' active' : '');
+      deselectBtn.textContent = '✗ Deselect';
+      deselectBtn.title = 'Remove pages containing this text (runs after all Selects)';
+
+      (function (condRef, sb, db) {
+        sb.addEventListener('click', function () {
+          condRef.mode = 'select';
+          sb.classList.add('active'); db.classList.remove('active');
+        });
+        db.addEventListener('click', function () {
+          condRef.mode = 'deselect';
+          db.classList.add('active'); sb.classList.remove('active');
+        });
+      })(cond, selectBtn, deselectBtn);
+
+      modeToggle.appendChild(selectBtn);
+      modeToggle.appendChild(deselectBtn);
+
+      var removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'tf-remove-btn';
+      removeBtn.textContent = '✕';
+      removeBtn.title = 'Remove this condition';
+      removeBtn.style.display = state.textFilterConditions.length > 1 ? 'inline-block' : 'none';
+      (function (i) {
+        removeBtn.addEventListener('click', function () {
+          state.textFilterConditions.splice(i, 1);
+          renderTfConditions();
+        });
+      })(idx);
+
+      row.appendChild(num);
+      row.appendChild(input);
+      row.appendChild(modeToggle);
+      row.appendChild(removeBtn);
+      tfConditionsEl.appendChild(row);
+    });
+
+    tfAddConditionBtn.disabled = state.textFilterConditions.length >= 3;
+    tfAddConditionBtn.title = state.textFilterConditions.length >= 3 ? 'Maximum 3 conditions' : '';
+  }
+
+  /* Initial render */
+  renderTfConditions();
+
+  /* Build a short human-readable summary of active conditions */
+  function buildFilterSummary() {
+    var conds = state.textFilterConditions.filter(function (c) { return c.text.trim(); });
+    if (conds.length === 0) return '(no conditions)';
+    var selects   = conds.filter(function (c) { return c.mode === 'select'; });
+    var deselects = conds.filter(function (c) { return c.mode === 'deselect'; });
+    var parts = [];
+    if (selects.length > 0) {
+      parts.push(selects.map(function (c) {
+        return '"' + truncate(c.text.trim(), 22) + '"';
+      }).join(' ' + state.textFilterLogic.toUpperCase() + ' '));
+    }
+    if (deselects.length > 0) {
+      parts.push('EXCEPT: ' + deselects.map(function (c) {
+        return '"' + truncate(c.text.trim(), 22) + '"';
+      }).join(', '));
+    }
+    return parts.join(' → ');
+  }
+
+  /* Scan button */
+  textFilterScanBtn.addEventListener('click', function () { runTextFilterScan(); });
+  textFilterClearBtn.addEventListener('click', function () { clearTextFilter(); });
 
   async function runTextFilterScan() {
-    var searchStr = textFilterInput.value.trim();
-    if (!searchStr) {
+    var activeConds = state.textFilterConditions.filter(function (c) { return c.text.trim(); });
+    if (activeConds.length === 0) {
       textFilterStatus.style.display = 'block';
       textFilterStatus.className = 'tf-status tf-error';
-      textFilterStatus.textContent = 'Please enter text to search for.';
+      textFilterStatus.textContent = 'Please enter at least one text condition before scanning.';
       return;
     }
 
-    var mode = document.querySelector('input[name="textFilterMode"]:checked').value;
-    var caseSensitive = textFilterCaseSensitive.checked;
-    var searchKey = caseSensitive ? searchStr : searchStr.toLowerCase();
+    var caseSensitive = tfCaseSensitive.checked;
+    var logic = state.textFilterLogic;
+
+    /* Normalise search keys once */
+    var normConds = activeConds.map(function (c) {
+      return {
+        key:  caseSensitive ? c.text.trim() : c.text.trim().toLowerCase(),
+        mode: c.mode
+      };
+    });
+    var selectConds   = normConds.filter(function (c) { return c.mode === 'select'; });
+    var deselectConds = normConds.filter(function (c) { return c.mode === 'deselect'; });
 
     textFilterScanBtn.disabled = true;
-    textFilterClearBtn.style.display = 'none';
+    textFilterClearBtn.style.display  = 'none';
     textFilterActiveBadge.style.display = 'none';
-    textFilterStatus.style.display = 'block';
-    textFilterStatus.className = 'tf-status tf-scanning';
+    textFilterStatus.style.display    = 'block';
+    textFilterStatus.className        = 'tf-status tf-scanning';
 
     var pageMap = {};
-    var totalMatchPages = 0;
+    var totalKeptCount = 0;
 
     try {
       for (var i = 0; i < state.files.length; i++) {
@@ -1057,67 +1253,61 @@
           '<strong>Scanning ' + (i + 1) + ' of ' + state.files.length + ':</strong> ' + truncate(f.name, 42) +
           '<div class="tf-progress-bar-wrap"><div class="tf-progress-bar" style="width:' + pct + '%"></div></div>';
 
-        var matchingPages = [];
+        var keptPages = [];
 
         if (f.pdfJsDoc) {
           for (var p = 1; p <= f.totalPages; p++) {
             try {
               var page = await f.pdfJsDoc.getPage(p);
               var textContent = await page.getTextContent();
-              /* Join text items, normalise whitespace so multi-run phrases still match */
+              /* Join all text items; normalise whitespace so phrases spanning runs still match */
               var pageText = textContent.items.map(function (item) { return item.str || ''; }).join(' ');
               pageText = pageText.replace(/\s+/g, ' ');
               var pageKey = caseSensitive ? pageText : pageText.toLowerCase();
-              if (pageKey.indexOf(searchKey) !== -1) {
-                matchingPages.push(p);
+
+              /* ── Step 1: evaluate SELECT conditions ── */
+              var passesSelect;
+              if (selectConds.length === 0) {
+                /* No select conditions → all pages pass (deselect-only mode) */
+                passesSelect = true;
+              } else if (logic === 'or') {
+                passesSelect = selectConds.some(function (c) { return pageKey.indexOf(c.key) !== -1; });
+              } else { /* and */
+                passesSelect = selectConds.every(function (c) { return pageKey.indexOf(c.key) !== -1; });
               }
+
+              /* ── Step 2: apply DESELECT conditions (always run after selects) ── */
+              var removedByDeselect = false;
+              if (passesSelect && deselectConds.length > 0) {
+                removedByDeselect = deselectConds.some(function (c) { return pageKey.indexOf(c.key) !== -1; });
+              }
+
+              if (passesSelect && !removedByDeselect) keptPages.push(p);
+
             } catch (e) { /* skip unreadable page */ }
 
-            /* Yield every 4 pages so the UI stays responsive */
-            if (p % 4 === 0) {
-              await new Promise(function (resolve) { setTimeout(resolve, 0); });
-            }
+            if (p % 4 === 0) await new Promise(function (r) { setTimeout(r, 0); });
           }
         }
 
-        totalMatchPages += matchingPages.length;
-
-        if (mode === 'select') {
-          pageMap[i] = matchingPages;
-        } else {
-          /* deselect: keep all pages EXCEPT matching ones */
-          var keepPages = [];
-          for (var q = 1; q <= f.totalPages; q++) {
-            if (matchingPages.indexOf(q) === -1) keepPages.push(q);
-          }
-          pageMap[i] = keepPages;
-        }
-
-        /* Yield between files */
-        await new Promise(function (resolve) { setTimeout(resolve, 0); });
+        pageMap[i] = keptPages;
+        totalKeptCount += keptPages.length;
+        await new Promise(function (r) { setTimeout(r, 0); });
       }
 
       state.textFilterActive  = true;
       state.textFilterPageMap = pageMap;
-      state.textFilterString  = searchStr;
-      state.textFilterMode    = mode;
-
-      var totalSelected = 0;
-      for (var k in pageMap) {
-        if (pageMap.hasOwnProperty(k)) totalSelected += pageMap[k].length;
-      }
 
       textFilterStatus.className = 'tf-status tf-done';
+      var summary = buildFilterSummary();
       textFilterStatus.innerHTML =
-        '✓ Scan complete — <strong>' + totalMatchPages + ' page' + (totalMatchPages !== 1 ? 's' : '') +
-        '</strong> matched "' + searchStr + '" across ' + state.files.length + ' file' + (state.files.length !== 1 ? 's' : '') + '. ' +
-        '<strong>' + totalSelected + ' page' + (totalSelected !== 1 ? 's' : '') + '</strong> will be ' +
-        (mode === 'select' ? 'kept' : 'skipped') + '.';
+        '✓ Scan complete — <strong>' + totalKeptCount + ' page' + (totalKeptCount !== 1 ? 's' : '') +
+        '</strong> selected across ' + state.files.length + ' file' + (state.files.length !== 1 ? 's' : '') +
+        ' using: ' + summary + '.';
 
       textFilterActiveBadge.style.display = 'inline-flex';
-      textFilterClearBtn.style.display = 'inline-flex';
+      textFilterClearBtn.style.display    = 'inline-flex';
 
-      /* Refresh thumbnails for currently viewed sample file */
       await showSampleThumbs(state.sampleIndex);
 
     } catch (err) {
@@ -1131,15 +1321,19 @@
   function clearTextFilter() {
     state.textFilterActive  = false;
     state.textFilterPageMap = null;
-    state.textFilterString  = '';
-    state.textFilterMode    = 'select';
+    /* Reset conditions to a single blank Select row */
+    state.textFilterConditions = [{ text: '', mode: 'select' }];
+    state.textFilterLogic = 'or';
+    tfLogicOrBtn.classList.add('active');
+    tfLogicAndBtn.classList.remove('active');
+    tfLogicHint.innerHTML = 'A page is kept if it matches <em>any</em> Select condition';
+    renderTfConditions();
 
-    textFilterActiveBadge.style.display = 'none';
-    textFilterClearBtn.style.display    = 'none';
-    textFilterStatus.style.display      = 'none';
+    textFilterActiveBadge.style.display  = 'none';
+    textFilterClearBtn.style.display     = 'none';
+    textFilterStatus.style.display       = 'none';
     textFilterActiveNotice.style.display = 'none';
 
-    /* Restore selectedPages to cover all pages of the current sample */
     var f = state.files[state.sampleIndex];
     if (f) {
       state.selectedPages = new Set();
@@ -1214,8 +1408,7 @@
 
     var patternLabel;
     if (state.textFilterActive) {
-      var tfMode = state.textFilterMode === 'select' ? 'Keep' : 'Skip';
-      patternLabel = tfMode + ': "' + truncate(state.textFilterString, 20) + '"';
+      patternLabel = buildFilterSummary();
     } else if (rules) {
       patternLabel = state.activeRules.length + ' rule' + (state.activeRules.length !== 1 ? 's' : '');
     } else {
@@ -1358,21 +1551,24 @@
     state.resultPdfBytes = null;
     state.resultZipBlob  = null;
     state.resultReport = null;
-    state.textFilterActive  = false;
-    state.textFilterPageMap = null;
-    state.textFilterString  = '';
-    state.textFilterMode    = 'select';
+    state.textFilterActive     = false;
+    state.textFilterPageMap    = null;
+    state.textFilterLogic      = 'or';
+    state.textFilterConditions = [{ text: '', mode: 'select' }];
     fileItems.innerHTML = '';
     fileList.style.display = 'none';
     fileCountLabel.textContent = '0 files loaded';
     proceedToSampleBtn.disabled = true;
     patternInput.value = '';
     rulesInput.value = '';
-    textFilterInput.value = '';
-    textFilterStatus.style.display = 'none';
+    textFilterStatus.style.display      = 'none';
     textFilterActiveBadge.style.display = 'none';
-    textFilterClearBtn.style.display = 'none';
+    textFilterClearBtn.style.display    = 'none';
     textFilterActiveNotice.style.display = 'none';
+    tfLogicOrBtn.classList.add('active');
+    tfLogicAndBtn.classList.remove('active');
+    tfLogicHint.innerHTML = 'A page is kept if it matches <em>any</em> Select condition';
+    renderTfConditions();
     sessionLoadedMsg.style.display = 'none';
     batchSizeWarn.style.display = 'none';
     modeMergeBtn.classList.add('active');
